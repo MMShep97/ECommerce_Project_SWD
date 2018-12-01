@@ -13,4 +13,9 @@ public class Account
     {
         return username;
     }
+
+    public boolean checkPassword(String password)
+    {
+        return this.password.equals(password);
+    }
 }
