@@ -8,7 +8,13 @@ import java.net.Socket;
 
 public class ECommerceUtilityMethods
 {
-    public static void disp(final String message) { System.out.println(message); }
+    public static void disp(final String message)
+    {
+        synchronized (System.out) //Ensuring Sys.out calls are not interleaved
+        {
+            System.out.println(message);
+        }
+    }
 
     public static void closeConnections(ObjectOutputStream out, ObjectInputStream in, Socket sock)
     {
