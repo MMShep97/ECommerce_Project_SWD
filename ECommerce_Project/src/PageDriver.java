@@ -39,6 +39,9 @@ public class PageDriver extends JFrame {
      * Configures basic settings for JFrame such as setting frame size, close operation, and visibility
      */
     public void configureDefaultSettings() {
+        final String title = "O B E Y";
+
+        this.setTitle(title);
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setVisible(true);
