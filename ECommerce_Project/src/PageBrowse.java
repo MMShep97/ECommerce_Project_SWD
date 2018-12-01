@@ -19,7 +19,6 @@ public class PageBrowse extends JPanel {
     private BufferedImage[] images; //Get images passed in here somehow
 
     public PageBrowse() {
-        setLayout(new FlowLayout());
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         homeButton = new JButton("HOME");
@@ -28,6 +27,7 @@ public class PageBrowse extends JPanel {
 
 //        navbar.setLayout(new FlowLayout(0, 20, 20));
         navbar = new JPanel();
+        navbar.setLayout(new GridLayout(1, 0));
         navbar.add(homeButton);
         navbar.add(browseButton);
         navbar.add(loginButton);
@@ -40,8 +40,7 @@ public class PageBrowse extends JPanel {
 
 
         add(navbar, BorderLayout.NORTH);
-        add(createNextItemsPanel(), BorderLayout.SOUTH);
-
+        add(listings);
 
     }
 
@@ -69,8 +68,9 @@ public class PageBrowse extends JPanel {
     public JPanel createListing(BufferedImage image) {
         JPanel listing = new JPanel();
         listing.setSize(100, 300);
-        listing.setBorder()
-
+        listing.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        listing.add(new JLabel(new ImageIcon(image)));
+        return listing;
     }
 
 //protected void addButtons(JToolBar toolBar) {
