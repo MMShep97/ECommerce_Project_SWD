@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class Daniel_test {
     public static void main(String[] args){
@@ -6,7 +7,7 @@ public class Daniel_test {
         PageLogin pl = new PageLogin();
         frame.add(pl);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1080, 720);
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.setVisible(true);
     }
 }
