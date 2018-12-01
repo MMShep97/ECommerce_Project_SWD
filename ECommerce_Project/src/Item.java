@@ -24,7 +24,7 @@ public class Item implements Serializable
         this.quantity = initQuantity;
     }
 
-    public boolean similar(Item other)
+    public boolean isSimilarTo(Item other)
     {
         String [] descriptWords = other.description.toUpperCase().split(" ");
         String uppercaseDescript = description.toUpperCase();
