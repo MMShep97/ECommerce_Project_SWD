@@ -8,15 +8,20 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
+
 public class PageBrowse extends JPanel {
 
-    private final JPanel listings;
-    private final JButton homeButton;
-    private final JButton browseButton;
-    private final JButton loginButton;
+    private JPanel listings;
+    private JButton homeButton;
+    private JButton browseButton;
+    private JButton loginButton;
 
     private ECommmerceClient client;
     private ObjectInputStream input;
@@ -32,21 +37,20 @@ public class PageBrowse extends JPanel {
         this.client = client;
 
         setLayout(new BorderLayout(5, 10));
-        setBorder(BorderFactory.createTitledBorder("Border Layout"));
+        setBorder(BorderFactory.createLineBorder(Color.WHITE));
         setBackground(Color.WHITE);
-
-        homeButton = new JButton("HOME");
-        browseButton = new JButton("BROWSE");
-        loginButton = new JButton("LOGIN");
-
-//        navbar.setLayout(new FlowLayout(0, 20, 20));
-
 
         listings = new JPanel();
         listings.setLayout(new GridLayout(LISTING_ROWS, LISTING_COLUMNS));
-        BufferedImage testImage = loadImage("C:\\Users\\Marc.MARC-PC\\IdeaProjects\\Software_Design\\team23_swd\\ECommerce_Project\\logo\\logo_small.jpg");
+        BufferedImage testImage = loadImage("http://www.mkyong.com/image/mypic.jpg");
+        listings.add(createListing(testImage, "Enchiladas", "23.42", "JANE DOE"));
+        listings.add(createListing(testImage, "Enchiladas", "23.42", "SWINGWORKER"));
         listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-
+        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
 
 
         add(createNavbar(), BorderLayout.NORTH);
@@ -55,11 +59,11 @@ public class PageBrowse extends JPanel {
 
     }
 
-    public BufferedImage loadImage(String filename) {
+    public BufferedImage loadImage(String url) {
         BufferedImage image = null;
 
         try {
-            image = ImageIO.read(new File(filename));
+            image = ImageIO.read(new URL(url));
         } catch (IOException ex) {}
         return image;
     }
@@ -75,13 +79,33 @@ public class PageBrowse extends JPanel {
 //        wrapper.add(toolBar);
 //        return wrapper;
         final JPanel wrapper = new JPanel();
-        final JButton button = new JButton("Next 12");
-        wrapper.add(button);
+        final JButton previous = new JButton("Last");
+        final JButton next = new JButton("Next");
+
+        //Alter button colors
+        previous.setBackground(Color.BLACK);
+        previous.setForeground(Color.WHITE);
+        next.setBackground(Color.BLACK);
+        next.setForeground(Color.WHITE);
+        wrapper.add(previous);
+        wrapper.add(next);
         return wrapper;
     }
 
     public JPanel createNavbar() {
+        homeButton = new JButton("HOME");
+        browseButton = new JButton("BROWSE");
+        loginButton = new JButton("LOGIN");
         JPanel navbar = new JPanel();
+
+        //change color of buttons
+        homeButton.setBackground(Color.BLACK);
+        browseButton.setBackground(Color.BLACK);
+        loginButton.setBackground(Color.BLACK);
+        homeButton.setForeground(Color.WHITE);
+        browseButton.setForeground(Color.WHITE);
+        loginButton.setForeground(Color.WHITE);
+
         navbar.setLayout(new GridLayout(1, 1));
         navbar.add(homeButton);
         navbar.add(browseButton);
@@ -90,25 +114,59 @@ public class PageBrowse extends JPanel {
         return navbar;
     }
 
-    public JPanel createListing(BufferedImage image, String item, String price, String description) {
-        final int ROWS_IN_LISTING = 4;
+    public JPanel createListing(BufferedImage image, String item, String price, String seller) {
+        final int ROWS_IN_LISTING = 3;
         final int COLS_IN_LISTING = 1;
 
         JPanel listing = new JPanel();
+        JPanel imageInfo = new JPanel();
+        JPanel listingInfo = new JPanel();
         JPanel itemPanel = new JPanel();
         JPanel pricePanel = new JPanel();
-        JPanel descriptionPanel = new JPanel();
+        JPanel sellerPanel = new JPanel();
+        JButton viewItemButton = new JButton("VIEW");
+
+        Font plainStyle = new Font("Courier", Font.PLAIN, 12);
+
+
+        JLabel itemContent = new JLabel(item);
+        JLabel priceContent = new JLabel(price);
+        JLabel sellerContent = new JLabel(seller);
+        JLabel itemHeader = new JLabel("ITEM: ");
+        JLabel priceHeader = new JLabel("PRICE: ");
+        JLabel sellerHeader = new JLabel("SELLER: ");
+        itemContent.setFont(plainStyle);
+        priceContent.setFont(plainStyle);
+        sellerContent.setFont(plainStyle);
+        itemContent.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        priceContent.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        sellerContent.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        itemHeader.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        priceHeader.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        sellerHeader.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         listing.setLayout(new GridLayout(ROWS_IN_LISTING, COLS_IN_LISTING));
-        listing.setSize(100, 300);
+        listing.setMaximumSize(new Dimension(100, 100));
         listing.setBackground(Color.WHITE);
         listing.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        listing.add(new JLabel(new ImageIcon(image)));
-        listing.add(itemPanel.add(new JLabel(item)));
-        listing.add(pricePanel.add(new JLabel(price)));
-        listing.add(descriptionPanel.add(new JTextField(description)));
-//        listing.add
+        imageInfo.add(new JLabel(new ImageIcon(image)));
+
+        final int INFO_ROWS = 3;
+        final int INFO_COLS = 1;
+
+        listingInfo.setLayout(new GridLayout(INFO_ROWS, INFO_COLS));
+        listingInfo.add(itemPanel.add(itemHeader));
+        listingInfo.add(itemPanel.add(itemContent));
+        listingInfo.add(pricePanel.add(priceHeader));
+        listingInfo.add(priceContent);
+        listingInfo.add(sellerPanel.add(sellerHeader));
+        listingInfo.add(sellerContent);
+
+        listing.add(imageInfo);
+        listing.add(listingInfo);
+        listing.add(viewItemButton);
+
         return listing;
     }
 

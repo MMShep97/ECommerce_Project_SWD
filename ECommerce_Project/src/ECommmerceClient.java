@@ -4,6 +4,8 @@ import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.concurrent.ConcurrentHashMap;
+
 import static util.ECommerceUtilityMethods.*;
 
 public class ECommmerceClient extends JFrame
@@ -14,7 +16,10 @@ public class ECommmerceClient extends JFrame
     private Socket client;
     private String host;
     private boolean hasAccount = false;
+
     private PageBrowse pb;
+
+    private ConcurrentHashMap<Item,Integer> cart = new ConcurrentHashMap<>();
 
     //GUI components/parameters
     private int browsePageCapacity = 8;

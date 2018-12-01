@@ -77,5 +77,6 @@ public class PageDriver extends JFrame {
 //        driver.changePage(loginSection);
 //        try {Thread.sleep(1400); } catch (InterruptedException ex) {}
 //        driver.changePage(testSection);
+        driver.pack();
     }
 }
