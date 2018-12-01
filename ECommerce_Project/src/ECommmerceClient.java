@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -13,6 +14,7 @@ public class ECommmerceClient extends JFrame
     private Socket client;
     private String host;
     private boolean hasAccount = false;
+    private PageBrowse pb;
 
     //GUI components/parameters
     private int browsePageCapacity = 8;
@@ -20,6 +22,13 @@ public class ECommmerceClient extends JFrame
     public ECommmerceClient(String host)
     {
         this.host = host;
+    }
+
+    /**
+     * this method must be called, or pages will not be initialized
+     */
+    public void initializeGUI(){
+        pb = new PageBrowse(this);
     }
 
     public void runClient()

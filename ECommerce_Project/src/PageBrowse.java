@@ -1,9 +1,15 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class PageBrowse extends JPanel {
 
@@ -12,12 +18,18 @@ public class PageBrowse extends JPanel {
     private final JButton browseButton;
     private final JButton loginButton;
 
+    private ECommmerceClient client;
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
+
     private final int LISTING_ROWS = 2;
     private final int LISTING_COLUMNS = 6;
 
     private BufferedImage[] images; //Get images passed in here somehow
 
-    public PageBrowse() {
+    public PageBrowse(ECommmerceClient client) {
+
+        this.client = client;
 
         setLayout(new BorderLayout(5, 10));
         setBorder(BorderFactory.createTitledBorder("Border Layout"));
@@ -143,5 +155,14 @@ public class PageBrowse extends JPanel {
 //
 //        return button;
 //        }
+
+    private class ButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e){
+
+        }
+    }
+
 }
 
