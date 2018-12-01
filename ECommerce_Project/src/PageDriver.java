@@ -1,4 +1,8 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,19 +23,6 @@ public class PageDriver extends JFrame {
     PageDriver(JPanel panel) {
         add(panel);
         configureDefaultSettings();
-    }
-
-    public static void main(String [] args) {
-        PageBrowse browseSection = new PageBrowse();
-        PageLogin loginSection = new PageLogin();
-        PageTest testSection = new PageTest();
-        PageDriver driver = new PageDriver(browseSection);
-        try {Thread.sleep(1300); } catch (InterruptedException ex) {}
-        driver.changePage(loginSection);
-        try {Thread.sleep(1400); } catch (InterruptedException ex) {}
-        driver.changePage(testSection);
-
-
     }
 
 
@@ -55,5 +46,30 @@ public class PageDriver extends JFrame {
         this.getContentPane().removeAll(); //Deleting content from frame
         this.add(toPage); //Add new page/panel to frame
         this.revalidate();
+    }
+
+    /**
+     * Loads image into BufferedImage private class variable
+     * @param filename
+     * @return
+     */
+    public BufferedImage loadImage(String filename) {
+        BufferedImage image = null;
+
+        try {
+            image = ImageIO.read(new File(filename));
+        } catch (IOException ex) {}
+        return image;
+    }
+
+    public static void main(String [] args) {
+        PageBrowse browseSection = new PageBrowse();
+        PageLogin loginSection = new PageLogin();
+        PageTest testSection = new PageTest();
+        PageDriver driver = new PageDriver(browseSection);
+        try {Thread.sleep(1300); } catch (InterruptedException ex) {}
+        driver.changePage(loginSection);
+        try {Thread.sleep(1400); } catch (InterruptedException ex) {}
+        driver.changePage(testSection);
     }
 }
