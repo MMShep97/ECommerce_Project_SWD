@@ -7,7 +7,6 @@ import java.io.IOException;
 
 public class PageBrowse extends JPanel {
 
-    private final JPanel navbar;
     private final JPanel listings;
     private final JButton homeButton;
     private final JButton browseButton;
@@ -20,7 +19,7 @@ public class PageBrowse extends JPanel {
 
     public PageBrowse() {
 
-        setLayout(new BorderLayout(5, 5));
+        setLayout(new BorderLayout(5, 10));
         setBorder(BorderFactory.createTitledBorder("Border Layout"));
         setBackground(Color.WHITE);
 
@@ -29,12 +28,7 @@ public class PageBrowse extends JPanel {
         loginButton = new JButton("LOGIN");
 
 //        navbar.setLayout(new FlowLayout(0, 20, 20));
-        navbar = new JPanel();
-        navbar.setLayout(new GridLayout(1, 1));
-        navbar.add(homeButton);
-        navbar.add(browseButton);
-        navbar.add(loginButton);
-        navbar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
 
         listings = new JPanel();
         listings.setLayout(new GridLayout(LISTING_ROWS, LISTING_COLUMNS));
@@ -51,8 +45,9 @@ public class PageBrowse extends JPanel {
         listings.add(createListing(testImage));
 
 
-        add(navbar, BorderLayout.NORTH);
+        add(createNavbar(), BorderLayout.NORTH);
         add(listings);
+        add(createFooter(), BorderLayout.SOUTH);
 
     }
 
@@ -66,23 +61,46 @@ public class PageBrowse extends JPanel {
     }
 
 
-    public JPanel createNextItemsPanel() {
-        final JToolBar toolBar = new JToolBar();
+    public JPanel createFooter() {
+//        final JToolBar toolBar = new JToolBar();
+//        final JPanel wrapper = new JPanel();
+//
+//        toolBar.setSize(100, 100);
+//
+//        wrapper.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//        wrapper.add(toolBar);
+//        return wrapper;
         final JPanel wrapper = new JPanel();
-
-        toolBar.setSize(100, 100);
-
-        wrapper.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        wrapper.add(toolBar);
+        final JButton button = new JButton("Next 12");
+        wrapper.add(button);
         return wrapper;
     }
 
-    public JPanel createListing(BufferedImage image) {
+    public JPanel createNavbar() {
+        JPanel navbar = new JPanel();
+        navbar.setLayout(new GridLayout(1, 1));
+        navbar.add(homeButton);
+        navbar.add(browseButton);
+        navbar.add(loginButton);
+        navbar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        return navbar;
+    }
+
+    public JPanel createListing(BufferedImage image/*, String item, String price, String description*/) {
+        final int ROWS_IN_LISTING = 4;
+        final int COLS_IN_LISTING = 1;
+
         JPanel listing = new JPanel();
+        JPanel itemPanel = new JPanel();
+        JPanel pricePanel = new JPanel();
+        JPanel descriptionPanel = new JPanel();
+
+        listing.setLayout(new GridLayout(ROWS_IN_LISTING, COLS_IN_LISTING));
         listing.setSize(100, 300);
         listing.setBackground(Color.WHITE);
         listing.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         listing.add(new JLabel(new ImageIcon(image)));
+//        listing.add
         return listing;
     }
 
