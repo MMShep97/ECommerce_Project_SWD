@@ -68,22 +68,24 @@ public class ECommerceServer
     {
         //Inventory
         Scanner invReader = new Scanner("ECommerce_Project/logs/inventoryLog.csv");
+        invReader.nextLine(); //Skip file path line
 
         while (invReader.hasNextLine())
         {
-            String [] nextLine = invReader.nextLine().split(",");
-            itemInventory.put(Integer.parseInt(nextLine[0]), new Item(Integer.parseInt(nextLine[0]), nextLine[1], Double.parseDouble(nextLine[2]), nextLine[3], nextLine[4], nextLine[5], Integer.parseInt(nextLine[6])));
+            String [] parsed = invReader.nextLine().split(",");
+            itemInventory.put(Integer.parseInt(parsed[0]), new Item(Integer.parseInt(parsed[0]), parsed[1], Double.parseDouble(parsed[2]), parsed[3], parsed[4], parsed[5], Integer.parseInt(parsed[6])));
         }
 
         //Accounts
         Scanner acctReader = new Scanner("ECommerce_Project/logs/accountLog.csv");
+        acctReader.nextLine(); //Skip file path line
 
         while (acctReader.hasNextLine())
         {
-            String [] nextLine = acctReader.nextLine().split(",");
-            Account newAcct = new Account(nextLine[0], nextLine[1]);
-            newAcct.addFunds(Double.parseDouble(nextLine[3]));
-            accounts.put(nextLine[0], newAcct);
+            String[] parsed = acctReader.nextLine().split(",");
+            Account newAcct = new Account(parsed[0], parsed[1]);
+            newAcct.addFunds(Double.parseDouble(parsed[3]));
+            accounts.put(parsed[0], newAcct);
         }
     }
 
