@@ -188,13 +188,21 @@ public class ECommerceServer
                         case "SIGN-UP":
                             username = (String) input.readObject();
                             String password = (String) input.readObject();
-                            accounts.put(username, new Account(username, password));
-                            transmit("Sign-up successful", output);
+                            transmit("SIGN-UP", output);
+                            if(accounts.putIfAbsent(username, new Account(username, password)) == null)
+                            {
+                                transmit("Sign-up successful", output);
+                            }
+                            else
+                            {
+                                transmit("Username already exists", output);
+                            }
                             break;
                         case "LOGIN":
                             username = (String) input.readObject();
                             String pass = (String) input.readObject();
                             curAcct = accounts.get(username);
+                            transmit("LOGIN", output);
                             if(curAcct != null && curAcct.checkPassword(pass))
                             {
                                 transmit("Login successful", output);
@@ -209,10 +217,19 @@ public class ECommerceServer
                             int pageCapacity = (int) input.readObject();
                             Item [] items = new Item[itemInventory.size()];
                             itemInventory.values().toArray(items);
+                            transmit("BROWSE", output);
                             for(int i = ((pageNumber - 1) * pageCapacity); i < pageNumber * pageCapacity; i++)
                             {
                                 transmit(items[i], output);
-                                if(i == items.length-1) i = pageNumber*pageCapacity;
+                                if(i == items.length-1)
+                                {
+                                    //If not enough items for a full page, transmit the rest of space as null, and exit loop
+                                    for(int j = 0; j < i - ((pageNumber-1)*pageCapacity); j++)
+                                    {
+                                        transmit(null, output);
+                                    }
+                                    i = pageNumber*pageCapacity;
+                                }
                             }
                             break;
                         case "PURCHASE":
@@ -220,6 +237,7 @@ public class ECommerceServer
                             Item inventoryItem = itemInventory.get(item.getListingID());
                             username = (String) input.readObject();
                             int quantityPurchased = (int) input.readObject();
+                            transmit("PURCHASE",output);
                             if(item.equals(inventoryItem))
                             {
                                 curAcct = accounts.get(username);
@@ -251,6 +269,7 @@ public class ECommerceServer
                             double credits = (double) input.readObject();
                             username = (String) input.readObject();
                             curAcct = accounts.get(username);
+                            transmit("ADD CREDITS", output);
                             if(curAcct != null)
                             {
                                 curAcct.addFunds(credits);
@@ -266,6 +285,7 @@ public class ECommerceServer
                             Item newItem = (Item) input.readObject();
                             newItem.setListingID(listingIDS.incrementAndGet());
                             itemInventory.put(newItem.getListingID(), newItem);
+                            transmit("ADD LISTING", output);
                             transmit(newItem.getName() + "added to listings", output);
                             disp("Added: " + newItem.toString() + " to listings\n\tSeller: " + newItem.getSeller() +
                                     "\n\tQuantity: " + newItem.getQuantity());
