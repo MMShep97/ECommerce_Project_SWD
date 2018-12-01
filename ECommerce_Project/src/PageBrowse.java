@@ -32,17 +32,9 @@ public class PageBrowse extends JPanel {
 
         listings = new JPanel();
         listings.setLayout(new GridLayout(LISTING_ROWS, LISTING_COLUMNS));
-        BufferedImage testImage = loadImage("C:\\Users\\dkelly1\\Desktop\\git\\swd team project\\team23_swd\\ECommerce_Project\\logo\\logo_small.jpg");
-        listings.add(createListing(testImage));
-        listings.add(createListing(testImage));
-        listings.add(createListing(testImage));
-        listings.add(createListing(testImage));
-        listings.add(createListing(testImage));
-        listings.add(createListing(testImage));
-        listings.add(createListing(testImage));
-        listings.add(createListing(testImage));
-        listings.add(createListing(testImage));
-        listings.add(createListing(testImage));
+        BufferedImage testImage = loadImage("C:\\Users\\Marc.MARC-PC\\IdeaProjects\\Software_Design\\team23_swd\\ECommerce_Project\\logo\\logo_small.jpg");
+        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+
 
 
         add(createNavbar(), BorderLayout.NORTH);
@@ -86,7 +78,7 @@ public class PageBrowse extends JPanel {
         return navbar;
     }
 
-    public JPanel createListing(BufferedImage image/*, String item, String price, String description*/) {
+    public JPanel createListing(BufferedImage image, String item, String price, String description) {
         final int ROWS_IN_LISTING = 4;
         final int COLS_IN_LISTING = 1;
 
@@ -99,7 +91,11 @@ public class PageBrowse extends JPanel {
         listing.setSize(100, 300);
         listing.setBackground(Color.WHITE);
         listing.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
         listing.add(new JLabel(new ImageIcon(image)));
+        listing.add(itemPanel.add(new JLabel(item)));
+        listing.add(pricePanel.add(new JLabel(price)));
+        listing.add(descriptionPanel.add(new JTextField(description)));
 //        listing.add
         return listing;
     }
