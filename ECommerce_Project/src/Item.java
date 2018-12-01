@@ -24,6 +24,20 @@ public class Item implements Serializable
         this.quantity = initQuantity;
     }
 
+    public boolean similar(Item other)
+    {
+        String [] descriptWords = other.description.toUpperCase().split(" ");
+        String uppercaseDescript = description.toUpperCase();
+        double similarityCounter = 0;
+
+        for(String w : descriptWords)
+        {
+            if(uppercaseDescript.contains(w)) similarityCounter++;
+        }
+
+        return ((similarityCounter/((double)descriptWords.length)) > 0.75);
+    }
+
     private void writeObject(ObjectOutputStream out) throws IOException
     {
         out.writeObject(listingID);

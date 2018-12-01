@@ -11,6 +11,7 @@ public class ECommmerceClient extends JFrame
     private ObjectInputStream input;
     private Socket client;
     private String host;
+    private boolean hasAccount = false;
 
     //GUI components/parameters
     private int browsePageCapacity = 8;
@@ -68,6 +69,7 @@ public class ECommmerceClient extends JFrame
                         String signUpResult = (String) input.readObject();
                         if(signUpResult.equals("Sign-up successful"))
                         {
+                            hasAccount = true;
                             //TODO: Update Client GUI (account created)
                         }
                         else
@@ -79,6 +81,7 @@ public class ECommmerceClient extends JFrame
                         String loginResult = (String) input.readObject();
                         if(loginResult.equals("Login successful"))
                         {
+                            hasAccount = true;
                             //TODO: Update Client GUI (login successful)
                         }
                         else
