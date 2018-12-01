@@ -26,9 +26,7 @@ public class PageDriver extends JFrame {
         configureDefaultSettings();
     }
 
-    public void createNavbar() {
 
-    }
 
 
 
