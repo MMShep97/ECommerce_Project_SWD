@@ -241,6 +241,7 @@ public class ECommerceServer
                             transmit("VIEW", output);
                             if(viewing != null)
                             {
+                                transmit("Valid item", output);
                                 transmit(viewing, output);
                                 disp("Connection " + connectID + " viewing " + viewing.getName());
                             }
