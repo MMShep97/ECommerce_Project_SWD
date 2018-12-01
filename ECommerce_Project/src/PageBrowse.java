@@ -32,7 +32,7 @@ public class PageBrowse extends JPanel {
 
         listings = new JPanel();
         listings.setLayout(new GridLayout(LISTING_ROWS, LISTING_COLUMNS));
-        BufferedImage testImage = loadImage("C:\\Users\\Marc.MARC-PC\\IdeaProjects\\Software_Design\\team23_swd\\ECommerce_Project\\logo\\logo_small.jpg");
+        BufferedImage testImage = loadImage("C:\\Users\\dkelly1\\Desktop\\git\\swd team project\\team23_swd\\ECommerce_Project\\logo\\logo_small.jpg");
         listings.add(createListing(testImage));
         listings.add(createListing(testImage));
         listings.add(createListing(testImage));
