@@ -19,7 +19,10 @@ public class PageBrowse extends JPanel {
     private BufferedImage[] images; //Get images passed in here somehow
 
     public PageBrowse() {
-        setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        setLayout(new BorderLayout(5, 5));
+        setBorder(BorderFactory.createTitledBorder("Border Layout"));
+        setBackground(Color.WHITE);
 
         homeButton = new JButton("HOME");
         browseButton = new JButton("BROWSE");
@@ -27,7 +30,7 @@ public class PageBrowse extends JPanel {
 
 //        navbar.setLayout(new FlowLayout(0, 20, 20));
         navbar = new JPanel();
-        navbar.setLayout(new GridLayout(1, 0));
+        navbar.setLayout(new GridLayout(1, 1));
         navbar.add(homeButton);
         navbar.add(browseButton);
         navbar.add(loginButton);
@@ -36,6 +39,15 @@ public class PageBrowse extends JPanel {
         listings = new JPanel();
         listings.setLayout(new GridLayout(LISTING_ROWS, LISTING_COLUMNS));
         BufferedImage testImage = loadImage("C:\\Users\\Marc.MARC-PC\\IdeaProjects\\Software_Design\\team23_swd\\ECommerce_Project\\logo\\logo_small.jpg");
+        listings.add(createListing(testImage));
+        listings.add(createListing(testImage));
+        listings.add(createListing(testImage));
+        listings.add(createListing(testImage));
+        listings.add(createListing(testImage));
+        listings.add(createListing(testImage));
+        listings.add(createListing(testImage));
+        listings.add(createListing(testImage));
+        listings.add(createListing(testImage));
         listings.add(createListing(testImage));
 
 
@@ -68,6 +80,7 @@ public class PageBrowse extends JPanel {
     public JPanel createListing(BufferedImage image) {
         JPanel listing = new JPanel();
         listing.setSize(100, 300);
+        listing.setBackground(Color.WHITE);
         listing.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         listing.add(new JLabel(new ImageIcon(image)));
         return listing;
