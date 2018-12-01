@@ -7,6 +7,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static util.ECommerceUtilityMethods.*;
+
 public class ECommerceServer
 {
     private ServerSocket server;
@@ -17,7 +19,7 @@ public class ECommerceServer
     private AtomicInteger listingIDS = new AtomicInteger(1);
     private int connectionID = 1;
     private int num_active_clients = 0;
-    public final int PORT = 23501;
+    public static final int PORT = 23501;
 
     public ECommerceServer()
     {
@@ -61,8 +63,6 @@ public class ECommerceServer
             updateLogs();
         }
     }
-
-    private void disp(final String message) { System.out.println(message); }
 
     private void initializeMaps()
     {
@@ -134,7 +134,7 @@ public class ECommerceServer
                     output.flush();
                     input = new ObjectInputStream(connection.getInputStream());
 
-                    //Interact with connection
+                    //Interact with client
                     interact();
 
                     //No longer active
@@ -152,16 +152,7 @@ public class ECommerceServer
                     disp("Number of connections = " + num_active_clients);
                     active = false;
 
-                    try
-                    {
-                        input.close();
-                        output.close();
-                        connection.close();
-                    }
-                    catch (IOException ioe)
-                    {
-                        ioe.printStackTrace();
-                    }
+                    closeConnections(output, input, connection);
                 }
             }
             catch(IOException ioe)
@@ -179,7 +170,7 @@ public class ECommerceServer
 
         private void interact()
         {
-            transmit("Connection " + connectID + " successful"); //Send connection successful message to client
+            transmit("Connection " + connectID + " successful", output); //Send connection successful message to client
             boolean interact = true;
 
             //Process client transmissions
@@ -197,20 +188,28 @@ public class ECommerceServer
                         case "SIGN-UP":
                             username = (String) input.readObject();
                             String password = (String) input.readObject();
-                            accounts.put(username, new Account(username, password));
-                            transmit("Sign-up successful");
+                            transmit("SIGN-UP", output);
+                            if(accounts.putIfAbsent(username, new Account(username, password)) == null)
+                            {
+                                transmit("Sign-up successful", output);
+                            }
+                            else
+                            {
+                                transmit("Username already exists", output);
+                            }
                             break;
                         case "LOGIN":
                             username = (String) input.readObject();
                             String pass = (String) input.readObject();
                             curAcct = accounts.get(username);
+                            transmit("LOGIN", output);
                             if(curAcct != null && curAcct.checkPassword(pass))
                             {
-                                transmit("Login successful");
+                                transmit("Login successful", output);
                             }
                             else
                             {
-                                transmit("Invalid username or password");
+                                transmit("Invalid username or password", output);
                             }
                             break;
                         case "BROWSE":
@@ -218,10 +217,19 @@ public class ECommerceServer
                             int pageCapacity = (int) input.readObject();
                             Item [] items = new Item[itemInventory.size()];
                             itemInventory.values().toArray(items);
+                            transmit("BROWSE", output);
                             for(int i = ((pageNumber - 1) * pageCapacity); i < pageNumber * pageCapacity; i++)
                             {
-                                transmit(items[i]);
-                                if(i == items.length-1) i = pageNumber*pageCapacity;
+                                transmit(items[i], output);
+                                if(i == items.length-1)
+                                {
+                                    //If not enough items for a full page, transmit the rest of space as null, and exit loop
+                                    for(int j = 0; j < i - ((pageNumber-1)*pageCapacity); j++)
+                                    {
+                                        transmit(null, output);
+                                    }
+                                    i = pageNumber*pageCapacity;
+                                }
                             }
                             break;
                         case "PURCHASE":
@@ -229,6 +237,7 @@ public class ECommerceServer
                             Item inventoryItem = itemInventory.get(item.getListingID());
                             username = (String) input.readObject();
                             int quantityPurchased = (int) input.readObject();
+                            transmit("PURCHASE",output);
                             if(item.equals(inventoryItem))
                             {
                                 curAcct = accounts.get(username);
@@ -236,7 +245,7 @@ public class ECommerceServer
                                 {
                                     if(inventoryItem.purchased(quantityPurchased))
                                     {
-                                        transmit("Purchase made successfully");
+                                        transmit("Purchase made successfully", output);
                                         disp(quantityPurchased + " " + inventoryItem.getName() + "s purchased by " + username);
 
                                         if(inventoryItem.getQuantity() == 0)
@@ -247,12 +256,12 @@ public class ECommerceServer
                                     }
                                     else
                                     {
-                                        transmit("There are no longer enough " + inventoryItem.getName() + "s in stock to fulfill the request");
+                                        transmit("There are no longer enough " + inventoryItem.getName() + "s in stock to fulfill the request", output);
                                     }
                                 }
                                 else
                                 {
-                                    transmit("Insufficient credits");
+                                    transmit("Insufficient credits", output);
                                 }
                             }
                             break;
@@ -260,22 +269,24 @@ public class ECommerceServer
                             double credits = (double) input.readObject();
                             username = (String) input.readObject();
                             curAcct = accounts.get(username);
+                            transmit("ADD CREDITS", output);
                             if(curAcct != null)
                             {
                                 curAcct.addFunds(credits);
-                                transmit("Credits added successfully");
+                                transmit("Credits added successfully", output);
                                 disp(credits + " credits added to " + username + "'s account");
                             }
                             else
                             {
-                                transmit("Invalid account");
+                                transmit("Invalid account", output);
                             }
                             break;
                         case "ADD LISTING":
                             Item newItem = (Item) input.readObject();
                             newItem.setListingID(listingIDS.incrementAndGet());
                             itemInventory.put(newItem.getListingID(), newItem);
-                            transmit(newItem.getName() + "added to listings");
+                            transmit("ADD LISTING", output);
+                            transmit(newItem.getName() + "added to listings", output);
                             disp("Added: " + newItem.toString() + " to listings\n\tSeller: " + newItem.getSeller() +
                                     "\n\tQuantity: " + newItem.getQuantity());
                             break;
@@ -295,19 +306,6 @@ public class ECommerceServer
                     ioe.printStackTrace();
                 }
             }while(interact);
-        }
-
-        private void transmit(Serializable data)
-        {
-            try
-            {
-                output.writeObject(data);
-                output.flush();
-            }
-            catch (IOException ioe)
-            {
-                disp("Error: data could not be relayed to client");
-            }
         }
     }
 }
