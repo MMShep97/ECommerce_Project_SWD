@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +26,12 @@ public class PageDriver extends JFrame {
         configureDefaultSettings();
     }
 
+    public void createNavbar() {
+
+    }
+
+
+
 
     /**
      * Configures basic settings for JFrame such as setting frame size, close operation, and visibility
@@ -32,6 +39,7 @@ public class PageDriver extends JFrame {
     public void configureDefaultSettings() {
         final String title = "O B E Y";
 
+//        this.setLayout(new BorderLayout());
         this.setTitle(title);
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -67,9 +75,9 @@ public class PageDriver extends JFrame {
         PageLogin loginSection = new PageLogin();
         PageTest testSection = new PageTest();
         PageDriver driver = new PageDriver(browseSection);
-        try {Thread.sleep(1300); } catch (InterruptedException ex) {}
-        driver.changePage(loginSection);
-        try {Thread.sleep(1400); } catch (InterruptedException ex) {}
-        driver.changePage(testSection);
+//        try {Thread.sleep(1300); } catch (InterruptedException ex) {}
+//        driver.changePage(loginSection);
+//        try {Thread.sleep(1400); } catch (InterruptedException ex) {}
+//        driver.changePage(testSection);
     }
 }
