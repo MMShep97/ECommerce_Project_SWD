@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -9,6 +10,8 @@ public class ECommerceServer
     private ServerSocket server;
     private User[] sockets;
     private ExecutorService executor;
+    private ConcurrentHashMap<Integer,Item> itemInventory;
+    private ConcurrentHashMap<String,Account> accounts;
     private int connectionID = 1;
     private int num_active_clients = 0;
     public final int PORT = 23501;
@@ -17,8 +20,6 @@ public class ECommerceServer
     {
         sockets = new User[100];
         executor = Executors.newFixedThreadPool(100);
-
-        //TODO: Set
     }
 
     public void serve()
