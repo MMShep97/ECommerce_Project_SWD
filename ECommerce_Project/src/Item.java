@@ -129,4 +129,9 @@ public class Item implements Serializable
     {
         return "[" + getListingID() + "] " + getName() + ": " + getDescription();
     }
+
+    public String toCSVFormat()
+    {
+        return getListingID()+","+getName()+","+getPrice()+","+getSeller()+","+getDescription()+","+getImageURL()+","+getQuantity();
+    }
 }

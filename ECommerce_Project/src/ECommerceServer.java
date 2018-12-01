@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -22,6 +23,7 @@ public class ECommerceServer
     {
         sockets = new ServerThread[100];
         executor = Executors.newFixedThreadPool(100);
+        initializeMaps();
     }
 
     public void serve()
@@ -54,9 +56,60 @@ public class ECommerceServer
         {
             ioe.printStackTrace();
         }
+        finally
+        {
+            updateLogs();
+        }
     }
 
     private void disp(final String message) { System.out.println(message); }
+
+    private void initializeMaps()
+    {
+        //Inventory
+        Scanner invReader = new Scanner("ECommerce_Project/logs/inventoryLog.csv");
+
+        while (invReader.hasNextLine())
+        {
+            String [] nextLine = invReader.nextLine().split(",");
+            itemInventory.put(Integer.parseInt(nextLine[0]), new Item(Integer.parseInt(nextLine[0]), nextLine[1], Double.parseDouble(nextLine[2]), nextLine[3], nextLine[4], nextLine[5], Integer.parseInt(nextLine[6])));
+        }
+
+        //Accounts
+        Scanner acctReader = new Scanner("ECommerce_Project/logs/accountLog.csv");
+
+        while (acctReader.hasNextLine())
+        {
+            String [] nextLine = acctReader.nextLine().split(",");
+            Account newAcct = new Account(nextLine[0], nextLine[1]);
+            newAcct.addFunds(Double.parseDouble(nextLine[3]));
+            accounts.put(nextLine[0], newAcct);
+        }
+    }
+
+    private void updateLogs()
+    {
+        try
+        {
+            FileWriter invWriter = new FileWriter("ECommerce_Project/logs/inventoryLog.csv");
+            //Inventory
+            for (Item item : itemInventory.values())
+            {
+                invWriter.append(item.toCSVFormat());
+            }
+
+            FileWriter acctWriter = new FileWriter("ECommerce_Project/logs/accountLog.csv");
+            //Accounts
+            for (Account acct : accounts.values())
+            {
+                acctWriter.append(acct.toCSVFormat());
+            }
+        }
+        catch(IOException ioe)
+        {
+            ioe.printStackTrace();
+        }
+    }
 
     private class ServerThread implements Runnable
     {

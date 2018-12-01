@@ -16,6 +16,11 @@ public class Account
         return username;
     }
 
+    public double getCredit()
+    {
+        return credit;
+    }
+
     public void addFunds(double credits)
     {
         this.credit += credits;
@@ -32,5 +37,10 @@ public class Account
 
         this.credit-=price;
         return true;
+    }
+
+    public String toCSVFormat()
+    {
+        return getUsername()+","+this.password+","+getCredit();
     }
 }
