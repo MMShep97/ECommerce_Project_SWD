@@ -8,15 +8,12 @@ import java.net.Socket;
 
 public class ECommerceUtilityMethods
 {
-    public static void disp(final String message)
+    synchronized public static void disp(final String message)
     {
-        synchronized (System.out) //Ensuring Sys.out calls are not interleaved
-        {
-            System.out.println(message);
-        }
+        System.out.println(message);
     }
 
-    public static void closeConnections(ObjectOutputStream out, ObjectInputStream in, Socket sock)
+    synchronized public static void closeConnections(ObjectOutputStream out, ObjectInputStream in, Socket sock)
     {
         try
         {
@@ -30,7 +27,7 @@ public class ECommerceUtilityMethods
         }
     }
 
-    public static void transmit(Serializable data, ObjectOutputStream output)
+    synchronized public static void transmit(Serializable data, ObjectOutputStream output)
     {
         try
         {
