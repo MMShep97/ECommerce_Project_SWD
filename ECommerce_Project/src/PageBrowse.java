@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import static util.ECommerceUtilityMethods.*;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -29,6 +30,7 @@ public class PageBrowse extends JPanel {
 
     private final int LISTING_ROWS = 2;
     private final int LISTING_COLUMNS = 6;
+    private final ButtonListener buttonListener = new ButtonListener();
 
     private BufferedImage[] images; //Get images passed in here somehow
 
@@ -125,6 +127,7 @@ public class PageBrowse extends JPanel {
         JPanel pricePanel = new JPanel();
         JPanel sellerPanel = new JPanel();
         JButton viewItemButton = new JButton("VIEW");
+        viewItemButton.addActionListener(buttonListener);
 
         Font plainStyle = new Font("Courier", Font.PLAIN, 12);
 
@@ -218,7 +221,23 @@ public class PageBrowse extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e){
-
+            JButton button = (JButton) e.getSource();
+            if(button.getText().equals("VIEW")){
+                //TODO CALL METHOD TO SET UP ITEM VIEW PAGE IN ECOMMMERCECLIENT
+            }
+            if(button.getText().equals("HOME")){
+                //""
+            }
+            if(button.getText().equals("BROWSE")){
+                transmit("BROWSE", client.getOutput());
+                transmit(client.getPageNum(), client.getOutput());
+                transmit(client.getBrowsePageCapacity(), client.getOutput());
+                client.getContentPane().removeAll();
+                client.add(PageBrowse.this);
+            }
+            if(button.getText().equals("LOGIN/SIGNUP")){
+                //""
+            }
         }
     }
 

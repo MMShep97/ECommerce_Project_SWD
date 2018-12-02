@@ -16,6 +16,8 @@ public class ECommmerceClient extends JFrame
     private Socket client;
     private String host;
     private boolean hasAccount = false;
+    private JFrame frame;
+    private int pageNum = 1; //TODO update page number. it is currently always 1
 
     private PageBrowse pb;
 
@@ -27,6 +29,7 @@ public class ECommmerceClient extends JFrame
     public ECommmerceClient(String host)
     {
         this.host = host;
+        frame = new JFrame("O B E Y");
     }
 
     /**
@@ -184,6 +187,18 @@ public class ECommmerceClient extends JFrame
         }while(interact);
     }
 
+
+    public ObjectOutputStream getOutput() {
+        return output;
+    }
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public int getBrowsePageCapacity() {
+        return browsePageCapacity;
+    }
 
     //TODO: Display to sepcific GUI area (maybe using invokelater)
     private void toGUI(final String message)
