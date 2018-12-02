@@ -22,7 +22,7 @@ public class ECommmerceClient extends JFrame
     //GUI components/parameters
     private int pageNum = 1;
     private int browsePageCapacity = 8;
-    private JPanel navBar;
+    private NavigationBar navBar;
     private PageBrowse pb;
     //private PageLogin loginPage;
     //private PageHome homePage;
@@ -38,8 +38,8 @@ public class ECommmerceClient extends JFrame
      */
     public void initializeGUI(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        navBar = Page.createNavbar();
-        pb = new PageBrowse(this);
+        navBar = new NavigationBar();
+        pb = new PageBrowse(this, navBar);
         this.add(pb);
         this.setVisible(true);
     }
