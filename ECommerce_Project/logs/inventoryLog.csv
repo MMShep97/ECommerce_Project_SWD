@@ -1,3 +1,13 @@
-"1","Nutpicks","69.69","dkelly","nuff said","http://3.bp.blogspot.com/-8fcTwPfCjaA/ULZr_PH2N6I/AAAAAAAAB6M/BT4M8jQ0Mf0/s1600/pick+b+rs.jpg","6"
-"2","Pickle Rick","10.00","zalthof","It's a pickle its name is Rick","https://cdn.europosters.eu/image/750/posters/rick-and-morty-pickle-rick-i51002.jpg","10"
-"3","Samuri Sword","1000.42","mshep","It's hand-fordged bitch","https://www.swordsofnorthshire.com/image/data/testimonials/Beau%20Tarlton.jpg","2"
+LISTING_ID,NAME,PRICE,SELLER,IMAGE_URL,QUANTITY
+1,Nutpicks,69.69,dkelly,nuff said,http://3.bp.blogspot.com/-8fcTwPfCjaA/ULZr_PH2N6I/AAAAAAAAB6M/BT4M8jQ0Mf0/s1600/pick+b+rs.jpg,6
+2,Pickle Rick,10.00,zalthof,It's a pickle its name is Rick,https://cdn.europosters.eu/image/750/posters/rick-and-morty-pickle-rick-i51002.jpg,10
+3,Samurai Sword,1000.42,mshep,It's hand-fordged bitch,https://www.swordsofnorthshire.com/image/data/testimonials/Beau%20Tarlton.jpg,2
+4,School Bus,150000.55,zalthof,Rode this bus cross country and she's a beaut,https://s.abcnews.com/images/US/school-bus-stock-gty-jef-181129_hpMain_16x9_1600.jpg,1
+5,Jetpack,1.0,zalthof,Yeehaw buddy,https://robbreportedit.files.wordpress.com/2018/09/turbine-flight-photo.jpg?w=1000,4
+6,Banana,0.69,It's a banana,mshep,https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/uh59Wh0/banana-cartoon-illustration-hand-drawn-animation-transparent_ekufai4__F0004.png,55
+7,Poop,0.00,LOLOLOLOL,dkelly,https://ih0.redbubble.net/image.278868307.0662/st%2Csmall%2C215x235-pad%2C210x230%2Cf8f8f8.lite-1u1.jpg,10000
+8,T-Rex,42.42,It's a big dinosaur dude,mshep,https://www.mpaa.org/wp-content/uploads/2018/05/JW2_Adv1Sheet_TREX_2_preview_rgb.jpg,7
+9,Sk8board,50.00,#SK8rLyfe,mshep,https://i.ytimg.com/vi/a0cx0688qx8/maxresdefault.jpg,9
+10,YoYo,6.74,It goes down and then comes back up,dkelly,https://static.seattletimes.com/wp-content/uploads/2017/02/c73e7188-fbb7-11e6-82d7-82c131fef7ef-1020x705.jpg,15
+11,Laser Enhanced Shark,509.50,This shark has a fricken laser beam on its fricken head,zalthof,https://www.thinkgeek.com/images/products/zoom/f2eb_shark_w_frickin_laser_pointer.jpg,4
+12,Bugger,1234.56,Picked it just for you,dkelly,http://2.bp.blogspot.com/-2U50sIQvZco/UTJhbkrYGLI/AAAAAAAACv0/uyMqeamYeig/s1600/guy-picking-nose.jpg,3

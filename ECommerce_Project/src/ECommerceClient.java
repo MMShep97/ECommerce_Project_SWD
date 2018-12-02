@@ -25,7 +25,7 @@ public class ECommerceClient extends JFrame
     private NavigationBar navBar;
     private PageBrowse pb;
     //private PageLogin loginPage;
-    //private PageHome homePage;
+    private PageHome homePage;
 
     public ECommerceClient(String host)
     {
@@ -39,6 +39,7 @@ public class ECommerceClient extends JFrame
     public void initializeGUI(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         navBar = new NavigationBar(this);
+        homePage = new PageHome(this, navBar);
         pb = new PageBrowse(this, navBar);
         this.add(pb);
         this.setVisible(true);
@@ -86,112 +87,118 @@ public class ECommerceClient extends JFrame
             {
                 String dataType = (String) input.readObject();
 
-                switch (dataType)
+                if(dataType != null)
                 {
-                    case "CONNECTION":
-                        String connectionResult = (String) input.readObject();
-                        disp(connectionResult);
-                        break;
-                    case "SIGN-UP":
-                        String signUpResult = (String) input.readObject();
-                        if(signUpResult.equals("Sign-up successful"))
-                        {
-                            hasAccount = true;
-                            //TODO: Update Client GUI (account created)
-                        }
-                        else
-                        {
-                            //TODO: Update Client GUI (try to sign up again / login)
-                        }
-                        break;
-                    case "LOGIN":
-                        String loginResult = (String) input.readObject();
-                        if(loginResult.equals("Login successful"))
-                        {
-                            hasAccount = true;
-                            //TODO: Update Client GUI (login successful)
-                        }
-                        else
-                        {
-                            //TODO: Update Client GUI (invalid username/password)
-                        }
-                        break;
-                    case "BROWSE":
-                        ArrayList<Item> listings = new ArrayList<>();
-
-                        for(int i = 0; i < browsePageCapacity; i++)
-                        {
-                            Object item = input.readObject();
-                            if(item != null)
+                    switch (dataType)
+                    {
+                        case "CONNECTION":
+                            String connectionResult = (String) input.readObject();
+                            disp(connectionResult);
+                            break;
+                        case "SIGN-UP":
+                            String signUpResult = (String) input.readObject();
+                            if (signUpResult.equals("Sign-up successful"))
                             {
-                                listings.add((Item) item);
+                                hasAccount = true;
+                                //TODO: Update Client GUI (account created)
                             }
-                        }
+                            else
+                            {
+                                //TODO: Update Client GUI (try to sign up again / login)
+                            }
+                            break;
+                        case "LOGIN":
+                            String loginResult = (String) input.readObject();
+                            if (loginResult.equals("Login successful"))
+                            {
+                                hasAccount = true;
+                                //TODO: Update Client GUI (login successful)
+                            }
+                            else
+                            {
+                                //TODO: Update Client GUI (invalid username/password)
+                            }
+                            break;
+                        case "BROWSE":
+                            ArrayList<Item> listings = new ArrayList<>();
 
-                        pb.populate(listings);
+                            for (int i = 0; i < browsePageCapacity; i++)
+                            {
+                                Object item = input.readObject();
+                                if (item != null)
+                                {
+                                    listings.add((Item) item);
+                                }
+                            }
 
-                        break;
-                    case "VIEW":
-                        String viewResult = (String) input.readObject();
-                        Item viewing;
+                            pb.populate(listings);
+                            getContentPane().removeAll();
+                            add(pb);
+                            revalidate();
+                            //repaint();
+                            break;
+                        case "VIEW":
+                            String viewResult = (String) input.readObject();
+                            Item viewing;
 
-                        if(viewResult.equals("Valid item"))
-                        {
-                            viewing = (Item) input.readObject();
-                        }
-                        else
-                        {
-                            viewing = null;
-                        }
+                            if (viewResult.equals("Valid item"))
+                            {
+                                viewing = (Item) input.readObject();
+                            }
+                            else
+                            {
+                                viewing = null;
+                            }
 
-                        //TODO: display the viewing item instance in the GUI
-                        break;
-                    case "PURCHASE":
-                        String purchaseResult = (String) input.readObject();
+                            //TODO: display the viewing item instance in the GUI
+                            break;
+                        case "PURCHASE":
+                            String purchaseResult = (String) input.readObject();
 
-                        if(purchaseResult.equals("Purchase made successfully"))
-                        {
-                            //TODO: Update Client GUI (purchase successful)
-                        }
-                        else if(purchaseResult.contains("There are no longer enough"))
-                        {
-                            //TODO: Update Client GUI (insufficient inventory)
-                        }
-                        else
-                        {
-                            //TODO: Update Client GUI (account doesn't have enough credits)
-                        }
-                        break;
-                    case "ADD CREDITS":
-                        String addCreditsResult = (String) input.readObject();
+                            if (purchaseResult.equals("Purchase made successfully"))
+                            {
+                                //TODO: Update Client GUI (purchase successful)
+                            }
+                            else if (purchaseResult.contains("There are no longer enough"))
+                            {
+                                //TODO: Update Client GUI (insufficient inventory)
+                            }
+                            else
+                            {
+                                //TODO: Update Client GUI (account doesn't have enough credits)
+                            }
+                            break;
+                        case "ADD CREDITS":
+                            String addCreditsResult = (String) input.readObject();
 
-                        if(addCreditsResult.equals("Credits added successfully"))
-                        {
-                            //TODO: Update Client GUI (credited to account)
-                        }
-                        else
-                        {
-                            //TODO: Update Client GUI (invalid account)
-                        }
-                        break;
-                    case "ADD LISTING":
-                        String addListingResult = (String) input.readObject();
+                            if (addCreditsResult.equals("Credits added successfully"))
+                            {
+                                //TODO: Update Client GUI (credited to account)
+                            }
+                            else
+                            {
+                                //TODO: Update Client GUI (invalid account)
+                            }
+                            break;
+                        case "ADD LISTING":
+                            String addListingResult = (String) input.readObject();
 
-                        if(addListingResult.contains("added to listings"))
-                        {
-                            //TODO: Update Client GUI (successfully added to listing)
-                        }
-                        else
-                        {
-                            //Should never occur
-                            disp("Error adding listing");
-                        }
-                        break;
-                    case "TERMINATE":
-                        interact = false;
-                        break;
-                    default:
-                        disp("Unknown data transmission from server");
+                            if (addListingResult.contains("added to listings"))
+                            {
+                                //TODO: Update Client GUI (successfully added to listing)
+                            }
+                            else
+                            {
+                                //Should never occur
+                                disp("Error adding listing");
+                            }
+                            break;
+                        case "TERMINATE":
+                            interact = false;
+                            break;
+                        default:
+                            disp("Unknown data transmission from server");
+                    }
                 }
             }
             catch (ClassNotFoundException cnf)
