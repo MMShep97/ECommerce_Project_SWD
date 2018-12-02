@@ -270,7 +270,7 @@ public class ECommerceServer extends JFrame
                             break;
                         case "LOGIN":
                             username = (String) input.readObject();
-                            String pass = (String) input.readObject();
+                            String pass = new String((char []) input.readObject());
                             curAcct = accounts.get(username);
                             transmit("LOGIN", output);
                             if(curAcct != null && curAcct.checkPassword(pass))
