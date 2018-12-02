@@ -2,12 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import static util.PageUtilityMethods.*;
 
+/**
+ * Acts as the homepage for the E-Commerce web application. This GUI is the first screen the user encounters when connecting
+ * to the server. User is greeted with a description of the site and the ability to navigate to other pages through the navbar.
+ */
 public class PageHome extends JPanel {
 
     private ECommerceClient client;
     private NavigationBar navBar;
-
-
 
     PageHome(ECommerceClient client, NavigationBar navBar) {
         this.client = client;
