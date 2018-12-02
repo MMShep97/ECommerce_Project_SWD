@@ -13,11 +13,18 @@ public class PageLogin extends JPanel{
         this.navBar = navBar;
         setBackground(Color.WHITE);
         final JPanel topPanel = new JPanel();
-        topPanel.setLayout(new GridLayout(0,1));
-        topPanel.add(this.navBar);
-        add(topPanel);
-        add(createLoginPanel());
-        add(createLogoPanel());
+
+        JPanel wrapper = new JPanel();
+        JPanel listingWrapper = new JPanel();
+        setLayout(new BorderLayout(5, 5));
+
+        final int INFO_ROWS = 4;
+        final int INFO_COLS = 1;
+
+        wrapper.add(createLoginPanel());
+
+        add(navBar, BorderLayout.NORTH);
+        add(wrapper, BorderLayout.CENTER);
     }
 
     public JPanel createLoginPanel() {

@@ -8,6 +8,12 @@ import java.net.URL;
 
 public class PageUtilityMethods
 {
+
+    /**
+     * Loads image into BufferedImage private class variable
+     * @param url -- client's listing url image
+     * @return
+     */
     public static BufferedImage loadImage(String url) {
         BufferedImage image = null;
 

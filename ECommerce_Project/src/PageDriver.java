@@ -49,29 +49,14 @@ public class PageDriver extends JFrame {
         this.revalidate();
     }
 
-    /**
-     * Loads image into BufferedImage private class variable
-     * @param filename
-     * @return
-     */
-    public BufferedImage loadImage(String filename) {
-        BufferedImage image = null;
-
-        try {
-            image = ImageIO.read(new File(filename));
-        } catch (IOException ex) {}
-        return image;
-    }
-
     public static void main(String [] args) {
         ECommmerceClient client = new ECommmerceClient("localhost");
         NavigationBar navbar = new NavigationBar();
+        PageListItem listItemPage = new PageListItem(client, navbar);
 //        PageBrowse browseSection = new PageBrowse(client);
-//        PageLogin loginSection = new PageLogin();
-        PageTest testSection = new PageTest();
-        PageHome homeSection = new PageHome(client, navbar);
-        PageDriver driver = new PageDriver(homeSection);
-        driver.changePage(homeSection);
+//        PageLogin loginSection = new PageLogin(client, navbar);
+//        PageHome homeSection = new PageHome(client, navbar);
+        PageDriver driver = new PageDriver(listItemPage);
         driver.pack();
     }
 }
