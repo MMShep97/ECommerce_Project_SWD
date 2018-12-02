@@ -1,26 +1,50 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
-public class PageLogin extends JPanel {
-
-    private final JPanel panel;
-    private final JButton button;
-    private final JTextField usernameField;
-    private final JTextField passwordField;
-    private final JPanel buttonPanel;
-    private final JPanel usernamePanel;
-    private final JPanel passwordPanel;
+public class PageLogin extends JPanel implements Page{
 
     public PageLogin() {
-        buttonPanel = new JPanel();
-        usernamePanel = new JPanel();
-        passwordPanel = new JPanel();
-        panel = new JPanel();
-        button = new JButton("LOGIN");
-        usernameField = new JTextField("Username");
-        passwordField = new JTextField("Password");
-        usernameField.setEditable(true);
-        passwordField.setEditable(true);
-        setLayout(new GridLayout(3, 3));
+        setBackground(Color.WHITE);
+        final JPanel topPanel = new JPanel();
+        topPanel.setLayout(new GridLayout(0,1));
+        topPanel.add(Page.createNavbar());
+        add(topPanel);
+        add(createLoginPanel());
+        add(Page.createLogoPanel());
+    }
+
+    public JPanel createLoginPanel() {
+        JPanel loginPanel = new JPanel();
+
+        loginPanel.setLayout(new GridBagLayout());
+        loginPanel.setBackground(Color.GRAY);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        loginPanel.add(new JLabel("Username:"), gbc);
+        gbc.gridy++;
+        loginPanel.add(new JLabel("Password:"), gbc);
+
+        gbc.gridx++;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1;
+        loginPanel.add(new JTextField(10), gbc);
+        gbc.gridy++;
+        loginPanel.add(new JTextField(10), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy++;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+        gbc.fill = GridBagConstraints.NONE;
+        loginPanel.add(new JButton("Login"), gbc);
+        gbc.gridx++;
+        loginPanel.add(new JButton("Cancel"), gbc);
+
+        return loginPanel;
     }
 }

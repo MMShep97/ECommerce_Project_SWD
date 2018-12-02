@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class PageBrowse extends JPanel {
+public class PageBrowse extends JPanel implements Page{
 
     private JPanel listings;
     private JButton homeButton;
@@ -27,42 +27,32 @@ public class PageBrowse extends JPanel {
 
         listings = new JPanel();
         listings.setLayout(new GridLayout(LISTING_ROWS, LISTING_COLUMNS));
-        BufferedImage testImage = loadImage("http://www.mkyong.com/image/mypic.jpg");
+        BufferedImage testImage = Page.loadImage("https://farm2.staticflickr.com/1410/1385703004_0c7b798b98.jpg");
+        String [] urls = {"https://farm2.staticflickr.com/1410/1385703004_0c7b798b98.jpg",
+                "http://www.mkyong.com/image/mypic.jpg",
+                "http://www.digitalphotoartistry.com/rose1.jpg"
+        };
         listings.add(createListing(testImage, "Enchiladas", "23.42", "JANE DOE"));
         listings.add(createListing(testImage, "Enchiladas", "23.42", "SWINGWORKER"));
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
 
 
-        add(createNavbar(), BorderLayout.NORTH);
+        add(Page.createNavbar(), BorderLayout.NORTH);
         add(listings);
         add(createFooter(), BorderLayout.SOUTH);
 
     }
 
-    public BufferedImage loadImage(String url) {
-        BufferedImage image = null;
 
-        try {
-            image = ImageIO.read(new URL(url));
-        } catch (IOException ex) {}
-        return image;
-    }
 
 
     public JPanel createFooter() {
-//        final JToolBar toolBar = new JToolBar();
-//        final JPanel wrapper = new JPanel();
-//
-//        toolBar.setSize(100, 100);
-//
-//        wrapper.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-//        wrapper.add(toolBar);
-//        return wrapper;
+        //initialize swing components
         final JPanel wrapper = new JPanel();
         final JButton previous = new JButton("Last");
         final JButton next = new JButton("Next");
@@ -72,34 +62,17 @@ public class PageBrowse extends JPanel {
         previous.setForeground(Color.WHITE);
         next.setBackground(Color.BLACK);
         next.setForeground(Color.WHITE);
+
+        wrapper.setBackground(Color.WHITE);
         wrapper.add(previous);
         wrapper.add(next);
         return wrapper;
     }
 
-    public JPanel createNavbar() {
-        homeButton = new JButton("HOME");
-        browseButton = new JButton("BROWSE");
-        loginButton = new JButton("LOGIN");
-        JPanel navbar = new JPanel();
 
-        //change color of buttons
-        homeButton.setBackground(Color.BLACK);
-        browseButton.setBackground(Color.BLACK);
-        loginButton.setBackground(Color.BLACK);
-        homeButton.setForeground(Color.WHITE);
-        browseButton.setForeground(Color.WHITE);
-        loginButton.setForeground(Color.WHITE);
-
-        navbar.setLayout(new GridLayout(1, 1));
-        navbar.add(homeButton);
-        navbar.add(browseButton);
-        navbar.add(loginButton);
-        navbar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        return navbar;
-    }
 
     public JPanel createListing(BufferedImage image, String item, String price, String seller) {
+        //Rows & columns for panel that encapsulates list info and image
         final int ROWS_IN_LISTING = 3;
         final int COLS_IN_LISTING = 1;
 
@@ -113,7 +86,7 @@ public class PageBrowse extends JPanel {
 
         Font plainStyle = new Font("Courier", Font.PLAIN, 12);
 
-
+        //UI/UX changes to list info
         JLabel itemContent = new JLabel(item);
         JLabel priceContent = new JLabel(price);
         JLabel sellerContent = new JLabel(seller);
@@ -130,6 +103,7 @@ public class PageBrowse extends JPanel {
         priceHeader.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         sellerHeader.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
+        //Encapsulating panel configuration
         listing.setLayout(new GridLayout(ROWS_IN_LISTING, COLS_IN_LISTING));
         listing.setMaximumSize(new Dimension(100, 100));
         listing.setBackground(Color.WHITE);
@@ -137,9 +111,11 @@ public class PageBrowse extends JPanel {
 
         imageInfo.add(new JLabel(new ImageIcon(image)));
 
+        //Rows & col for panel that encapsulates item information
         final int INFO_ROWS = 3;
         final int INFO_COLS = 1;
 
+        //item information configuration
         listingInfo.setLayout(new GridLayout(INFO_ROWS, INFO_COLS));
         listingInfo.add(itemPanel.add(itemHeader));
         listingInfo.add(itemPanel.add(itemContent));
@@ -148,55 +124,11 @@ public class PageBrowse extends JPanel {
         listingInfo.add(sellerPanel.add(sellerHeader));
         listingInfo.add(sellerContent);
 
+        //add all panels to encapsulating panel
         listing.add(imageInfo);
         listing.add(listingInfo);
         listing.add(viewItemButton);
 
         return listing;
     }
-
-//protected void addButtons(JToolBar toolBar) {
-//        JButton button = null;
-//
-//        //first button
-//        button = makeNavigationButton("Back24", PREVIOUS,
-//        "Back to previous something-or-other",
-//        "Previous");
-//        toolBar.add(button);
-//
-//        //second button
-//        button = makeNavigationButton("Up24", UP,
-//        "Up to something-or-other",
-//        "Up");
-//        toolBar.add(button);
-//
-//        ...//similar code for creating and adding the third button...
-//        }
-//
-//protected JButton makeNavigationButton(String imageName,
-//        String actionCommand,
-//        String toolTipText,
-//        String altText) {
-//        //Look for the image.
-//        String imgLocation = "images/"
-//        + imageName
-//        + ".gif";
-//        URL imageURL = ToolBarDemo.class.getResource(imgLocation);
-//
-//        //Create and initialize the button.
-//        JButton button = new JButton();
-//        button.setActionCommand(actionCommand);
-//        button.setToolTipText(toolTipText);
-//        button.addActionListener(this);
-//
-//        if (imageURL != null) {                      //image found
-//        button.setIcon(new ImageIcon(imageURL, altText));
-//        } else {                                     //no image found
-//        button.setText(altText);
-//        System.err.println("Resource not found: " + imgLocation);
-//        }
-//
-//        return button;
-//        }
 }
-

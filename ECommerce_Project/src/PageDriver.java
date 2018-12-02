@@ -72,7 +72,8 @@ public class PageDriver extends JFrame {
         PageBrowse browseSection = new PageBrowse();
         PageLogin loginSection = new PageLogin();
         PageTest testSection = new PageTest();
-        PageDriver driver = new PageDriver(browseSection);
+        PageHome homeSection = new PageHome();
+        PageDriver driver = new PageDriver(homeSection);
 //        try {Thread.sleep(1300); } catch (InterruptedException ex) {}
 //        driver.changePage(loginSection);
 //        try {Thread.sleep(1400); } catch (InterruptedException ex) {}

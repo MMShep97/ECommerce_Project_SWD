@@ -1,8 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class Daniel_test {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         JFrame frame = new JFrame("O B E Y");
         PageLogin pl = new PageLogin();
         frame.add(pl);
