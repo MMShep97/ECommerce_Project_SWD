@@ -46,8 +46,8 @@ public class PageDriver extends JFrame {
         PageListItem listItemPage = new PageListItem(client, navbar);
         PageBrowse browseSection = new PageBrowse(client, navbar);
 //        PageLogin loginSection = new PageLogin(client, navbar);
-//        PageHome homeSection = new PageHome(client, navbar);
-        PageDriver driver = new PageDriver(browseSection);
+        PageHome homeSection = new PageHome(client, navbar);
+        PageDriver driver = new PageDriver(homeSection);
         driver.pack();
     }
 }

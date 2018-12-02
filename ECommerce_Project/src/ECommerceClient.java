@@ -41,8 +41,7 @@ public class ECommerceClient extends JFrame
         this.setExtendedState(MAXIMIZED_BOTH);
         navBar = new NavigationBar(this);
         homePage = new PageHome(this, navBar);
-        pb = new PageBrowse(this, navBar);
-        this.add(pb);
+        this.add(homePage);
         this.setVisible(true);
     }
 
@@ -136,10 +135,11 @@ public class ECommerceClient extends JFrame
                                     }
                                 }
 
+                                pb = new PageBrowse(this, navBar);
                                 pb.populate(listings);
                                 getContentPane().removeAll();
                                 add(pb);
-                                //revalidate();
+                                revalidate();
                             }
                             else
                             {

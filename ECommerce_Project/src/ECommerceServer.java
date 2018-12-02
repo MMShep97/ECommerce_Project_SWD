@@ -240,7 +240,7 @@ public class ECommerceServer
                             int pageCapacity = (int) input.readObject();
                             ArrayList<Item> items = new ArrayList<>(inventory.values());
                             transmit("BROWSE", output);
-                            if(pageNumber*pageCapacity < items.size() && pageNumber > 0)
+                            if(pageNumber*pageCapacity <= items.size() && pageNumber > 0)
                             {
                                 transmit("VALID", output);
                                 for (int i = ((pageNumber - 1) * pageCapacity); i < pageNumber * pageCapacity; i++)
