@@ -232,6 +232,8 @@ public class ECommerceClient extends JFrame
         return browsePageCapacity;
     }
 
+
+
     //TODO: Display to sepcific GUI area (maybe using invokelater)
     private void toGUI(final String message)
     {
