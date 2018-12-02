@@ -15,9 +15,9 @@ public class ECommerceServer
     private ServerSocket server;
     private ServerThread[] sockets;
     private ExecutorService executor;
-    private ConcurrentHashMap<Integer,Item> inventory;
-    private ConcurrentHashMap<String,Account> accounts;
-    private AtomicInteger listingIDS = new AtomicInteger(1);
+    private ConcurrentHashMap<Integer,Item> inventory = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String,Account> accounts = new ConcurrentHashMap<>();
+    private AtomicInteger listingIDS;
     private int connectionID = 1;
     private int num_active_clients = 0;
     public static final int PORT = 23501;
@@ -62,6 +62,7 @@ public class ECommerceServer
         finally
         {
             updateLogs();
+            listingIDS = new AtomicInteger(inventory.size() + 1);
         }
     }
 
