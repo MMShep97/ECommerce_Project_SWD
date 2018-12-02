@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import static util.ECommerceUtilityMethods.transmit;
 import static util.PageUtilityMethods.*;
 
 public class PageLogin extends JPanel{
@@ -52,5 +55,13 @@ public class PageLogin extends JPanel{
         loginPanel.add(new JButton("Cancel"), gbc);
 
         return loginPanel;
+    }
+
+    private class ButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e){
+            JButton button = (JButton) e.getSource();
+        }
     }
 }
