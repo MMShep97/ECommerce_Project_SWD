@@ -107,6 +107,14 @@ public class PageLogin extends JPanel{
         utf.setText("Username already exists");
     }
 
+    public void requireLoginSignUp()
+    {
+        client.getContentPane().removeAll();
+        client.add(PageLogin.this);
+        client.revalidate();
+        utf.setText("You must login to proceed");
+    }
+
     /**
      * Checks for button clicks by the user and acts accordingly to each individual button.
      */

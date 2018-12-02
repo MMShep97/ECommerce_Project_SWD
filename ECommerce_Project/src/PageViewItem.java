@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 import static util.PageUtilityMethods.loadImage;
 
@@ -167,14 +166,29 @@ public class PageViewItem extends JPanel
                 client.sendToServer(client.getPageNum());
                 client.sendToServer(client.getBrowsePageCapacity());
             }
-            else if(button.equals(buyNowButton))
+            else
             {
-                client.sendToServer("PURCHASE");
-                client.sendToServer(PageViewItem.this.item);
-            }
-            else if(button.equals(addToCartButton))
-            {
-                client.addToCart(PageViewItem.this.item);
+                if(client.getAccount() == null)
+                {
+                    client.getContentPane().removeAll();
+                    PageLogin loginPg = new PageLogin(client, navBar);
+                    loginPg.requireLoginSignUp();
+                    client.add(loginPg);
+                    client.revalidate();
+                }
+                else
+                {
+                    if(button.equals(buyNowButton))
+                    {
+                        client.sendToServer("PURCHASE");
+                        client.sendToServer(PageViewItem.this.item);
+                    }
+                    else if(button.equals(addToCartButton))
+                    {
+                        client.addToCart(PageViewItem.this.item);
+                    }
+                }
+
             }
         }
     }

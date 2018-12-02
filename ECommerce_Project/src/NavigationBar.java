@@ -97,9 +97,21 @@ public class NavigationBar extends JPanel
             }
             else if(button.equals(sellButton))
             {
-                client.getContentPane().removeAll();
-                client.add(new PageListItem(client, NavigationBar.this));
-                client.revalidate();
+                if(client.getAccount() != null)
+                {
+                    client.getContentPane().removeAll();
+                    client.add(new PageListItem(client, NavigationBar.this));
+                    client.revalidate();
+                }
+                else
+                {
+                    client.getContentPane().removeAll();
+                    PageLogin loginPg = new PageLogin(client, NavigationBar.this);
+                    loginPg.requireLoginSignUp();
+                    client.add(loginPg);
+                    client.revalidate();
+                }
+
             }
             else if(button.equals(cartButton))
             {

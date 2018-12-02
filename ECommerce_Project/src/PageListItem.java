@@ -27,7 +27,7 @@ public class PageListItem extends JPanel {
         this.client = clientObject;
         this.navbar = navBar;
 
-        final int FIELD_COLUMNS = 6;
+        final int FIELD_COLUMNS = 20;
         urlField = new JTextField(FIELD_COLUMNS);
         nameField = new JTextField(FIELD_COLUMNS);
         priceField = new JTextField(FIELD_COLUMNS);
@@ -107,10 +107,14 @@ public class PageListItem extends JPanel {
                 {
                     Item newListing = new Item(0, nameField.getText(), Double.parseDouble(priceField.getText()),
                             client.getAccount().getUsername(), descriptionField.getText(), urlField.getText(),
-                            Integer.parseInt(quantityField.getText()));
+                            Integer.parseInt(quantityField.getText()) > 0 ? Integer.parseInt(quantityField.getText()): 1);
                     client.sendToServer("ADD LISTING");
                     client.sendToServer(newListing);
-
+                    urlField.setText("SUCCESS");
+                    nameField.setText("SUCCESS");
+                    priceField.setText("SUCCESS");
+                    descriptionField.setText("SUCCESS");
+                    client.revalidate();
                 }
                 else
                 {
