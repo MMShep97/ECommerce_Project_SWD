@@ -3,13 +3,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
 import java.util.ArrayList;
-
-import static util.ECommerceUtilityMethods.transmit;
 import static util.PageUtilityMethods.*;
 
 public class PageBrowse extends JPanel{
@@ -78,7 +74,7 @@ public class PageBrowse extends JPanel{
 
         for(int i = 0; i < items.size(); i++){
             BufferedImage testImage = loadImage(items.get(i).getImageURL());
-            listings.add(createListing(testImage, items.get(i).getName(), items.get(i).getPrice(), items.get(i).getSeller()));
+            listings.add(createListing(testImage, items.get(i).getName(), items.get(i).getPrice(), items.get(i).getSeller(), items.get(i).getListingID()));
         }
 
         removeAll();
@@ -87,8 +83,7 @@ public class PageBrowse extends JPanel{
         add(footer, BorderLayout.SOUTH);
     }
 
-
-    public JPanel createListing(BufferedImage image, String item, double price, String seller) {
+    private JPanel createListing(BufferedImage image, String item, double price, String seller, int listingID) {
         final int ROWS_IN_LISTING = 3;
         final int COLS_IN_LISTING = 1;
 
@@ -99,6 +94,7 @@ public class PageBrowse extends JPanel{
         JPanel pricePanel = new JPanel();
         JPanel sellerPanel = new JPanel();
         JButton viewItemButton = new JButton("VIEW");
+        viewItemButton.setToolTipText(listingID + "");
         viewItemButton.addActionListener(buttonListener);
         Font plainStyle = new Font("Courier", Font.PLAIN, 12);
 
@@ -155,7 +151,13 @@ public class PageBrowse extends JPanel{
             JButton button = (JButton) e.getSource();
             if(button.getText().equals("VIEW"))
             {
-
+                try
+                {
+                    int listingID = Integer.parseInt(button.getToolTipText());
+                    client.sendToServer("VIEW");
+                    client.sendToServer(listingID);
+                }
+                catch(NumberFormatException n) {}
             }
             else if(button.getText().equals("Next"))
             {
