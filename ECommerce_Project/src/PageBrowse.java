@@ -160,18 +160,18 @@ public class PageBrowse extends JPanel{
             else if(button.getText().equals("Next"))
             {
                 client.incrementPageNum();
-                transmit("BROWSE", client.getOutput());
-                transmit(client.getPageNum(), client.getOutput());
-                transmit(client.getBrowsePageCapacity(), client.getOutput());
+                client.sendToServer("BROWSE");
+                client.sendToServer(client.getPageNum());
+                client.sendToServer(client.getBrowsePageCapacity());
                 client.getContentPane().removeAll();
                 client.add(navBar);
             }
             else if(button.getText().equals("Last"))
             {
                 client.decrementPageNum();
-                transmit("BROWSE", client.getOutput());
-                transmit(client.getPageNum(), client.getOutput());
-                transmit(client.getBrowsePageCapacity(), client.getOutput());
+                client.sendToServer("BROWSE");
+                client.sendToServer(client.getPageNum());
+                client.sendToServer(client.getBrowsePageCapacity());
                 client.getContentPane().removeAll();
                 client.add(navBar);
             }

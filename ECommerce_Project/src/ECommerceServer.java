@@ -1,3 +1,9 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,8 +17,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static util.ECommerceUtilityMethods.*;
 
-public class ECommerceServer
+public class ECommerceServer extends JFrame
 {
+    private final String INVENTORY_HEADER = "LISTING_ID,NAME,PRICE,SELLER,IMAGE_URL,QUANTITY\n";
+    private final String ACCOUNT_HEADER = "USERNAME,PASSWORD,CREDITS\n";
+
     private ServerSocket server;
     private ServerThread[] sockets;
     private ExecutorService executor;
@@ -23,8 +32,37 @@ public class ECommerceServer
     private int num_active_clients = 0;
     public static final int PORT = 23501;
 
+    //GUI Components
+    private JButton terminate;
+
+
     public ECommerceServer()
     {
+        //Initializing terminate button GUI
+        super("E-Commerce Server");
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                updateLogs();
+                executor.shutdown();
+                dispose();
+                super.windowClosing(e);
+                System.exit(0);
+            }
+        });
+        JPanel serverGUI = new JPanel(new BorderLayout());
+        terminate = new JButton("TERMINATE");
+        terminate.setSize(250,250);
+        terminate.addActionListener(new StopServerButtonListener());
+        serverGUI.add(terminate, BorderLayout.CENTER);
+        add(serverGUI, BorderLayout.CENTER);
+        pack();
+        setVisible(true);
+
+        //Initializing server back end
         sockets = new ServerThread[100];
         executor = Executors.newFixedThreadPool(100);
         initializeMaps();
@@ -63,7 +101,7 @@ public class ECommerceServer
         finally
         {
             updateLogs();
-            listingIDS = new AtomicInteger(inventory.size() + 1);
+            executor.shutdown();
         }
     }
 
@@ -80,6 +118,9 @@ public class ECommerceServer
                 String[] parsed = invReader.nextLine().split(",");
                 inventory.put(Integer.parseInt(parsed[0]), new Item(Integer.parseInt(parsed[0]), parsed[1], Double.parseDouble(parsed[2]), parsed[3], parsed[4], parsed[5], Integer.parseInt(parsed[6])));
             }
+
+            listingIDS = new AtomicInteger(inventory.size() + 1);
+            invReader.close(); //End reading inventory log csv
         }
         catch (IOException ioe)
         {
@@ -99,6 +140,8 @@ public class ECommerceServer
                 newAcct.addFunds(Double.parseDouble(parsed[2]));
                 accounts.put(parsed[0], newAcct);
             }
+
+            acctReader.close(); //End reading account log csv
         }
         catch (IOException ioe)
         {
@@ -112,26 +155,29 @@ public class ECommerceServer
         {
             FileWriter invWriter = new FileWriter("ECommerce_Project/logs/inventoryLog.csv");
             //Inventory
+            invWriter.write(INVENTORY_HEADER); //Header line
             for (Item item : inventory.values())
             {
-                invWriter.append(item.toCSVFormat());
+                invWriter.write(item.toCSVFormat());
             }
+
+            invWriter.close(); //End writing inventory log
 
             FileWriter acctWriter = new FileWriter("ECommerce_Project/logs/accountLog.csv");
             //Accounts
+            acctWriter.write(ACCOUNT_HEADER); //Header line
             for (Account acct : accounts.values())
             {
-                acctWriter.append(acct.toCSVFormat());
+                acctWriter.write(acct.toCSVFormat());
             }
+
+            acctWriter.close(); //End writing account log csv
         }
         catch(IOException ioe)
         {
             ioe.printStackTrace();
         }
     }
-
-
-
 
     private class ServerThread implements Runnable
     {
@@ -215,6 +261,7 @@ public class ECommerceServer
                             if(accounts.putIfAbsent(username, new Account(username, password)) == null)
                             {
                                 transmit("Sign-up successful", output);
+                                transmit(username, output);
                             }
                             else
                             {
@@ -229,6 +276,7 @@ public class ECommerceServer
                             if(curAcct != null && curAcct.checkPassword(pass))
                             {
                                 transmit("Login successful", output);
+                                transmit(username, output);
                             }
                             else
                             {
@@ -240,7 +288,7 @@ public class ECommerceServer
                             int pageCapacity = (int) input.readObject();
                             ArrayList<Item> items = new ArrayList<>(inventory.values());
                             transmit("BROWSE", output);
-                            if(pageNumber*pageCapacity <= items.size() && pageNumber > 0)
+                            if(pageNumber*pageCapacity <= items.size() + pageCapacity && pageNumber > 0)
                             {
                                 transmit("VALID", output);
                                 for (int i = ((pageNumber - 1) * pageCapacity); i < pageNumber * pageCapacity; i++)
@@ -376,11 +424,27 @@ public class ECommerceServer
                 {
                     disp("Unknown data type received from client");
                 }
+                catch (EOFException eof)
+                {
+                    interact = false;
+                }
                 catch (IOException ioe)
                 {
                     ioe.printStackTrace();
                 }
             }while(interact);
+        }
+    }
+
+    private class StopServerButtonListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            updateLogs();
+            executor.shutdown();
+            dispose();
+            System.exit(0);
         }
     }
 }

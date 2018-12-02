@@ -41,6 +41,6 @@ public class Account
 
     public String toCSVFormat()
     {
-        return getUsername()+","+this.password+","+getCredit();
+        return getUsername()+","+this.password+","+getCredit()+"\n";
     }
 }

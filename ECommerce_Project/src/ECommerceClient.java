@@ -17,6 +17,7 @@ public class ECommerceClient extends JFrame
     private Socket client;
     private String host;
     private boolean hasAccount = false;
+    private String username;
     private ConcurrentHashMap<Item,Integer> cart = new ConcurrentHashMap<>();
 
     //GUI components/parameters
@@ -24,7 +25,7 @@ public class ECommerceClient extends JFrame
     private int browsePageCapacity = 12;
     private NavigationBar navBar;
     private PageBrowse pb;
-    //private PageLogin loginPage;
+    private PageLogin loginPage;
     private PageHome homePage;
 
     public ECommerceClient(String host)
@@ -64,14 +65,17 @@ public class ECommerceClient extends JFrame
         }
         catch (EOFException eof)
         {
+            transmit("TERMINATE", output);
             disp("Terminated connection");
         }
         catch (IOException ioe)
         {
+            transmit("TERMINATE", output);
             ioe.printStackTrace();
         }
         finally
         {
+            transmit("TERMINATE", output);
             disp("Closing connection");
             closeConnections(output, input, client);
         }
@@ -99,24 +103,32 @@ public class ECommerceClient extends JFrame
                             String signUpResult = (String) input.readObject();
                             if (signUpResult.equals("Sign-up successful"))
                             {
-                                hasAccount = true;
-                                //TODO: Update Client GUI (account created)
+                                username = (String) input.readObject();
+                                successfulLoginSignUp();
                             }
                             else
                             {
-                                //TODO: Update Client GUI (try to sign up again / login)
+                                hasAccount = false;
+                                loginPage = new PageLogin(this, navBar);
+                                loginPage.usernameAlreadyExists();
+                                add(loginPage);
+                                revalidate();
                             }
                             break;
                         case "LOGIN":
                             String loginResult = (String) input.readObject();
                             if (loginResult.equals("Login successful"))
                             {
-                                hasAccount = true;
-                                //TODO: Update Client GUI (login successful)
+                                username = (String) input.readObject();
+                                successfulLoginSignUp();
                             }
                             else
                             {
-                                //TODO: Update Client GUI (invalid username/password)
+                                hasAccount = false;
+                                loginPage = new PageLogin(this, navBar);
+                                loginPage.invalidUsernameOrPassword();
+                                add(loginPage);
+                                revalidate();
                             }
                             break;
                         case "BROWSE":
@@ -143,8 +155,9 @@ public class ECommerceClient extends JFrame
                             }
                             else
                             {
-                                //TODO: IDK MAYBE BRO
-                                disp("Last page");
+                                getContentPane().removeAll();
+                                add(pb);
+                                revalidate();
                             }
                             break;
                         case "VIEW":
@@ -195,12 +208,8 @@ public class ECommerceClient extends JFrame
 
                             if (addListingResult.contains("added to listings"))
                             {
-                                //TODO: Update Client GUI (successfully added to listing)
-                            }
-                            else
-                            {
-                                //Should never occur
-                                disp("Error adding listing");
+                                transmit("VIEW", output);
+                                //transmit();
                             }
                             break;
                         case "TERMINATE":
@@ -228,9 +237,11 @@ public class ECommerceClient extends JFrame
         }while(interact);
     }
 
+    public void sendToServer(Serializable data) { transmit(data, output);}
 
-    public ObjectOutputStream getOutput() {
-        return output;
+    public String getUsername()
+    {
+        return hasAccount ? this.username : null;
     }
 
     public int getPageNum() {
@@ -245,10 +256,14 @@ public class ECommerceClient extends JFrame
 
     public void decrementPageNum() { pageNum--; }
 
-    //TODO: Display to sepcific GUI area (maybe using invokelater)
-    private void toGUI(final String message)
+    private void successfulLoginSignUp()
     {
-
+        hasAccount = true;
+        homePage = new PageHome(this, navBar);
+        getContentPane().removeAll();
+        add(homePage);
+        navBar.loggedIn();
+        revalidate();
     }
 
 }

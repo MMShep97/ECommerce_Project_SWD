@@ -1,5 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import static util.PageUtilityMethods.loadImage;
 
 public class PageListItem extends JPanel {
 
@@ -7,10 +11,12 @@ public class PageListItem extends JPanel {
     private final JTextField nameField;
     private final JTextField priceField;
     private final JTextField descriptionField;
+    private final JTextField quantityField;
     private final JLabel urlLabel;
     private final JLabel nameLabel;
     private final JLabel priceLabel;
     private final JLabel descriptionLabel;
+    private final JLabel quantityLabel;
     private final JButton submitButton;
 
     private ECommerceClient client;
@@ -26,11 +32,14 @@ public class PageListItem extends JPanel {
         nameField = new JTextField(FIELD_COLUMNS);
         priceField = new JTextField(FIELD_COLUMNS);
         descriptionField = new JTextField(FIELD_COLUMNS);
+        quantityField = new JTextField(FIELD_COLUMNS);
         urlLabel = new JLabel("Image (URL format):");
         nameLabel = new JLabel("Name of Item (orange):");
         priceLabel = new JLabel("Listing Price (7.29):");
         descriptionLabel = new JLabel("Item Description (oranges):");
+        quantityLabel = new JLabel("Quantity for sale (14):");
         submitButton = new JButton("SUBMIT");
+        submitButton.addActionListener(new SellListener());
 
 
         JPanel wrapper = new JPanel();
@@ -59,6 +68,8 @@ public class PageListItem extends JPanel {
         listItemPanel.add(priceLabel, gbc);
         gbc.gridy++;
         listItemPanel.add(descriptionLabel, gbc);
+        gbc.gridy++;
+        listItemPanel.add(quantityLabel, gbc);
 
         gbc.gridx++;
         gbc.gridy = 0;
@@ -72,6 +83,8 @@ public class PageListItem extends JPanel {
         listItemPanel.add(priceField, gbc);
         gbc.gridy++;
         listItemPanel.add(descriptionField, gbc);
+        gbc.gridy++;
+        listItemPanel.add(quantityField, gbc);
 
         gbc.gridx = 1;
         gbc.gridy++;
@@ -81,5 +94,40 @@ public class PageListItem extends JPanel {
         listItemPanel.add(submitButton, gbc);
 
         return listItemPanel;
+    }
+
+    private class SellListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            try
+            {
+                if(loadImage(urlField.getText()) != null)
+                {
+                    Item newListing = new Item(0, nameField.getText(), Double.parseDouble(priceField.getText()),
+                            client.getUsername(), descriptionField.getText(), urlField.getText(),
+                            Integer.parseInt(quantityField.getText()));
+                    client.sendToServer("ADD LISTING");
+                    client.sendToServer(newListing);
+
+                }
+                else
+                {
+                    client.getContentPane().removeAll();
+                    client.add(PageListItem.this);
+                    urlField.setText("Invalid image url");
+                    client.revalidate();
+                }
+            }
+            catch(NumberFormatException n)
+            {
+                client.getContentPane().removeAll();
+                client.add(PageListItem.this);
+                System.out.println(n.getCause().toString());
+                priceField.setText("Invalid number format");
+                client.revalidate();
+            }
+        }
     }
 }

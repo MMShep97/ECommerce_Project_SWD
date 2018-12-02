@@ -2,12 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static util.ECommerceUtilityMethods.*;
 
 public class NavigationBar extends JPanel
 {
     private JButton homeButton = new JButton("HOME");
     private JButton browseButton = new JButton("BROWSE");
+    private JButton sellButton = new JButton("SELL");
+    private JButton cartButton = new JButton("CART");
+    private JButton searchButton = new JButton("SEARCH");
     private JButton loginButton = new JButton("LOGIN/SIGNUP");
     private ECommerceClient client;
     private ButtonListener buttonListener = new ButtonListener();
@@ -19,18 +21,32 @@ public class NavigationBar extends JPanel
         //change color of buttons
         homeButton.setForeground(Color.BLACK);
         browseButton.setForeground(Color.BLACK);
+        sellButton.setForeground(Color.BLACK);
+        cartButton.setForeground(Color.BLACK);
+        searchButton.setForeground(Color.BLACK);
         loginButton.setForeground(Color.BLACK);
 
         //registering event handlers
         homeButton.addActionListener(buttonListener);
         browseButton.addActionListener(buttonListener);
+        sellButton.addActionListener(buttonListener);
+        cartButton.addActionListener(buttonListener);
+        searchButton.addActionListener(buttonListener);
         loginButton.addActionListener(buttonListener);
 
         setLayout(new GridLayout(1, 1));
         add(homeButton);
         add(browseButton);
+        add(sellButton);
+        add(cartButton);
+        add(searchButton);
         add(loginButton);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    }
+
+    public void loggedIn()
+    {
+        loginButton.setText("Signed in as: " + client.getUsername());
     }
 
     public JButton getHomeButton()
@@ -53,18 +69,34 @@ public class NavigationBar extends JPanel
         @Override
         public void actionPerformed(ActionEvent e){
             JButton button = (JButton) e.getSource();
-            if(button.getText().equals("HOME")){
-                //""
-            }
-            else if(button.getText().equals("BROWSE")){
-                transmit("BROWSE", client.getOutput());
-                transmit(1, client.getOutput());
-                transmit(client.getBrowsePageCapacity(), client.getOutput());
+            if(button.equals(homeButton)){
                 client.getContentPane().removeAll();
-                client.add(NavigationBar.this);
+                client.add(new PageHome(client, NavigationBar.this));
+                client.revalidate();
             }
-            else if(button.getText().equals("LOGIN/SIGNUP")){
-                //""
+            else if(button.equals(browseButton)){
+                client.sendToServer("BROWSE");
+                client.sendToServer(1);
+                client.sendToServer(client.getBrowsePageCapacity());
+            }
+            else if(button.equals(sellButton))
+            {
+                client.getContentPane().removeAll();
+                client.add(new PageListItem(client, NavigationBar.this));
+                client.revalidate();
+            }
+            else if(button.equals(cartButton))
+            {
+
+            }
+            else if(button.equals(searchButton))
+            {
+
+            }
+            else if(button.equals(loginButton)){
+                client.getContentPane().removeAll();
+                client.add(new PageLogin(client, NavigationBar.this));
+                client.revalidate();
             }
         }
     }

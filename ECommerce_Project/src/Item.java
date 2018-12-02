@@ -146,6 +146,6 @@ public class Item implements Serializable
 
     public String toCSVFormat()
     {
-        return getListingID()+","+getName()+","+getPrice()+","+getSeller()+","+getDescription()+","+getImageURL()+","+getQuantity();
+        return getListingID()+","+getName()+","+getPrice()+","+getSeller()+","+getDescription()+","+getImageURL()+","+getQuantity() +"\n";
     }
 }
