@@ -256,7 +256,7 @@ public class ECommerceServer extends JFrame
                     {
                         case "SIGN-UP":
                             username = (String) input.readObject();
-                            String password = (String) input.readObject();
+                            String password = new String((char []) input.readObject());
                             transmit("SIGN-UP", output);
                             if(accounts.putIfAbsent(username, new Account(username, password)) == null)
                             {
