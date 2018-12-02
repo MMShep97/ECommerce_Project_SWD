@@ -38,6 +38,7 @@ public class ECommerceClient extends JFrame
      */
     public void initializeGUI(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setExtendedState(MAXIMIZED_BOTH);
         navBar = new NavigationBar(this);
         homePage = new PageHome(this, navBar);
         pb = new PageBrowse(this, navBar);
