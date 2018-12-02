@@ -65,8 +65,8 @@ public class PageDriver extends JFrame {
 
     public static void main(String [] args) {
         ECommmerceClient client = new ECommmerceClient("localhost");
-        PageBrowse browseSection = new PageBrowse(client);
-        PageLogin loginSection = new PageLogin();
+        //PageBrowse browseSection = new PageBrowse(client);
+        //PageLogin loginSection = new PageLogin();
         PageTest testSection = new PageTest();
         PageHome homeSection = new PageHome();
         PageDriver driver = new PageDriver(homeSection);

@@ -1,17 +1,23 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import static util.PageUtilityMethods.*;
 
-public class PageLogin extends JPanel implements Page{
+public class PageLogin extends JPanel{
 
-    public PageLogin() {
+    private ECommmerceClient client;
+    private NavigationBar navBar;
+
+
+    public PageLogin(ECommmerceClient client, NavigationBar navBar) {
+        this.navBar = navBar;
         setBackground(Color.WHITE);
         final JPanel topPanel = new JPanel();
         topPanel.setLayout(new GridLayout(0,1));
-        topPanel.add(Page.createNavbar());
+        topPanel.add(this.navBar);
         add(topPanel);
         add(createLoginPanel());
-        add(Page.createLogoPanel());
+        add(createLogoPanel());
     }
 
     public JPanel createLoginPanel() {

@@ -36,10 +36,10 @@ public class PageBrowse extends JPanel{
 
     private BufferedImage[] images; //Get images passed in here somehow
 
-    public PageBrowse(ECommmerceClient client, JPanel navBar) {
+    public PageBrowse(ECommmerceClient client, NavigationBar navBar) {
 
         this.client = client;
-        this.navBar = (NavigationBar) navBar;
+        this.navBar = navBar;
 
         setLayout(new BorderLayout(5, 10));
         setBorder(BorderFactory.createLineBorder(Color.WHITE));
