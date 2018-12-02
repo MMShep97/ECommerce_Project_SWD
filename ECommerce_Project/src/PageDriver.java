@@ -63,7 +63,7 @@ public class PageDriver extends JFrame {
 
     public static void main(String [] args) {
         ECommerceClient client = new ECommerceClient("localhost");
-        NavigationBar navbar = new NavigationBar();
+        NavigationBar navbar = new NavigationBar(client);
 //        PageBrowse browseSection = new PageBrowse(client);
 //        PageLogin loginSection = new PageLogin();
         PageTest testSection = new PageTest();
