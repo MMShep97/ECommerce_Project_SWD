@@ -1,8 +1,6 @@
-import util.ECommerceUtilityMethods;
-
 public class ClientDriver {
     public static void main(String[] args){
-        ECommmerceClient client = new ECommmerceClient("yarp");
+        ECommerceClient client = new ECommerceClient("yarp");
         client.initializeGUI();
         client.runClient();
     }

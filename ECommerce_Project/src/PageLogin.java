@@ -1,15 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
+
 import static util.PageUtilityMethods.*;
 
 public class PageLogin extends JPanel{
 
-    private ECommmerceClient client;
+    private ECommerceClient client;
     private NavigationBar navBar;
 
 
-    public PageLogin(ECommmerceClient client, NavigationBar navBar) {
+    public PageLogin(ECommerceClient client, NavigationBar navBar) {
         this.navBar = navBar;
         setBackground(Color.WHITE);
         final JPanel topPanel = new JPanel();

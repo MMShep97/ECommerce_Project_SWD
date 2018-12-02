@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static util.ECommerceUtilityMethods.*;
 
-public class ECommmerceClient extends JFrame
+public class ECommerceClient extends JFrame
 {
     //Network members
     private ObjectOutputStream output;
@@ -21,13 +21,13 @@ public class ECommmerceClient extends JFrame
 
     //GUI components/parameters
     private int pageNum = 1;
-    private int browsePageCapacity = 8;
-    //private NavigationBar navBar;
+    private int browsePageCapacity = 12;
+    private NavigationBar navBar;
     private PageBrowse pb;
     //private PageLogin loginPage;
     //private PageHome homePage;
 
-    public ECommmerceClient(String host)
+    public ECommerceClient(String host)
     {
         super("O B E Y");
         this.host = host;
@@ -38,7 +38,7 @@ public class ECommmerceClient extends JFrame
      */
     public void initializeGUI(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        navBar = new NavigationBar();
+        navBar = new NavigationBar(this);
         pb = new PageBrowse(this, navBar);
         this.add(pb);
         this.setVisible(true);

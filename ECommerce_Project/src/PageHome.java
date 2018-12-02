@@ -3,10 +3,10 @@ import java.awt.*;
 
 public class PageHome extends JPanel {
 
-    private ECommmerceClient client;
+    private ECommerceClient client;
     private NavigationBar navBar;
 
-    PageHome(ECommmerceClient client, NavigationBar navBar) {
+    PageHome(ECommerceClient client, NavigationBar navBar) {
         JPanel logoPanel = new JPanel();
         this.client = client;
         this.navBar = navBar;
