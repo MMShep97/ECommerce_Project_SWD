@@ -44,17 +44,6 @@ public class PageBrowse extends JPanel{
                 "http://www.mkyong.com/image/mypic.jpg",
                 "http://www.digitalphotoartistry.com/rose1.jpg"
         };
-//        listings.add(createListing(testImage, "Enchiladas", 23.42, "JANE DOE"));
-//        listings.add(createListing(testImage, "Enchiladas", 23.42, "SWINGWORKER"));
-//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-//        listings.add(createListing(testImage, "Enchiladas", "23.42", "JANE DOE"));
-//        listings.add(createListing(testImage, "Enchiladas", "23.42", "SWINGWORKER"));
-//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-
 
         add(this.navBar, BorderLayout.NORTH);
         add(listings, BorderLayout.CENTER);
@@ -158,10 +147,10 @@ public class PageBrowse extends JPanel{
 
         @Override
         public void actionPerformed(ActionEvent e){
-            System.out.println("in eh");
             JButton button = (JButton) e.getSource();
-            if(button.getText().equals("VIEW")){
-                //TODO CALL METHOD TO SET UP ITEM VIEW PAGE IN ECOMMMERCECLIENT
+            if(button.getText().equals("VIEW"))
+            {
+                //((JButton) e.getSource()).getParent().getComponent(1).get
             }
         }
     }
