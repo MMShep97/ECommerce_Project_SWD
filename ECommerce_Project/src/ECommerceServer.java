@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,9 +15,9 @@ public class ECommerceServer
     private ServerSocket server;
     private ServerThread[] sockets;
     private ExecutorService executor;
-    private ConcurrentHashMap<Integer,Item> itemInventory;
-    private ConcurrentHashMap<String,Account> accounts;
-    private AtomicInteger listingIDS = new AtomicInteger(1);
+    private ConcurrentHashMap<Integer,Item> inventory = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String,Account> accounts = new ConcurrentHashMap<>();
+    private AtomicInteger listingIDS;
     private int connectionID = 1;
     private int num_active_clients = 0;
     public static final int PORT = 23501;
@@ -61,6 +62,7 @@ public class ECommerceServer
         finally
         {
             updateLogs();
+            listingIDS = new AtomicInteger(inventory.size() + 1);
         }
     }
 
@@ -73,7 +75,7 @@ public class ECommerceServer
         while (invReader.hasNextLine())
         {
             String [] parsed = invReader.nextLine().split(",");
-            itemInventory.put(Integer.parseInt(parsed[0]), new Item(Integer.parseInt(parsed[0]), parsed[1], Double.parseDouble(parsed[2]), parsed[3], parsed[4], parsed[5], Integer.parseInt(parsed[6])));
+            inventory.put(Integer.parseInt(parsed[0]), new Item(Integer.parseInt(parsed[0]), parsed[1], Double.parseDouble(parsed[2]), parsed[3], parsed[4], parsed[5], Integer.parseInt(parsed[6])));
         }
 
         //Accounts
@@ -95,7 +97,7 @@ public class ECommerceServer
         {
             FileWriter invWriter = new FileWriter("ECommerce_Project/logs/inventoryLog.csv");
             //Inventory
-            for (Item item : itemInventory.values())
+            for (Item item : inventory.values())
             {
                 invWriter.append(item.toCSVFormat());
             }
@@ -112,6 +114,9 @@ public class ECommerceServer
             ioe.printStackTrace();
         }
     }
+
+
+
 
     private class ServerThread implements Runnable
     {
@@ -172,6 +177,7 @@ public class ECommerceServer
 
         private void interact()
         {
+            transmit("CONNECTION", output);
             transmit("Connection " + connectID + " successful", output); //Send connection successful message to client
             boolean interact = true;
 
@@ -217,8 +223,8 @@ public class ECommerceServer
                         case "BROWSE":
                             int pageNumber = (int) input.readObject();
                             int pageCapacity = (int) input.readObject();
-                            Item [] items = new Item[itemInventory.size()];
-                            itemInventory.values().toArray(items);
+                            Item [] items = new Item[inventory.size()];
+                            inventory.values().toArray(items);
                             transmit("BROWSE", output);
                             for(int i = ((pageNumber - 1) * pageCapacity); i < pageNumber * pageCapacity; i++)
                             {
@@ -234,9 +240,24 @@ public class ECommerceServer
                                 }
                             }
                             break;
+                        case "VIEW":
+                            int listID = (int) input.readObject();
+                            Item viewing = inventory.get(listID);
+                            transmit("VIEW", output);
+                            if(viewing != null)
+                            {
+                                transmit("Valid item", output);
+                                transmit(viewing, output);
+                                disp("Connection " + connectID + " viewing " + viewing.getName());
+                            }
+                            else
+                            {
+                                transmit("Invalid item requested", output);
+                            }
+                            break;
                         case "PURCHASE":
                             Item item = (Item) input.readObject();
-                            Item inventoryItem = itemInventory.get(item.getListingID());
+                            Item inventoryItem = inventory.get(item.getListingID());
                             username = (String) input.readObject();
                             int quantityPurchased = (int) input.readObject();
                             transmit("PURCHASE",output);
@@ -252,7 +273,7 @@ public class ECommerceServer
 
                                         if(inventoryItem.getQuantity() == 0)
                                         {
-                                            itemInventory.remove(inventoryItem.getListingID());
+                                            inventory.remove(inventoryItem.getListingID());
                                             disp(inventoryItem.getName() + " is now sold out and was removed from the inventory");
                                         }
                                     }
@@ -286,11 +307,41 @@ public class ECommerceServer
                         case "ADD LISTING":
                             Item newItem = (Item) input.readObject();
                             newItem.setListingID(listingIDS.incrementAndGet());
-                            itemInventory.put(newItem.getListingID(), newItem);
+                            inventory.put(newItem.getListingID(), newItem);
                             transmit("ADD LISTING", output);
                             transmit(newItem.getName() + "added to listings", output);
                             disp("Added: " + newItem.toString() + " to listings\n\tSeller: " + newItem.getSeller() +
                                     "\n\tQuantity: " + newItem.getQuantity());
+                            break;
+                        case "SEARCH":
+                            String query = (String) input.readObject();
+                            Stack<Item> hits = new Stack<>();
+
+                            for(Item i : inventory.values())
+                            {
+                                if(i.getName().equalsIgnoreCase(query))
+                                {
+                                    hits.push(i);
+                                }
+                                else
+                                {
+                                    double similarWords = 0.0;
+                                    String [] queryWords = query.toUpperCase().split(" ");
+                                    for(String w : queryWords)
+                                    {
+                                        if(i.getName().toUpperCase().contains(w)) similarWords++;
+                                    }
+
+                                    if((similarWords/((double) queryWords.length)) > 0.75) hits.push(i);
+                                }
+                            }
+
+                            transmit("SEARCH", output);
+                            transmit(hits.size(), output);
+                            while(!hits.empty())
+                            {
+                                transmit(hits.pop(), output);
+                            }
                             break;
                         case "TERMINATE":
                             interact = false;

@@ -1,9 +1,18 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import static util.ECommerceUtilityMethods.*;
+
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -14,12 +23,19 @@ public class PageBrowse extends JPanel implements Page{
     private JButton browseButton;
     private JButton loginButton;
 
+    private ECommmerceClient client;
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
+
     private final int LISTING_ROWS = 2;
     private final int LISTING_COLUMNS = 6;
+    private final ButtonListener buttonListener = new ButtonListener();
 
     private BufferedImage[] images; //Get images passed in here somehow
 
-    public PageBrowse() {
+    public PageBrowse(ECommmerceClient client) {
+
+        this.client = client;
 
         setLayout(new BorderLayout(5, 10));
         setBorder(BorderFactory.createLineBorder(Color.WHITE));
@@ -32,9 +48,11 @@ public class PageBrowse extends JPanel implements Page{
                 "http://www.mkyong.com/image/mypic.jpg",
                 "http://www.digitalphotoartistry.com/rose1.jpg"
         };
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "JANE DOE"));
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "SWINGWORKER"));
+        listings.add(createListing(testImage, "Enchiladas", 23.42, "JANE DOE"));
+        listings.add(createListing(testImage, "Enchiladas", 23.42, "SWINGWORKER"));
 //        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "JANE DOE"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "SWINGWORKER"));
 //        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
 //        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
 //        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
@@ -49,6 +67,13 @@ public class PageBrowse extends JPanel implements Page{
     }
 
 
+
+    public void populate(Item[] items){
+        for(int i = 0; i < items.length; i++){
+            BufferedImage testImage = Page.loadImage(items[i].getImageURL());
+            listings.add(createListing(testImage, items[i].getName(), items[i].getPrice(), items[i].getSeller()));
+        }
+    }
 
 
     public JPanel createFooter() {
@@ -69,10 +94,7 @@ public class PageBrowse extends JPanel implements Page{
         return wrapper;
     }
 
-
-
-    public JPanel createListing(BufferedImage image, String item, String price, String seller) {
-        //Rows & columns for panel that encapsulates list info and image
+    public JPanel createListing(BufferedImage image, String item, double price, String seller) {
         final int ROWS_IN_LISTING = 3;
         final int COLS_IN_LISTING = 1;
 
@@ -83,12 +105,12 @@ public class PageBrowse extends JPanel implements Page{
         JPanel pricePanel = new JPanel();
         JPanel sellerPanel = new JPanel();
         JButton viewItemButton = new JButton("VIEW");
-
+        viewItemButton.addActionListener(buttonListener);
         Font plainStyle = new Font("Courier", Font.PLAIN, 12);
 
         //UI/UX changes to list info
         JLabel itemContent = new JLabel(item);
-        JLabel priceContent = new JLabel(price);
+        JLabel priceContent = new JLabel(Double.toString(price));
         JLabel sellerContent = new JLabel(seller);
         JLabel itemHeader = new JLabel("ITEM: ");
         JLabel priceHeader = new JLabel("PRICE: ");
@@ -131,4 +153,31 @@ public class PageBrowse extends JPanel implements Page{
 
         return listing;
     }
+
+    private class ButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e){
+            System.out.println("in eh");
+            JButton button = (JButton) e.getSource();
+            if(button.getText().equals("VIEW")){
+                //TODO CALL METHOD TO SET UP ITEM VIEW PAGE IN ECOMMMERCECLIENT
+            }
+            if(button.getText().equals("HOME")){
+                //""
+            }
+            if(button.getText().equals("BROWSE")){
+                disp("in browse if");
+                transmit("BROWSE", client.getOutput());
+                transmit(client.getPageNum(), client.getOutput());
+                transmit(client.getBrowsePageCapacity(), client.getOutput());
+                client.getContentPane().removeAll();
+                client.add(PageBrowse.this);
+            }
+            if(button.getText().equals("LOGIN/SIGNUP")){
+                //""
+            }
+        }
+    }
+
 }

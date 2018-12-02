@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -15,14 +16,29 @@ public class ECommmerceClient extends JFrame
     private Socket client;
     private String host;
     private boolean hasAccount = false;
+
+    private PageBrowse pb;
+
     private ConcurrentHashMap<Item,Integer> cart = new ConcurrentHashMap<>();
 
     //GUI components/parameters
+    private int pageNum = 1;
     private int browsePageCapacity = 8;
 
     public ECommmerceClient(String host)
     {
+        super("O B E Y");
         this.host = host;
+    }
+
+    /**
+     * this method must be called, or pages will not be initialized
+     */
+    public void initializeGUI(){
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        pb = new PageBrowse(this);
+        this.add(pb);
+        this.setVisible(true);
     }
 
     public void runClient()
@@ -69,6 +85,10 @@ public class ECommmerceClient extends JFrame
 
                 switch (dataType)
                 {
+                    case "CONNECTION":
+                        String connectionResult = (String) input.readObject();
+                        disp(connectionResult);
+                        break;
                     case "SIGN-UP":
                         String signUpResult = (String) input.readObject();
                         if(signUpResult.equals("Sign-up successful"))
@@ -105,8 +125,23 @@ public class ECommmerceClient extends JFrame
                             }
                         }
 
-                        //TODO: Update Browser Page with listings
+                        pb.populate(listings);
 
+                        break;
+                    case "VIEW":
+                        String viewResult = (String) input.readObject();
+                        Item viewing;
+
+                        if(viewResult.equals("Valid item"))
+                        {
+                            viewing = (Item) input.readObject();
+                        }
+                        else
+                        {
+                            viewing = null;
+                        }
+
+                        //TODO: display the viewing item instance in the GUI
                         break;
                     case "PURCHASE":
                         String purchaseResult = (String) input.readObject();
@@ -173,6 +208,18 @@ public class ECommmerceClient extends JFrame
         }while(interact);
     }
 
+
+    public ObjectOutputStream getOutput() {
+        return output;
+    }
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public int getBrowsePageCapacity() {
+        return browsePageCapacity;
+    }
 
     //TODO: Display to sepcific GUI area (maybe using invokelater)
     private void toGUI(final String message)
