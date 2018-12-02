@@ -177,6 +177,7 @@ public class ECommerceServer
 
         private void interact()
         {
+            transmit("CONNECTION", output);
             transmit("Connection " + connectID + " successful", output); //Send connection successful message to client
             boolean interact = true;
 

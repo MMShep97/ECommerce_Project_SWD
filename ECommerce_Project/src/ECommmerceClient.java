@@ -83,6 +83,10 @@ public class ECommmerceClient extends JFrame
 
                 switch (dataType)
                 {
+                    case "CONNECTION":
+                        String connectionResult = (String) input.readObject();
+                        disp(connectionResult);
+                        break;
                     case "SIGN-UP":
                         String signUpResult = (String) input.readObject();
                         if(signUpResult.equals("Sign-up successful"))
