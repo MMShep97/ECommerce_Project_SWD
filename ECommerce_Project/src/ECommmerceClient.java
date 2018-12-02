@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static util.ECommerceUtilityMethods.*;
@@ -16,14 +17,15 @@ public class ECommmerceClient extends JFrame
     private Socket client;
     private String host;
     private boolean hasAccount = false;
-
-    private PageBrowse pb;
-
     private ConcurrentHashMap<Item,Integer> cart = new ConcurrentHashMap<>();
 
     //GUI components/parameters
     private int pageNum = 1;
     private int browsePageCapacity = 8;
+    private NavigationBar navBar;
+    private PageBrowse pb;
+    //private PageLogin loginPage;
+    //private PageHome homePage;
 
     public ECommmerceClient(String host)
     {
@@ -36,7 +38,8 @@ public class ECommmerceClient extends JFrame
      */
     public void initializeGUI(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        pb = new PageBrowse(this);
+        navBar = new NavigationBar();
+        pb = new PageBrowse(this, navBar);
         this.add(pb);
         this.setVisible(true);
     }
@@ -114,14 +117,14 @@ public class ECommmerceClient extends JFrame
                         }
                         break;
                     case "BROWSE":
-                        Item [] listings = new Item[browsePageCapacity];
+                        ArrayList<Item> listings = new ArrayList<>();
 
                         for(int i = 0; i < browsePageCapacity; i++)
                         {
                             Object item = input.readObject();
                             if(item != null)
                             {
-                                listings[i] = (Item) item;
+                                listings.add((Item) item);
                             }
                         }
 
