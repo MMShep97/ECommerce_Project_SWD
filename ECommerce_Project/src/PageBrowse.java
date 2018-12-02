@@ -225,6 +225,7 @@ public class PageBrowse extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e){
+            System.out.println("in eh");
             JButton button = (JButton) e.getSource();
             if(button.getText().equals("VIEW")){
                 //TODO CALL METHOD TO SET UP ITEM VIEW PAGE IN ECOMMMERCECLIENT
@@ -233,6 +234,7 @@ public class PageBrowse extends JPanel {
                 //""
             }
             if(button.getText().equals("BROWSE")){
+                disp("in browse if");
                 transmit("BROWSE", client.getOutput());
                 transmit(client.getPageNum(), client.getOutput());
                 transmit(client.getBrowsePageCapacity(), client.getOutput());

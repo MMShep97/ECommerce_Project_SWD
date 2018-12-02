@@ -16,7 +16,6 @@ public class ECommmerceClient extends JFrame
     private Socket client;
     private String host;
     private boolean hasAccount = false;
-    private JFrame frame;
 
     private PageBrowse pb;
 
@@ -28,15 +27,18 @@ public class ECommmerceClient extends JFrame
 
     public ECommmerceClient(String host)
     {
+        super("O B E Y");
         this.host = host;
-        frame = new JFrame("O B E Y");
     }
 
     /**
      * this method must be called, or pages will not be initialized
      */
     public void initializeGUI(){
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         pb = new PageBrowse(this);
+        this.add(pb);
+        this.setVisible(true);
     }
 
     public void runClient()
