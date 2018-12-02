@@ -24,9 +24,11 @@ public class ECommerceClient extends JFrame
     private int pageNum = 1;
     private int browsePageCapacity = 12;
     private NavigationBar navBar;
-    private PageBrowse pb;
-    private PageLogin loginPage;
     private PageHome homePage;
+    private PageBrowse pb;
+    private PageViewItem viewItemPage;
+    private PageShoppingCart cartPage;
+    private PageLogin loginPage;
 
     public ECommerceClient(String host)
     {
@@ -173,7 +175,13 @@ public class ECommerceClient extends JFrame
                                 viewing = null;
                             }
 
-                            //TODO: display the viewing item instance in the GUI
+                            if(viewing != null)
+                            {
+                                getContentPane().removeAll();
+                                viewItemPage = new PageViewItem(this, navBar, viewing);
+                                add(viewItemPage);
+                                revalidate();
+                            }
                             break;
                         case "PURCHASE":
                             String purchaseResult = (String) input.readObject();
@@ -235,6 +243,19 @@ public class ECommerceClient extends JFrame
             }
 
         }while(interact);
+    }
+
+    public void addToCart(Item item)
+    {
+        if(cart.putIfAbsent(item, 1) != null)
+        {
+            int quantity = cart.get(item);
+            cart.put(item, quantity+1);
+        }
+
+        navBar.updateCartLabel();
+        getContentPane().removeAll();
+        cartPage = new PageShoppingCart(this, navBar);
     }
 
     public void sendToServer(Serializable data) { transmit(data, output);}
