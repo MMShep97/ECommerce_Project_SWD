@@ -22,7 +22,7 @@ public class ECommmerceClient extends JFrame
     //GUI components/parameters
     private int pageNum = 1;
     private int browsePageCapacity = 8;
-    private NavigationBar navBar;
+    //private NavigationBar navBar;
     private PageBrowse pb;
     //private PageLogin loginPage;
     //private PageHome homePage;
