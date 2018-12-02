@@ -5,6 +5,8 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static util.ECommerceUtilityMethods.*;
@@ -278,6 +280,22 @@ public class ECommerceClient extends JFrame
     public void incrementPageNum() { pageNum++; }
 
     public void decrementPageNum() { pageNum--; }
+
+    /**
+     * @return the cart HashMap with keys of type Item and values of type Integer
+     */
+    public ConcurrentHashMap<Item, Integer> getCart() {
+        return cart;
+    }
+
+    public void updateCart(Item item, int quantity){
+        if(quantity == 0){
+            cart.remove(item);
+        }
+        else{
+            cart.put(item, quantity);
+        }
+    }
 
     private void successfulLoginSignUp()
     {
