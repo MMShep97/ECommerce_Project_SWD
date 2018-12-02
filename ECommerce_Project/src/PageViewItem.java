@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 
 import static util.PageUtilityMethods.loadImage;
 
+/**
+ * Displays page of individual item after user clicks on button for specified item
+ */
 public class PageViewItem extends JPanel
 {
     private ECommerceClient client;
