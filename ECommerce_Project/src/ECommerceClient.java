@@ -19,7 +19,7 @@ public class ECommerceClient extends JFrame
     private Socket client;
     private String host;
     private boolean hasAccount = false;
-    private String username;
+    private Account myAccount;
     private ConcurrentHashMap<Item,Integer> cart = new ConcurrentHashMap<>();
 
     //GUI components/parameters
@@ -107,7 +107,7 @@ public class ECommerceClient extends JFrame
                             String signUpResult = (String) input.readObject();
                             if (signUpResult.equals("Sign-up successful"))
                             {
-                                username = (String) input.readObject();
+                                myAccount = (Account) input.readObject();
                                 successfulLoginSignUp();
                             }
                             else
@@ -123,7 +123,7 @@ public class ECommerceClient extends JFrame
                             String loginResult = (String) input.readObject();
                             if (loginResult.equals("Login successful"))
                             {
-                                username = (String) input.readObject();
+                                myAccount = (Account) input.readObject();
                                 successfulLoginSignUp();
                             }
                             else
@@ -190,7 +190,7 @@ public class ECommerceClient extends JFrame
 
                             if (purchaseResult.equals("Purchase made successfully"))
                             {
-                                //TODO: Update Client GUI (purchase successful)
+
                             }
                             else if (purchaseResult.contains("There are no longer enough"))
                             {
@@ -258,13 +258,15 @@ public class ECommerceClient extends JFrame
         navBar.updateCartLabel();
         getContentPane().removeAll();
         cartPage = new PageShoppingCart(this, navBar);
+        add(cartPage);
+        revalidate();
     }
 
     public void sendToServer(Serializable data) { transmit(data, output);}
 
-    public String getUsername()
+    public Account getAccount()
     {
-        return hasAccount ? this.username : null;
+        return hasAccount ? this.myAccount : null;
     }
 
     public int getPageNum() {

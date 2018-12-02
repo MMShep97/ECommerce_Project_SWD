@@ -1,7 +1,12 @@
-public class Account
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class Account implements Serializable
 {
-    private final String username;
-    private final String password;
+    private String username;
+    private String password;
     private double credit;
 
     public Account(String username, String password)
@@ -42,5 +47,20 @@ public class Account
     public String toCSVFormat()
     {
         return getUsername()+","+this.password+","+getCredit()+"\n";
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException
+    {
+        out.writeObject(username);
+        out.writeObject(password);
+        out.writeObject(credit);
+
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+    {
+        username = (String) in.readObject();
+        password = (String) in.readObject();
+        credit = (double) in.readObject();
     }
 }
