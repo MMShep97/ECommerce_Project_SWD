@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class NavigationBar extends JPanel
 {
@@ -46,7 +48,21 @@ public class NavigationBar extends JPanel
 
     public void loggedIn()
     {
-        loginButton.setText("Signed in as: " + client.getUsername());
+        loginButton.setText("Signed in as: " + client.getAccount().getUsername() + " [$" + client.getAccount().getCredit() + "]");
+    }
+
+    public void updateCartLabel()
+    {
+        Collection<Integer> quantities = client.getCart().values();
+
+        int totalItems = 0;
+
+        for(int q : quantities)
+        {
+            totalItems += q;
+        }
+
+        cartButton.setText("CART (" + totalItems + ")");
     }
 
     public JButton getHomeButton()

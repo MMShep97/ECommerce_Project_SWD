@@ -261,7 +261,7 @@ public class ECommerceServer extends JFrame
                             if(accounts.putIfAbsent(username, new Account(username, password)) == null)
                             {
                                 transmit("Sign-up successful", output);
-                                transmit(username, output);
+                                transmit(accounts.get(username), output);
                             }
                             else
                             {
@@ -276,7 +276,7 @@ public class ECommerceServer extends JFrame
                             if(curAcct != null && curAcct.checkPassword(pass))
                             {
                                 transmit("Login successful", output);
-                                transmit(username, output);
+                                transmit(accounts.get(username), output);
                             }
                             else
                             {
