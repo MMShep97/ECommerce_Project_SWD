@@ -11,13 +11,6 @@ import java.io.IOException;
  */
 public class PageDriver extends JFrame {
 
-    //Throw in desired panels
-    PageDriver(JPanel panel1, JPanel panel2) {
-        add(panel1);
-        add(panel2);
-        configureDefaultSettings();
-    }
-
     //Might have 1 panel, might have 2, more variety
     PageDriver(JPanel panel) {
         add(panel);
@@ -51,10 +44,10 @@ public class PageDriver extends JFrame {
         ECommerceClient client = new ECommerceClient("localhost");
         NavigationBar navbar = new NavigationBar(client);
         PageListItem listItemPage = new PageListItem(client, navbar);
-//        PageBrowse browseSection = new PageBrowse(client);
+        PageBrowse browseSection = new PageBrowse(client, navbar);
 //        PageLogin loginSection = new PageLogin(client, navbar);
 //        PageHome homeSection = new PageHome(client, navbar);
-        PageDriver driver = new PageDriver(listItemPage);
+        PageDriver driver = new PageDriver(browseSection);
         driver.pack();
     }
 }

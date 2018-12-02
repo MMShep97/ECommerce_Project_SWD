@@ -46,12 +46,12 @@ public class PageBrowse extends JPanel{
         };
         listings.add(createListing(testImage, "Enchiladas", 23.42, "JANE DOE"));
         listings.add(createListing(testImage, "Enchiladas", 23.42, "SWINGWORKER"));
-//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-//        listings.add(createListing(testImage, "Enchiladas", "23.42", "JANE DOE"));
-//        listings.add(createListing(testImage, "Enchiladas", "23.42", "SWINGWORKER"));
-//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+        listings.add(createListing(testImage, "Enchiladas", 23.42, "THESE ENCHILADAS ARE TASTY!"));
+        listings.add(createListing(testImage, "Enchiladas", 23.42, "JANE DOE"));
+        listings.add(createListing(testImage, "Enchiladas", 23.42, "SWINGWORKER"));
+        listings.add(createListing(testImage, "Enchiladas", 23.42, "THESE ENCHILADAS ARE TASTY!"));
+        listings.add(createListing(testImage, "Enchiladas", 23.4, "THESE ENCHILADAS ARE TASTY!"));
+        listings.add(createListing(testImage, "Enchiladas", 23.42, "THESE ENCHILADAS ARE TASTY!"));
 //        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
 //        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
 
@@ -149,6 +149,69 @@ public class PageBrowse extends JPanel{
 
         return listing;
     }
+
+//    public JPanel createListing(BufferedImage image, String item, double price, String seller) {
+//        final int ROWS_IN_LISTING = 3;
+//        final int COLS_IN_LISTING = 1;
+//
+//        JPanel listingWrapper = new JPanel();
+//        JPanel listing = new JPanel();
+//        JPanel imageInfo = new JPanel();
+//        JPanel listingInfo = new JPanel();
+//        JPanel itemPanel = new JPanel();
+//        JPanel pricePanel = new JPanel();
+//        JPanel sellerPanel = new JPanel();
+//        JButton viewItemButton = new JButton("VIEW");
+//        viewItemButton.addActionListener(buttonListener);
+//        Font plainStyle = new Font("Courier", Font.PLAIN, 12);
+//
+//        //UI/UX changes to list info
+//        JLabel itemContent = new JLabel(item);
+//        JLabel priceContent = new JLabel(Double.toString(price));
+//        JLabel sellerContent = new JLabel(seller);
+//        JLabel itemHeader = new JLabel("ITEM: ");
+//        JLabel priceHeader = new JLabel("PRICE: ");
+//        JLabel sellerHeader = new JLabel("SELLER: ");
+//        itemContent.setFont(plainStyle);
+//        priceContent.setFont(plainStyle);
+//        sellerContent.setFont(plainStyle);
+//        itemContent.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//        priceContent.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//        sellerContent.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//        itemHeader.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//        priceHeader.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//        sellerHeader.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//
+//        //Encapsulating panel configuration
+//        listing.setLayout(new GridLayout(ROWS_IN_LISTING, COLS_IN_LISTING));
+//        listing.setMaximumSize(new Dimension(100, 100));
+//        listing.setBackground(Color.WHITE);
+//        listing.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//
+//        imageInfo.add(new JLabel(new ImageIcon(image)));
+//
+//        //Rows & col for panel that encapsulates item information
+//        final int INFO_ROWS = 3;
+//        final int INFO_COLS = 1;
+//
+//        //item information configuration
+//        listingInfo.setLayout(new GridLayout(INFO_ROWS, INFO_COLS));
+//        listingInfo.add(itemPanel.add(itemHeader));
+//        listingInfo.add(itemPanel.add(itemContent));
+//        listingInfo.add(pricePanel.add(priceHeader));
+//        listingInfo.add(priceContent);
+//        listingInfo.add(sellerPanel.add(sellerHeader));
+//        listingInfo.add(sellerContent);
+//
+//        //add all panels to encapsulating panel
+//        listing.add(imageInfo);
+//        listing.add(listingInfo);
+//        listing.add(viewItemButton);
+//
+//        listingWrapper.setLayout(new BoxLayout(listingWrapper, BoxLayout.Y_AXIS));
+//        listingWrapper.add(listing);
+//        return listingWrapper;
+//    }
 
     private class ButtonListener implements ActionListener {
 
