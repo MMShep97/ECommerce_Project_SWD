@@ -8,15 +8,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import java.util.ArrayList;
+
+import static util.ECommerceUtilityMethods.transmit;
 import static util.PageUtilityMethods.*;
 
 public class PageBrowse extends JPanel{
 
-    private JPanel listings;
-    private JButton homeButton;
-    private JButton browseButton;
-    private JButton loginButton;
     private NavigationBar navBar;
+    private JPanel listings;
+    private JPanel footer;
+    private JButton previous;
+    private JButton next;
+
 
     private ECommerceClient client;
     private ObjectInputStream input;
@@ -45,9 +48,27 @@ public class PageBrowse extends JPanel{
                 "http://www.digitalphotoartistry.com/rose1.jpg"
         };
 
+        //initialize swing components
+        this.footer = new JPanel();
+        previous = new JButton("Last");
+        next = new JButton("Next");
+
+        //Alter button colors
+        previous.setForeground(Color.BLACK);
+        next.setForeground(Color.BLACK);
+
+        //Add Action Listener to footer buttons
+        previous.addActionListener();
+        next.addActionListener();
+
+
+        footer.setBackground(Color.WHITE);
+        footer.add(previous);
+        footer.add(next);
+
         add(this.navBar, BorderLayout.NORTH);
         add(listings, BorderLayout.CENTER);
-        add(createFooter(), BorderLayout.SOUTH);
+        add(footer, BorderLayout.SOUTH);
     }
 
 
@@ -63,25 +84,9 @@ public class PageBrowse extends JPanel{
         removeAll();
         add(this.navBar, BorderLayout.NORTH);
         add(listings, BorderLayout.CENTER);
-        add(createFooter(), BorderLayout.SOUTH);
+        add(footer, BorderLayout.SOUTH);
     }
 
-
-    public JPanel createFooter() {
-        //initialize swing components
-        final JPanel wrapper = new JPanel();
-        final JButton previous = new JButton("Last");
-        final JButton next = new JButton("Next");
-
-        //Alter button colors
-        previous.setForeground(Color.BLACK);
-        next.setForeground(Color.BLACK);
-
-        wrapper.setBackground(Color.WHITE);
-        wrapper.add(previous);
-        wrapper.add(next);
-        return wrapper;
-    }
 
     public JPanel createListing(BufferedImage image, String item, double price, String seller) {
         final int ROWS_IN_LISTING = 3;
@@ -150,7 +155,21 @@ public class PageBrowse extends JPanel{
             JButton button = (JButton) e.getSource();
             if(button.getText().equals("VIEW"))
             {
-                //((JButton) e.getSource()).getParent().getComponent(1).get
+
+            }
+            else if(button.getText().equals("Next"))
+            {
+                client.
+
+                transmit("BROWSE", client.getOutput());
+                transmit(client.getPageNum(), client.getOutput());
+                transmit(client.getBrowsePageCapacity(), client.getOutput());
+                client.getContentPane().removeAll();
+                client.add(NavigationBar.this);
+            }
+            else if(button.getText().equals("Last"))
+            {
+
             }
         }
     }
