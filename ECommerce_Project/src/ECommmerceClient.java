@@ -122,6 +122,21 @@ public class ECommmerceClient extends JFrame
                         //TODO: Update Browser Page with listings
 
                         break;
+                    case "VIEW":
+                        String viewResult = (String) input.readObject();
+                        Item viewing;
+
+                        if(viewResult.equals("Valid item"))
+                        {
+                            viewing = (Item) input.readObject();
+                        }
+                        else
+                        {
+                            viewing = null;
+                        }
+
+                        //TODO: display the viewing item instance in the GUI
+                        break;
                     case "PURCHASE":
                         String purchaseResult = (String) input.readObject();
 
