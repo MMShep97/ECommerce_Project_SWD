@@ -58,8 +58,8 @@ public class PageBrowse extends JPanel{
         next.setForeground(Color.BLACK);
 
         //Add Action Listener to footer buttons
-        previous.addActionListener();
-        next.addActionListener();
+        previous.addActionListener(buttonListener);
+        next.addActionListener(buttonListener);
 
 
         footer.setBackground(Color.WHITE);
@@ -159,17 +159,21 @@ public class PageBrowse extends JPanel{
             }
             else if(button.getText().equals("Next"))
             {
-                client.
-
+                client.incrementPageNum();
                 transmit("BROWSE", client.getOutput());
                 transmit(client.getPageNum(), client.getOutput());
                 transmit(client.getBrowsePageCapacity(), client.getOutput());
                 client.getContentPane().removeAll();
-                client.add(NavigationBar.this);
+                client.add(navBar);
             }
             else if(button.getText().equals("Last"))
             {
-
+                client.decrementPageNum();
+                transmit("BROWSE", client.getOutput());
+                transmit(client.getPageNum(), client.getOutput());
+                transmit(client.getBrowsePageCapacity(), client.getOutput());
+                client.getContentPane().removeAll();
+                client.add(navBar);
             }
         }
     }

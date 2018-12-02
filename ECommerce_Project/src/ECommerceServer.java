@@ -240,18 +240,26 @@ public class ECommerceServer
                             int pageCapacity = (int) input.readObject();
                             ArrayList<Item> items = new ArrayList<>(inventory.values());
                             transmit("BROWSE", output);
-                            for(int i = ((pageNumber - 1) * pageCapacity); i < pageNumber * pageCapacity; i++)
+                            if(pageNumber*pageCapacity < items.size() && pageNumber > 0)
                             {
-                                transmit(items.get(i), output);
-                                if(i == items.size()-1)
+                                transmit("VALID", output);
+                                for (int i = ((pageNumber - 1) * pageCapacity); i < pageNumber * pageCapacity; i++)
                                 {
-                                    //If not enough items for a full page, transmit the rest of space as null, and exit loop
-                                    for(int j = 0; j < i - ((pageNumber-1)*pageCapacity); j++)
+                                    transmit(items.get(i), output);
+                                    if (i == items.size() - 1)
                                     {
-                                        transmit(null, output);
+                                        //If not enough items for a full page, transmit the rest of space as null, and exit loop
+                                        for (int j = 0; j < i - ((pageNumber - 1) * pageCapacity); j++)
+                                        {
+                                            transmit(null, output);
+                                        }
+                                        i = pageNumber * pageCapacity;
                                     }
-                                    i = pageNumber*pageCapacity;
                                 }
+                            }
+                            else
+                            {
+                                transmit("INVALID PAGE NUMBER", output);
                             }
                             break;
                         case "VIEW":

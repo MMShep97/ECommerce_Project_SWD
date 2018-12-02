@@ -121,22 +121,31 @@ public class ECommerceClient extends JFrame
                             }
                             break;
                         case "BROWSE":
-                            ArrayList<Item> listings = new ArrayList<>();
+                            String browseResult = (String) input.readObject();
 
-                            for (int i = 0; i < browsePageCapacity; i++)
+                            if(browseResult.equals("VALID"))
                             {
-                                Object item = input.readObject();
-                                if (item != null)
-                                {
-                                    listings.add((Item) item);
-                                }
-                            }
+                                ArrayList<Item> listings = new ArrayList<>();
 
-                            pb.populate(listings);
-                            getContentPane().removeAll();
-                            add(pb);
-                            revalidate();
-                            //repaint();
+                                for (int i = 0; i < browsePageCapacity; i++)
+                                {
+                                    Object item = input.readObject();
+                                    if (item != null)
+                                    {
+                                        listings.add((Item) item);
+                                    }
+                                }
+
+                                pb.populate(listings);
+                                getContentPane().removeAll();
+                                add(pb);
+                                //revalidate();
+                            }
+                            else
+                            {
+                                //TODO: IDK MAYBE BRO
+                                disp("Last page");
+                            }
                             break;
                         case "VIEW":
                             String viewResult = (String) input.readObject();
@@ -232,7 +241,9 @@ public class ECommerceClient extends JFrame
         return browsePageCapacity;
     }
 
+    public void incrementPageNum() { pageNum++; }
 
+    public void decrementPageNum() { pageNum--; }
 
     //TODO: Display to sepcific GUI area (maybe using invokelater)
     private void toGUI(final String message)

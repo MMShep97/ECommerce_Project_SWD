@@ -58,7 +58,7 @@ public class NavigationBar extends JPanel
             }
             else if(button.getText().equals("BROWSE")){
                 transmit("BROWSE", client.getOutput());
-                transmit(client.getPageNum(), client.getOutput());
+                transmit(1, client.getOutput());
                 transmit(client.getBrowsePageCapacity(), client.getOutput());
                 client.getContentPane().removeAll();
                 client.add(NavigationBar.this);
