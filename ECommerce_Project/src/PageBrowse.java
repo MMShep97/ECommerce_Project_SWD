@@ -16,13 +16,15 @@ import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import static util.PageUtilityMethods.*;
 
-public class PageBrowse extends JPanel implements Page{
+public class PageBrowse extends JPanel{
 
     private JPanel listings;
     private JButton homeButton;
     private JButton browseButton;
     private JButton loginButton;
+    private NavigationBar navBar;
 
     private ECommmerceClient client;
     private ObjectInputStream input;
@@ -34,9 +36,10 @@ public class PageBrowse extends JPanel implements Page{
 
     private BufferedImage[] images; //Get images passed in here somehow
 
-    public PageBrowse(ECommmerceClient client) {
+    public PageBrowse(ECommmerceClient client, JPanel navBar) {
 
         this.client = client;
+        this.navBar = (NavigationBar) navBar;
 
         setLayout(new BorderLayout(5, 10));
         setBorder(BorderFactory.createLineBorder(Color.WHITE));
@@ -44,7 +47,7 @@ public class PageBrowse extends JPanel implements Page{
 
         listings = new JPanel();
         listings.setLayout(new GridLayout(LISTING_ROWS, LISTING_COLUMNS));
-        BufferedImage testImage = Page.loadImage("https://farm2.staticflickr.com/1410/1385703004_0c7b798b98.jpg");
+        BufferedImage testImage = loadImage("https://farm2.staticflickr.com/1410/1385703004_0c7b798b98.jpg");
         String [] urls = {"https://farm2.staticflickr.com/1410/1385703004_0c7b798b98.jpg",
                 "http://www.mkyong.com/image/mypic.jpg",
                 "http://www.digitalphotoartistry.com/rose1.jpg"
@@ -61,7 +64,7 @@ public class PageBrowse extends JPanel implements Page{
 //        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
 
 
-        add(Page.createNavbar(), BorderLayout.NORTH);
+        add(this.navBar, BorderLayout.NORTH);
         add(listings);
         add(createFooter(), BorderLayout.SOUTH);
 
@@ -71,7 +74,7 @@ public class PageBrowse extends JPanel implements Page{
 
     public void populate(ArrayList<Item> items){
         for(int i = 0; i < items.size(); i++){
-            BufferedImage testImage = Page.loadImage(items.get(i).getImageURL());
+            BufferedImage testImage = loadImage(items.get(i).getImageURL());
             listings.add(createListing(testImage, items.get(i).getName(), items.get(i).getPrice(), items.get(i).getSeller()));
         }
     }
