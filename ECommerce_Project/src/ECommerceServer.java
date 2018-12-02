@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
@@ -223,12 +224,12 @@ public class ECommerceServer
                         case "BROWSE":
                             int pageNumber = (int) input.readObject();
                             int pageCapacity = (int) input.readObject();
-                            Item [] items = (Item []) inventory.values().toArray();
+                            ArrayList<Item> items = new ArrayList<>(inventory.values());
                             transmit("BROWSE", output);
                             for(int i = ((pageNumber - 1) * pageCapacity); i < pageNumber * pageCapacity; i++)
                             {
-                                transmit(items[i], output);
-                                if(i == items.length-1)
+                                transmit(items.get(i), output);
+                                if(i == items.size()-1)
                                 {
                                     //If not enough items for a full page, transmit the rest of space as null, and exit loop
                                     for(int j = 0; j < i - ((pageNumber-1)*pageCapacity); j++)
