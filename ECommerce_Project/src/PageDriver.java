@@ -1,10 +1,8 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Creates frame for application -- can pass in 'JPanels' (different pages) to constructor based on what interface developer
@@ -50,8 +48,8 @@ public class PageDriver extends JFrame {
     }
 
     public static void main(String [] args) {
-        ECommmerceClient client = new ECommmerceClient("localhost");
-        NavigationBar navbar = new NavigationBar();
+        ECommerceClient client = new ECommerceClient("localhost");
+        NavigationBar navbar = new NavigationBar(client);
         PageListItem listItemPage = new PageListItem(client, navbar);
 //        PageBrowse browseSection = new PageBrowse(client);
 //        PageLogin loginSection = new PageLogin(client, navbar);

@@ -13,7 +13,7 @@ public class ECommerceUtilityMethods
         System.out.println(message);
     }
 
-    synchronized public static void closeConnections(ObjectOutputStream out, ObjectInputStream in, Socket sock)
+    public static void closeConnections(ObjectOutputStream out, ObjectInputStream in, Socket sock)
     {
         try
         {
@@ -27,7 +27,7 @@ public class ECommerceUtilityMethods
         }
     }
 
-    synchronized public static void transmit(Serializable data, ObjectOutputStream output)
+    public static void transmit(Serializable data, ObjectOutputStream output)
     {
         try
         {

@@ -1,20 +1,12 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import static util.ECommerceUtilityMethods.*;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import static util.PageUtilityMethods.*;
 
@@ -26,7 +18,7 @@ public class PageBrowse extends JPanel{
     private JButton loginButton;
     private NavigationBar navBar;
 
-    private ECommmerceClient client;
+    private ECommerceClient client;
     private ObjectInputStream input;
     private ObjectOutputStream output;
 
@@ -36,7 +28,7 @@ public class PageBrowse extends JPanel{
 
     private BufferedImage[] images; //Get images passed in here somehow
 
-    public PageBrowse(ECommmerceClient client, NavigationBar navBar) {
+    public PageBrowse(ECommerceClient client, NavigationBar navBar) {
 
         this.client = client;
         this.navBar = navBar;
@@ -166,20 +158,6 @@ public class PageBrowse extends JPanel{
             JButton button = (JButton) e.getSource();
             if(button.getText().equals("VIEW")){
                 //TODO CALL METHOD TO SET UP ITEM VIEW PAGE IN ECOMMMERCECLIENT
-            }
-            if(button.getText().equals("HOME")){
-                //""
-            }
-            if(button.getText().equals("BROWSE")){
-                disp("in browse if");
-                transmit("BROWSE", client.getOutput());
-                transmit(client.getPageNum(), client.getOutput());
-                transmit(client.getBrowsePageCapacity(), client.getOutput());
-                client.getContentPane().removeAll();
-                client.add(PageBrowse.this);
-            }
-            if(button.getText().equals("LOGIN/SIGNUP")){
-                //""
             }
         }
     }

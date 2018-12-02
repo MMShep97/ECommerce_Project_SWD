@@ -3,10 +3,10 @@ import java.awt.*;
 
 public class PageListItem extends JPanel {
 
-    private ECommmerceClient client;
+    private ECommerceClient client;
     private NavigationBar navbar;
 
-    public PageListItem(ECommmerceClient clientObject, NavigationBar navBar) {
+    public PageListItem(ECommerceClient clientObject, NavigationBar navBar) {
 
         this.client = clientObject;
         this.navbar = navBar;

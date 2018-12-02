@@ -1,15 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import static util.ECommerceUtilityMethods.transmit;
 import static util.PageUtilityMethods.*;
 
 public class PageLogin extends JPanel{
 
-    private ECommmerceClient client;
+    private ECommerceClient client;
     private NavigationBar navBar;
 
 
-    public PageLogin(ECommmerceClient client, NavigationBar navBar) {
+    public PageLogin(ECommerceClient client, NavigationBar navBar) {
         this.navBar = navBar;
         setBackground(Color.WHITE);
         final JPanel topPanel = new JPanel();
@@ -59,5 +62,13 @@ public class PageLogin extends JPanel{
         loginPanel.add(new JButton("Cancel"), gbc);
 
         return loginPanel;
+    }
+
+    private class ButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e){
+            JButton button = (JButton) e.getSource();
+        }
     }
 }
