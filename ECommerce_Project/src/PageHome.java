@@ -13,7 +13,6 @@ public class PageHome extends JPanel {
         this.client = client;
         this.navBar = navBar;
 
-        JPanel logoPanel = new JPanel();
         String welcomeMessage = "Hi and welcome to our humble E-Commerce web application! Feel free to shop at your own peril.\n" +
                                 "We offer no warranties on our products and no discounts are allowed. Have a nice day and don't come again!";
         JPanel contentPanel = new JPanel();
@@ -31,7 +30,5 @@ public class PageHome extends JPanel {
 
         add(navBar, BorderLayout.NORTH);
         add(contentPanel, BorderLayout.CENTER);
-        add(navBar, BorderLayout.NORTH);
-        add(logoPanel, BorderLayout.CENTER);
     }
 }

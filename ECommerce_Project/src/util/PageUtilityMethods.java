@@ -21,7 +21,7 @@ public class PageUtilityMethods
     public static JPanel createLogoPanel() {
         JPanel imagePanel = new JPanel();
         BufferedImage logo = null;
-        final String path = "http://www.mkyong.com/image/mypic.jpg";
+        final String path = "https://farm2.staticflickr.com/1410/1385703004_0c7b798b98.jpg";
 
         try {
             logo = ImageIO.read(new URL(path));
