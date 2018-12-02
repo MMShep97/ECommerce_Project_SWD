@@ -28,7 +28,7 @@ public class PageHome extends JPanel {
         contentPanel.add(createLogoPanel());
         contentPanel.add(welcomePanel);
 
-        add(navBar, BorderLayout.NORTH);
+        add(this.navBar, BorderLayout.NORTH);
         add(contentPanel, BorderLayout.CENTER);
     }
 }

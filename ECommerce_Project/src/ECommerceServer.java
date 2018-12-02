@@ -69,26 +69,40 @@ public class ECommerceServer
 
     private void initializeMaps()
     {
-        //Inventory
-        Scanner invReader = new Scanner("ECommerce_Project/logs/inventoryLog.csv");
-        invReader.nextLine(); //Skip file path line
-
-        while (invReader.hasNextLine())
+        try
         {
-            String [] parsed = invReader.nextLine().split(",");
-            inventory.put(Integer.parseInt(parsed[0]), new Item(Integer.parseInt(parsed[0]), parsed[1], Double.parseDouble(parsed[2]), parsed[3], parsed[4], parsed[5], Integer.parseInt(parsed[6])));
+            //Inventory
+            Scanner invReader = new Scanner(new File("ECommerce_Project/logs/inventoryLog.csv"));
+            invReader.nextLine(); //Skip header line
+
+            while (invReader.hasNextLine())
+            {
+                String[] parsed = invReader.nextLine().split(",");
+                inventory.put(Integer.parseInt(parsed[0]), new Item(Integer.parseInt(parsed[0]), parsed[1], Double.parseDouble(parsed[2]), parsed[3], parsed[4], parsed[5], Integer.parseInt(parsed[6])));
+            }
+        }
+        catch (IOException ioe)
+        {
+            disp("Inventory log not found");
         }
 
-        //Accounts
-        Scanner acctReader = new Scanner("ECommerce_Project/logs/accountLog.csv");
-        acctReader.nextLine(); //Skip file path line
-
-        while (acctReader.hasNextLine())
+        try
         {
-            String[] parsed = acctReader.nextLine().split(",");
-            Account newAcct = new Account(parsed[0], parsed[1]);
-            newAcct.addFunds(Double.parseDouble(parsed[3]));
-            accounts.put(parsed[0], newAcct);
+            //Accounts
+            Scanner acctReader = new Scanner(new File("ECommerce_Project/logs/accountLog.csv"));
+            acctReader.nextLine(); //Skip header line
+
+            while (acctReader.hasNextLine())
+            {
+                String[] parsed = acctReader.nextLine().split(",");
+                Account newAcct = new Account(parsed[0], parsed[1]);
+                newAcct.addFunds(Double.parseDouble(parsed[2]));
+                accounts.put(parsed[0], newAcct);
+            }
+        }
+        catch (IOException ioe)
+        {
+            disp("Account log not found");
         }
     }
 
