@@ -65,15 +65,15 @@ public class PageDriver extends JFrame {
 
     public static void main(String [] args) {
         ECommmerceClient client = new ECommmerceClient("localhost");
-        PageBrowse browseSection = new PageBrowse(client);
-        PageLogin loginSection = new PageLogin();
+        //PageBrowse browseSection = new PageBrowse(client);
+        //PageLogin loginSection = new PageLogin();
         PageTest testSection = new PageTest();
-        PageHome homeSection = new PageHome();
-        PageDriver driver = new PageDriver(homeSection);
+        //PageHome homeSection = new PageHome();
+        //PageDriver driver = new PageDriver(homeSection);
 //        try {Thread.sleep(1300); } catch (InterruptedException ex) {}
 //        driver.changePage(loginSection);
 //        try {Thread.sleep(1400); } catch (InterruptedException ex) {}
 //        driver.changePage(testSection);
-        driver.pack();
+        //driver.pack();
     }
 }

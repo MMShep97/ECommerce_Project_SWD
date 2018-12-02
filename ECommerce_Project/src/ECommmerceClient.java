@@ -38,7 +38,8 @@ public class ECommmerceClient extends JFrame
      */
     public void initializeGUI(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        pb = new PageBrowse(this);
+        navBar = new NavigationBar();
+        pb = new PageBrowse(this, navBar);
         this.add(pb);
         this.setVisible(true);
     }
