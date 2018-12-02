@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static util.ECommerceUtilityMethods.*;
@@ -108,18 +109,18 @@ public class ECommmerceClient extends JFrame
                         }
                         break;
                     case "BROWSE":
-                        Item [] listings = new Item[browsePageCapacity];
+                        ArrayList<Item> listings = new ArrayList<>();
 
                         for(int i = 0; i < browsePageCapacity; i++)
                         {
                             Object item = input.readObject();
                             if(item != null)
                             {
-                                listings[i] = (Item) item;
+                                listings.add((Item) item);
                             }
                         }
-
                         //TODO: Update Browser Page with listings
+
 
                         break;
                     case "VIEW":

@@ -45,14 +45,13 @@ public class PageBrowse extends JPanel {
         listings = new JPanel();
         listings.setLayout(new GridLayout(LISTING_ROWS, LISTING_COLUMNS));
         BufferedImage testImage = loadImage("http://www.mkyong.com/image/mypic.jpg");
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "JANE DOE"));
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "SWINGWORKER"));
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
-        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "JANE DOE"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "SWINGWORKER"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
+//        listings.add(createListing(testImage, "Enchiladas", "23.42", "THESE ENCHILADAS ARE TASTY!"));
 
 
         add(createNavbar(), BorderLayout.NORTH);
@@ -68,6 +67,13 @@ public class PageBrowse extends JPanel {
             image = ImageIO.read(new URL(url));
         } catch (IOException ex) {}
         return image;
+    }
+
+    public void populate(Item[] items){
+        for(int i = 0; i < items.length; i++){
+            BufferedImage testImage = loadImage(items[i].getImageURL());
+            listings.add(createListing(testImage, items[i].getName(), items[i].getPrice(), items[i].getSeller()));
+        }
     }
 
 
@@ -116,7 +122,7 @@ public class PageBrowse extends JPanel {
         return navbar;
     }
 
-    public JPanel createListing(BufferedImage image, String item, String price, String seller) {
+    public JPanel createListing(BufferedImage image, String item, double price, String seller) {
         final int ROWS_IN_LISTING = 3;
         final int COLS_IN_LISTING = 1;
 
@@ -128,12 +134,10 @@ public class PageBrowse extends JPanel {
         JPanel sellerPanel = new JPanel();
         JButton viewItemButton = new JButton("VIEW");
         viewItemButton.addActionListener(buttonListener);
-
         Font plainStyle = new Font("Courier", Font.PLAIN, 12);
 
-
         JLabel itemContent = new JLabel(item);
-        JLabel priceContent = new JLabel(price);
+        JLabel priceContent = new JLabel(Double.toString(price));
         JLabel sellerContent = new JLabel(seller);
         JLabel itemHeader = new JLabel("ITEM: ");
         JLabel priceHeader = new JLabel("PRICE: ");
