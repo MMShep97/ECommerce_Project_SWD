@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * would like to utilize for startup screen. From there, developer can invoke <code>changePage(JPanel panel)</code> to alter
  * content of pane, essentially changing the current interface, or view.
  */
-public class PageDriver extends JFrame {
+public class PageDriver extends JFrame implements Page{
 
     //Throw in desired panels
     PageDriver(JPanel panel1, JPanel panel2) {

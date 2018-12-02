@@ -2,16 +2,15 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 public interface Page {
 
-    final JPanel navbar = new JPanel();
-    final JButton homeButton = new JButton("HOME");
-    final JButton browseButton = new JButton("BROWSE");
-    final JButton loginButton = new JButton("LOGIN/SIGNUP");
+    JPanel navbar = new JPanel();
+    JButton homeButton = new JButton("HOME");
+    JButton browseButton = new JButton("BROWSE");
+    JButton loginButton = new JButton("LOGIN/SIGNUP");
 
     static JPanel createNavbar() {
 
@@ -44,7 +43,7 @@ public interface Page {
     static JPanel createLogoPanel() {
         JPanel imagePanel = new JPanel();
         BufferedImage logo = null;
-        final String path = "http://www.mkyong.com/image/mypic.jpg";
+        final String path = "https://farm2.staticflickr.com/1410/1385703004_0c7b798b98.jpg";
 
         try {
             logo = ImageIO.read(new URL(path));
@@ -56,4 +55,5 @@ public interface Page {
 
         return imagePanel;
     }
+
 }
