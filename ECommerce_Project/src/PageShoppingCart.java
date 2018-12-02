@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,11 +15,14 @@ public class PageShoppingCart extends JPanel {
     private NavigationBar navbar;
     private ConcurrentHashMap<Item, Integer> cartItems;
     private ArrayList<JButton> removeButtons = new ArrayList<>();
+    private JButton cs = new JButton("Continue Shopping");
+    private JButton ba = new JButton("Buy All");
     private ButtonListener buttonListener = new ButtonListener();
-    private JPanel pagePanel = new JPanel();
-    private JPanel itemPanel = new JPanel();
 
     public PageShoppingCart(ECommerceClient client, NavigationBar navbar) {
+        JPanel itemPanel = new JPanel();
+        JPanel buttonPanel = new JPanel();
+        JPanel cartPanel = new JPanel();
         this.client = client;
         this.navbar = navbar;
         cartItems = client.getCart();
@@ -26,7 +30,9 @@ public class PageShoppingCart extends JPanel {
             removeButtons.add(new JButton("Remove"));
             removeButtons.get(i).addActionListener(buttonListener);
         }
-        pagePanel.setLayout(new BorderLayout());
+        setLayout(new BorderLayout(5, 10));
+        setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        setBackground(Color.WHITE);
         itemPanel.setLayout(new GridLayout(cartItems.size(), 3));
         Iterator<Item> it = cartItems.keySet().iterator();
         for(int i = 0; i < cartItems.size(); i++){
@@ -35,6 +41,17 @@ public class PageShoppingCart extends JPanel {
             itemPanel.add(new JLabel("Price: " + curItem.getPrice()));
             itemPanel.add(removeButtons.get(i));
         }
+        cartPanel.setLayout(new BorderLayout());
+        cartPanel.add(itemPanel, BorderLayout.CENTER);
+        cartPanel.add(new JLabel("Cart:"), BorderLayout.NORTH);
+        cs.addActionListener(buttonListener);
+        ba.addActionListener(buttonListener);
+        buttonPanel.setLayout(new GridLayout(1, 2));
+        buttonPanel.add(cs);
+        buttonPanel.add(ba);
+        cartPanel.add(buttonPanel, BorderLayout.SOUTH);
+        add(cartPanel, BorderLayout.CENTER);
+        add(navbar, BorderLayout.NORTH);
     }
 
     private class ButtonListener implements ActionListener{

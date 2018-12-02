@@ -3,6 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * User is 'redirected' or displayed a new page when the login/signup button featured on the navbar is clicked. This page
+ * creates the login page when instantiated and put into the frame. Login or signup information is input by the user, sent to the server
+ * to check validity / if the user already exists on signup, and sent back to the client. The GUI is updated accordingly to show
+ * the user the next correct steps to create.
+ */
 public class PageLogin extends JPanel{
 
     private ECommerceClient client;
@@ -14,7 +20,13 @@ public class PageLogin extends JPanel{
     private JPasswordField ptf;
     private ButtonListener buttonListener = new ButtonListener();
 
-
+    /**
+     * The GUI is comprised of the navbar and content. The content includes two JLabels (username and password) and two
+     * JTextFields which includes the ability for user input based on those JLabel's. An actionListener is used to check
+     * for user input on each button (login, signup, and cancel) in which the buttons each perform separate tasks.
+     * @param client
+     * @param navBar
+     */
     public PageLogin(ECommerceClient client, NavigationBar navBar) {
         this.client = client;
         this.navBar = navBar;
@@ -38,6 +50,10 @@ public class PageLogin extends JPanel{
         add(wrapper, BorderLayout.CENTER);
     }
 
+    /**
+     * Creates login panel to be used within THIS constructor
+     * @return -- login panel
+     */
     private JPanel createLoginPanel() {
         JPanel loginPanel = new JPanel();
 
@@ -99,19 +115,25 @@ public class PageLogin extends JPanel{
         utf.setText("You must login to proceed");
     }
 
+    /**
+     * Checks for button clicks by the user and acts accordingly to each individual button.
+     */
     private class ButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e){
             JButton button = (JButton)e.getSource();
+
+            //LOGIN SECTION
             if(button.getText().equals("Login")){
-                client.sendToServer("LOGIN");
-                client.sendToServer(utf.getText());
-                client.sendToServer(ptf.getPassword());
-                client.getContentPane().removeAll();
-                client.add(PageLogin.this);
-                client.revalidate();
+                client.sendToServer("LOGIN"); //Tell server which command is occurring
+                client.sendToServer(utf.getText()); //Grab user inputted username
+                client.sendToServer(ptf.getPassword()); //Grab user inputted password
+                client.getContentPane().removeAll(); //Removes current content from interface
+                client.add(PageLogin.this); //Adds updated page to interface
+                client.revalidate(); //Necessary when updating interface display
             }
+            //SIGN-UP SECTION
             else if(button.getText().equals("Sign-up"))
             {
                 client.sendToServer("SIGN-UP");
@@ -121,6 +143,7 @@ public class PageLogin extends JPanel{
                 client.add(PageLogin.this);
                 client.revalidate();
             }
+            //CANCEL SECTION
             else if(button.getText().equals("Cancel")){
                 client.getContentPane().removeAll();
                 client.add(new PageHome(client, navBar));

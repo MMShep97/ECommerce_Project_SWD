@@ -115,7 +115,9 @@ public class NavigationBar extends JPanel
             }
             else if(button.equals(cartButton))
             {
-
+                client.getContentPane().removeAll();
+                client.add(new PageShoppingCart(client, NavigationBar.this));
+                client.revalidate();
             }
             else if(button.equals(searchButton))
             {
