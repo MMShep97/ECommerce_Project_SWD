@@ -106,7 +106,7 @@ public class PageListItem extends JPanel {
                 if(loadImage(urlField.getText()) != null)
                 {
                     Item newListing = new Item(0, nameField.getText(), Double.parseDouble(priceField.getText()),
-                            client.getUsername(), descriptionField.getText(), urlField.getText(),
+                            client.getAccount().getUsername(), descriptionField.getText(), urlField.getText(),
                             Integer.parseInt(quantityField.getText()));
                     client.sendToServer("ADD LISTING");
                     client.sendToServer(newListing);
