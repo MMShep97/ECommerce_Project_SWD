@@ -17,12 +17,9 @@ public class NavigationBar extends JPanel
         this.client = client;
 
         //change color of buttons
-        homeButton.setBackground(Color.BLACK);
-        browseButton.setBackground(Color.BLACK);
-        loginButton.setBackground(Color.BLACK);
-        homeButton.setForeground(Color.WHITE);
-        browseButton.setForeground(Color.WHITE);
-        loginButton.setForeground(Color.WHITE);
+        homeButton.setForeground(Color.BLACK);
+        browseButton.setForeground(Color.BLACK);
+        loginButton.setForeground(Color.BLACK);
 
         //registering event handlers
         homeButton.addActionListener(buttonListener);
