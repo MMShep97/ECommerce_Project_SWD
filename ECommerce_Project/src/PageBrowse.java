@@ -15,6 +15,7 @@ import java.io.ObjectOutputStream;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class PageBrowse extends JPanel implements Page{
 
@@ -68,10 +69,10 @@ public class PageBrowse extends JPanel implements Page{
 
 
 
-    public void populate(Item[] items){
-        for(int i = 0; i < items.length; i++){
-            BufferedImage testImage = Page.loadImage(items[i].getImageURL());
-            listings.add(createListing(testImage, items[i].getName(), items[i].getPrice(), items[i].getSeller()));
+    public void populate(ArrayList<Item> items){
+        for(int i = 0; i < items.size(); i++){
+            BufferedImage testImage = Page.loadImage(items.get(i).getImageURL());
+            listings.add(createListing(testImage, items.get(i).getName(), items.get(i).getPrice(), items.get(i).getSeller()));
         }
     }
 
