@@ -223,8 +223,7 @@ public class ECommerceServer
                         case "BROWSE":
                             int pageNumber = (int) input.readObject();
                             int pageCapacity = (int) input.readObject();
-                            Item [] items = new Item[inventory.size()];
-                            inventory.values().toArray(items);
+                            Item [] items = (Item []) inventory.values().toArray();
                             transmit("BROWSE", output);
                             for(int i = ((pageNumber - 1) * pageCapacity); i < pageNumber * pageCapacity; i++)
                             {
