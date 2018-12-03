@@ -1,22 +1,18 @@
 LISTING_ID,NAME,PRICE,SELLER,DESCRIPTION,IMAGE_URL,QUANTITY
-1,Nutpicks,69.69,dkelly,nuff said,http://3.bp.blogspot.com/-8fcTwPfCjaA/ULZr_PH2N6I/AAAAAAAAB6M/BT4M8jQ0Mf0/s1600/pick+b+rs.jpg,6
-2,Pickle Rick,10.0,zalthof,It's a pickle its name is Rick,https://cdn.europosters.eu/image/750/posters/rick-and-morty-pickle-rick-i51002.jpg,8
-3,Samurai Sword,1000.42,mshep,It's hand-fordged bitch,https://www.swordsofnorthshire.com/image/data/testimonials/Beau%20Tarlton.jpg,2
-4,School Bus,150000.55,zalthof,Rode this bus cross country and she's a beaut,https://s.abcnews.com/images/US/school-bus-stock-gty-jef-181129_hpMain_16x9_1600.jpg,1
-5,Jetpack,1.0,zalthof,Yeehaw buddy,https://robbreportedit.files.wordpress.com/2018/09/turbine-flight-photo.jpg?w=1000,1
-6,Banana,0.69,It's a banana,mshep,https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/uh59Wh0/banana-cartoon-illustration-hand-drawn-animation-transparent_ekufai4__F0004.png,55
-7,Poop,0.0,LOLOLOLOL,dkelly,https://ih0.redbubble.net/image.278868307.0662/st%2Csmall%2C215x235-pad%2C210x230%2Cf8f8f8.lite-1u1.jpg,10000
-8,T-Rex,42.42,It's a big dinosaur dude,mshep,https://target.scene7.com/is/image/Target/GUEST_2dce1213-1f4a-40d7-9d9d-383dd5173c1a?wid=488&hei=488&fmt=pjpeg,7
-9,Sk8board,50.0,#SK8rLyfe,mshep,https://i.ytimg.com/vi/a0cx0688qx8/maxresdefault.jpg,9
-10,YoYo,6.74,It goes down and then comes back up,dkelly,https://static.seattletimes.com/wp-content/uploads/2017/02/c73e7188-fbb7-11e6-82d7-82c131fef7ef-1020x705.jpg,15
-11,Laser Enhanced Shark,509.5,This shark has a fricken laser beam on its fricken head,zalthof,https://www.thinkgeek.com/images/products/zoom/f2eb_shark_w_frickin_laser_pointer.jpg,4
-12,Bugger,1234.56,Picked it just for you,dkelly,http://2.bp.blogspot.com/-2U50sIQvZco/UTJhbkrYGLI/AAAAAAAACv0/uyMqeamYeig/s1600/guy-picking-nose.jpg,3
-13,YoYo,6.74,It goes down and then comes back up,dkelly,https://static.seattletimes.com/wp-content/uploads/2017/02/c73e7188-fbb7-11e6-82d7-82c131fef7ef-1020x705.jpg,15
-14,Sk8board,50.0,#SK8rLyfe,mshep,https://i.ytimg.com/vi/a0cx0688qx8/maxresdefault.jpg,9
-15,Samurai Sword,1000.42,mshep,It's hand-fordged bitch,https://www.swordsofnorthshire.com/image/data/testimonials/Beau%20Tarlton.jpg,2
-16,Nutpicks,69.69,dkelly,nuff said,http://3.bp.blogspot.com/-8fcTwPfCjaA/ULZr_PH2N6I/AAAAAAAAB6M/BT4M8jQ0Mf0/s1600/pick+b+rs.jpg,6
-17,Samurai Sword,1000.42,mshep,It's hand-fordged bitch,https://www.swordsofnorthshire.com/image/data/testimonials/Beau%20Tarlton.jpg,2
-18,Jetpack,1.0,zalthof,Yeehaw buddy,https://robbreportedit.files.wordpress.com/2018/09/turbine-flight-photo.jpg?w=1000,4
-19,Poop,0.0,LOLOLOLOL,dkelly,https://ih0.redbubble.net/image.278868307.0662/st%2Csmall%2C215x235-pad%2C210x230%2Cf8f8f8.lite-1u1.jpg,10000
-20,Bugger,1234.56,Picked it just for you,dkelly,http://2.bp.blogspot.com/-2U50sIQvZco/UTJhbkrYGLI/AAAAAAAACv0/uyMqeamYeig/s1600/guy-picking-nose.jpg,3
-21,Java How To Program,10.0,zalthof,Book of torture,https://images-na.ssl-images-amazon.com/images/I/617khD6E6NL._SX258_BO1,204
+1,Thermal Camera,472.22,dkelly,good for seeing people and animals in the dark or in bad visibility,https://www.ivytools.com/v/vspfiles/photos/FLIR-E75-42-2.jpg,6
+2,Pickle Rick,10.0,zalthof,It's a pickle its name is Rick and it has a very specific set of skills,https://cdn.europosters.eu/image/750/posters/rick-and-morty-pickle-rick-i51002.jpg,8
+3,Samurai Sword,1000.42,mshep,It's hand-forged,https://www.swordsofnorthshire.com/image/data/testimonials/Beau%20Tarlton.jpg,2
+4,Prison Bus,1500.55,zalthof,Rode this bus cross country and she's a beaut,https://s.abcnews.com/images/US/school-bus-stock-gty-jef-181129_hpMain_16x9_1600.jpg,1
+5,Jetpack,2000.50,zalthof,Eyes in the skies,https://robbreportedit.files.wordpress.com/2018/09/turbine-flight-photo.jpg?w=1000,1
+6,Banana,0.47,mshep,It takes energy to maintain your power. Fuel up with a healthy serving of potassium,https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/uh59Wh0/banana-cartoon-illustration-hand-drawn-animation-transparent_ekufai4__F0004.png,55
+7,360 Degree Camera,789.98,dkelly,Let's you see it all,https://www.spyeyeindia.com/wp-content/uploads/2017/04/360-vr-camera-celieng-copy.png,1000
+8,T-Rex,10000,mshep,Stamp down dissidents and rebellions,https://target.scene7.com/is/image/Target/GUEST_2dce1213-1f4a-40d7-9d9d-383dd5173c1a?wid=488&hei=488&fmt=pjpeg,7
+9,Skateboard,50.0,mshep,You'll be the coolest oppressor on the block,https://i.ytimg.com/vi/a0cx0688qx8/maxresdefault.jpg,9
+10,YoYo,6.74,dkelly,Useful as a hypnotization tool for brainwashing and information extraction,https://static.seattletimes.com/wp-content/uploads/2017/02/c73e7188-fbb7-11e6-82d7-82c131fef7ef-1020x705.jpg,15
+11,Laser Enhanced Shark,18500,zalthof,Patrol the seas with real power,https://www.thinkgeek.com/images/products/zoom/f2eb_shark_w_frickin_laser_pointer.jpg,4
+12,Big Brother,1234.56,dkelly,Picked just for you,https://zdnet2.cbsistatic.com/hub/i/r/2014/10/04/e3cde3bd-4bff-11e4-b6a0-d4ae52e95e57/resize/770xauto/18e0d9a4014defce2ed03afc3124daff/forget-the-nsa-orwells-1984-is-alive-and-well-in-private-industry.jpg,3
+13,Satellite,60000,zalthof,for spying,https://upload.wikimedia.org/wikipedia/commons/b/bc/Soyuz_TMA-7_spacecraft2edit1.jpg,4
+14,Russian Operative,500000,zalthof,Get the best of the best. Special skills include infiltration hacking and democracy sabotage,https://www.telegraph.co.uk/content/dam/news/2016/09/19/107781250_Russian_President_Vladimir_Putin_FOREIGN_trans_NvBQzQNjv4Bqul3YgLXf2lEf3afmzmy4CBwqMGiRceklAxJD1gpww2k.jpg?imwidth=450,1
+15,Bug,379.99,dkelly,Tiny microphone for covert audio surveillance,https://www.fullcompass.com/common/products/lgr/115736.jpg,800
+16,Bird Surveillance Drone,400,China,Discretely keep on eye on your beloved constituents from above,https://boygeniusreport.files.wordpress.com/2018/06/screen-shot-2018-06-26-at-10-16-56-am.png?w=782,3000
+17,Heat Ray,240000,dkelly,Easy nonlethal crowd control for you aspiring Machiavellians out there,https://breakingdefense.com/wp-content/uploads/sites/3/2013/11/active-denial-system-chart.jpg,140
