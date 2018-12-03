@@ -117,29 +117,33 @@ public class PageListItem extends JPanel {
         {
             try
             {
-                if(loadImage(urlField.getText()) != null) //Valid url
+                if(urlField.getText() != null && nameField.getText() != null && priceField.getText() != null &&
+                    descriptionField.getText() != null)
                 {
-                    double price = Double.parseDouble(priceField.getText());
-                    if(price < 0) throw new NumberFormatException("PRICE MUST BE NON-NEGATIVE");
-                    //Try to create new item from the user input information
-                    Item newListing = new Item(0, nameField.getText(), price,
-                            client.getAccount().getUsername(), descriptionField.getText(), urlField.getText(),
-                            Integer.parseInt(quantityField.getText()) > 0 ? Integer.parseInt(quantityField.getText()): 1);
-                    client.sendToServer("ADD LISTING");
-                    client.sendToServer(newListing);
-                    urlField.setText("SUCCESS");
-                    nameField.setText("SUCCESS");
-                    priceField.setText("SUCCESS");
-                    descriptionField.setText("SUCCESS");
-                    client.revalidate();
-                }
-                else
-                {
-                    //Invalid url message
-                    client.getContentPane().removeAll();
-                    client.add(PageListItem.this);
-                    urlField.setText("Invalid image url");
-                    client.revalidate();
+                    if(loadImage(urlField.getText()) != null) //Valid url
+                    {
+                        double price = Double.parseDouble(priceField.getText());
+                        if(price < 0) throw new NumberFormatException("PRICE MUST BE NON-NEGATIVE");
+                        //Try to create new item from the user input information
+                        Item newListing = new Item(0, nameField.getText(), price,
+                                client.getAccount().getUsername(), descriptionField.getText(), urlField.getText(),
+                                Integer.parseInt(quantityField.getText()) > 0 ? Integer.parseInt(quantityField.getText()): 1);
+                        client.sendToServer("ADD LISTING");
+                        client.sendToServer(newListing);
+                        urlField.setText("SUCCESS");
+                        nameField.setText("SUCCESS");
+                        priceField.setText("SUCCESS");
+                        descriptionField.setText("SUCCESS");
+                        client.revalidate();
+                    }
+                    else
+                    {
+                        //Invalid url message
+                        client.getContentPane().removeAll();
+                        client.add(PageListItem.this);
+                        urlField.setText("Invalid image url");
+                        client.revalidate();
+                    }
                 }
             }
             catch(NumberFormatException n) //Ensure valid price and quantity
