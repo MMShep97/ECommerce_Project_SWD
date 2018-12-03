@@ -330,16 +330,17 @@ public class ECommerceServer extends JFrame
                             Item inventoryItem = inventory.get(item.getListingID());
                             username = (String) input.readObject();
                             int quantityPurchased = (int) input.readObject();
+                            if(inventoryItem.getQuantity() < quantityPurchased) quantityPurchased = inventoryItem.getQuantity();
                             transmit("PURCHASE",output);
                             if(item.equals(inventoryItem))
                             {
                                 curAcct = accounts.get(username);
-                                if(curAcct != null && curAcct.makePurchase(item.getPrice()))
+                                if(curAcct != null && curAcct.makePurchase(item.getPrice()*quantityPurchased))
                                 {
                                     if(inventoryItem.purchased(quantityPurchased))
                                     {
                                         transmit("Purchase made successfully", output);
-                                        transmit(accounts.get(username), output);
+                                        transmit(item.getPrice()*quantityPurchased, output);
                                         disp(quantityPurchased + " " + inventoryItem.getName() + "s purchased by " + username);
 
                                         if(inventoryItem.getQuantity() == 0)
@@ -366,13 +367,9 @@ public class ECommerceServer extends JFrame
                             transmit("ADD CREDITS", output);
                             if(curAcct != null)
                             {
-                                disp(curAcct.getUsername() + ": " + curAcct.getCredit());
                                 curAcct.addFunds(credits);
-                                disp(curAcct.getCredit() + "");
-                                disp(accounts.put(username, curAcct).getCredit() + "");
                                 transmit("Credits added successfully", output);
-                                disp(accounts.get(username).getCredit() + "");
-                                transmit(accounts.get(username), output);
+                                transmit(credits, output);
                                 disp(credits + " credits added to " + username + "'s account");
                             }
                             else
@@ -382,7 +379,7 @@ public class ECommerceServer extends JFrame
                             break;
                         case "ADD LISTING":
                             Item newItem = (Item) input.readObject();
-                            newItem.setListingID(listingIDS.incrementAndGet());
+                            newItem.setListingID(listingIDS.getAndIncrement());
                             inventory.put(newItem.getListingID(), newItem);
                             transmit("ADD LISTING", output);
                             transmit(newItem.getName() + "added to listings", output);
@@ -393,6 +390,7 @@ public class ECommerceServer extends JFrame
                         case "SEARCH":
                             String query = (String) input.readObject();
                             Stack<Item> hits = new Stack<>();
+                            System.out.println("in SEARCH in server, query is : " + query);
 
                             for(Item i : inventory.values())
                             {

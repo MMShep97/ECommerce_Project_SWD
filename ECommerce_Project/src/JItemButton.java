@@ -4,8 +4,8 @@ public class JItemButton extends JButton {
 
     private Item item;
 
-    public JItemButton(String name, Item item){
-        super(name);
+    public JItemButton(String text, Item item){
+        super(text);
         this.item = item;
     }
 

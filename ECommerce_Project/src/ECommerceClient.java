@@ -33,7 +33,7 @@ public class ECommerceClient extends JFrame
     private PageBrowse pb;
     private PageViewItem viewItemPage;
     private PageShoppingCart cartPage;
-    //private PageSearch searchPage;
+    private PageSearch searchPage;
     private PageAddFunds addFundsPage;
     private PageLogin loginPage;
 
@@ -211,7 +211,7 @@ public class ECommerceClient extends JFrame
 
                             if (purchaseResult.equals("Purchase made successfully"))
                             {
-                                myAccount = (Account) input.readObject();
+                                myAccount.makePurchase((double) input.readObject());
                                 successfulLoginSignUp();
                             }
                             else if (purchaseResult.contains("There are no longer enough"))
@@ -229,9 +229,7 @@ public class ECommerceClient extends JFrame
 
                             if (addCreditsResult.equals("Credits added successfully"))
                             {
-                                disp(myAccount.getCredit() + "");
-                                myAccount = (Account) input.readObject(); //Update account
-                                disp(myAccount.getCredit() + "");
+                                myAccount.addFunds((double) input.readObject());
                                 successfulLoginSignUp(); //Updates navBar and reroutes back to homepage
                             }
                             else
@@ -257,10 +255,11 @@ public class ECommerceClient extends JFrame
                             }
 
                             //Update search page
+
                             getContentPane().removeAll();
-                            //searchPage = new PageSearch(this, navBar);
-                            //searchPage.results(results);
-                            //add(searchPage);
+                            searchPage = new PageSearch(this, navBar);
+                            searchPage.fetchResults(results);
+                            add(searchPage);
                             revalidate();
                             break;
                         case "TERMINATE": //If server terminates connection, done interacting

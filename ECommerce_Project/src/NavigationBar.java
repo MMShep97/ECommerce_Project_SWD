@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -65,7 +67,8 @@ public class NavigationBar extends JPanel
      */
     public void loggedIn()
     {
-        loginButton.setText(client.getAccount().getUsername() + " [$" + client.getAccount().getCredit() + "]");
+        NumberFormat formatter = new DecimalFormat("#0.00");
+        loginButton.setText(client.getAccount().getUsername() + " [" + formatter.format(client.getAccount().getCredit()) + "]");
     }
 
     /**
@@ -144,7 +147,9 @@ public class NavigationBar extends JPanel
             //SEARCH BUTTON
             else if(button.equals(searchButton))
             {
-
+                client.getContentPane().removeAll();
+                client.add(new PageSearch(client, NavigationBar.this));
+                client.revalidate();
             }
             //LOGIN BUTTON
             else if(button.equals(loginButton)){

@@ -17,6 +17,20 @@ public class Item implements Serializable
     private int quantity;
 
     /**
+     * Default constructor with dummy information
+     */
+    public Item(){
+        //default item (dummy)
+        this.listingID = -1;
+        this.name = "default";
+        this.price = -.9;
+        this.seller = "micic boroskov";
+        this.description = "russian nesting dolls";
+        this.quantity = -122;
+    }
+
+
+    /**
      * Brings in and stores all listing information
      * @param listingID -- key used within server's item map to retrieve/store items
      * @param name -- item name
