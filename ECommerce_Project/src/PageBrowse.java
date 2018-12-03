@@ -139,23 +139,6 @@ public class PageBrowse extends JPanel{
         listingInfo.add(sellerContent);
         listingInfoWrapper.add(listingInfo);
 
-/************************************************************/
-//        GridBagConstraints gbc = new GridBagConstraints();
-//        gbc.gridx = 0;
-//        gbc.gridy = 0;
-//        listing.add(imageInfo, gbc);
-//        gbc.gridy++;
-//        listing.add(listingInfo, gbc);
-//        gbc.gridy++;
-//        listing.add(viewItemButton, gbc);
-
- /*******************************************************/
-
-//        //add all panels to encapsulating panel
-//        listing.add(imageInfo);
-//        listing.add(listingInfo);
-//        listing.add(viewItemButton);
-
         listing.add(imageInfo, BorderLayout.NORTH);
         listing.add(listingInfoWrapper, BorderLayout.CENTER);
         listing.add(viewItemButton, BorderLayout.SOUTH);
