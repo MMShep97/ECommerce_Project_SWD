@@ -68,7 +68,7 @@ public class Account implements Serializable
     }
 
     /**
-     * Allows Account to be sent over ObjectOutputStream, defines order of sending
+     * Allows Account to be sent over ObjectOutputStream, defines order of sending (Serializable)
      * @param out
      * @throws IOException
      */
@@ -81,7 +81,7 @@ public class Account implements Serializable
     }
 
     /**
-     * Allows Account to be received over ObjectInputStream, defines order of reception
+     * Allows Account to be received over ObjectInputStream, defines order of reception (Serializable)
      * @param in
      * @throws IOException
      * @throws ClassNotFoundException

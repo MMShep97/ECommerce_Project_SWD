@@ -67,7 +67,7 @@ public class ECommerceClient extends JFrame
         {
             //Connect to server
             disp("Attempting to connect");
-            client = new Socket(InetAddress.getLocalHost(), ECommerceServer.PORT);
+            client = new Socket(InetAddress.getByName(host), ECommerceServer.PORT);
             disp("Connected to: " + client.getInetAddress().getHostName());
 
             //Get I/O streams
@@ -216,11 +216,17 @@ public class ECommerceClient extends JFrame
                             }
                             else if (purchaseResult.contains("There are no longer enough"))
                             {
-                                disp("Unable to purchase: not enough in stock");
+                                //Display error window
+                                JOptionPane.showMessageDialog(this, "Not enough " +
+                                        input.readObject() + " left in stock to fulfill order", "OUT OF STOCK",
+                                        JOptionPane.ERROR_MESSAGE);
                             }
                             else
                             {
-                                disp("Unable to purchase: insufficient funds");
+                                //Display error window
+                                JOptionPane.showMessageDialog(this, "Insufficient funds to purchase: "
+                                        + input.readObject(), "INSUFFICIENT FUNDS", JOptionPane.ERROR_MESSAGE);
+
                             }
                             break;
                         case "ADD CREDITS":
@@ -243,7 +249,7 @@ public class ECommerceClient extends JFrame
                             if (addListingResult.contains("added to listings"))
                             {
                                 transmit("VIEW", output); //Prompts server to open view page
-                                transmit((Item) input.readObject(), output); //Opens new listing in view page
+                                transmit(((Item) input.readObject()).getListingID(), output); //Opens new listing in view page
                             }
                             break;
                         case "SEARCH":

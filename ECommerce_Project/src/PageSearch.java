@@ -5,15 +5,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
 import static util.PageUtilityMethods.loadImage;
 
+/*
+ * This class represents a search page. It extends JPanel. We generate a search page object and add it to the
+ * ECommerceClient object client, which itself extends JFrame. So it's adding a new page basically to an existing frame
+ */
 public class PageSearch extends JPanel {
 
     private JPanel listings;
     private final int LISTING_ROWS = 2;
     private final int LISTING_COLUMNS = 6;
 
+    /*
+     * client is the client object that communicates with the server
+     * navbar is the NavigationBar object that appears at the top of each screen
+     * searchButton is the button users press to search
+     * buttonListener is the instance of our button action listener
+     * searchField is the text field users enter their query into
+     * searchPanel is the panel that holds the search bar, search button, and results
+     */
     private ECommerceClient client;
     private NavigationBar navbar;
     private JItemButton searchButton;
@@ -21,7 +32,9 @@ public class PageSearch extends JPanel {
     private JTextField searchField = new JTextField(40);
     private JPanel searchPanel = new JPanel();
 
-
+    /*
+     * This constructor sets up the search bar page GUI components, short of the results section
+     */
     public PageSearch(ECommerceClient client, NavigationBar navbar){
         this.client = client;
         this.navbar = navbar;
@@ -46,6 +59,11 @@ public class PageSearch extends JPanel {
         add(searchPanel, BorderLayout.SOUTH);
     }
 
+    /*
+     * fetchResults takes in the results array, which is a list of Items that the search turned up, and configures
+     * the name and price in a results JPanel that is added to searchPanel. It also adds a View button for each result,
+     * that if pressed makes a PageViewItem for the item and displays it on the screen
+     */
     public void fetchResults(ArrayList<Item> results){
 
         JPanel resultsPanel = new JPanel();
@@ -135,6 +153,11 @@ public class PageSearch extends JPanel {
         return listing;
     }
 
+    /*
+     * This class handles presses of the search button and all view buttons of different search results. If a search
+     * button is pressed it sends the search query found in the search text field to the server. If any result's view
+     * button is pressed a PageViewItem obejct is generated for the result and displayed for the user on the GUI
+     */
     private class ButtonListener implements ActionListener {
 
         @Override
@@ -151,7 +174,5 @@ public class PageSearch extends JPanel {
                 client.revalidate();
             }
         }
-
     }
-
 }

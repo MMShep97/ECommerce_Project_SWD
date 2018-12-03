@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 
 import static util.PageUtilityMethods.loadImage;
 
+/**
+ * Page for adding a listing from a seller
+ */
 public class PageListItem extends JPanel {
 
     private final JTextField urlField;
@@ -20,12 +23,17 @@ public class PageListItem extends JPanel {
     private final JButton submitButton;
 
     private ECommerceClient client;
-    private NavigationBar navbar;
+    private NavigationBar navBar;
 
+    /**
+     * Initializes page and stores client and navBar instances
+     * @param clientObject
+     * @param navBar
+     */
     public PageListItem(ECommerceClient clientObject, NavigationBar navBar) {
 
         this.client = clientObject;
-        this.navbar = navBar;
+        this.navBar = navBar;
 
         final int FIELD_COLUMNS = 20;
         urlField = new JTextField(FIELD_COLUMNS);
@@ -43,15 +51,18 @@ public class PageListItem extends JPanel {
 
 
         JPanel wrapper = new JPanel();
-        JPanel listingWrapper = new JPanel();
         setLayout(new BorderLayout(5, 5));
 
         wrapper.add(createlistItemPanel());
 
-        add(navbar, BorderLayout.NORTH);
+        add(this.navBar, BorderLayout.NORTH);
         add(wrapper, BorderLayout.CENTER);
     }
 
+    /**
+     * Structures the panel fields using GridBagLayout
+     * @return
+     */
     public JPanel createlistItemPanel() {
         JPanel listItemPanel = new JPanel();
 
@@ -96,6 +107,9 @@ public class PageListItem extends JPanel {
         return listItemPanel;
     }
 
+    /**
+     * Button listener for the add listing button, validates new entry, and sends to server to be added to inventory
+     */
     private class SellListener implements ActionListener
     {
         @Override
@@ -103,9 +117,12 @@ public class PageListItem extends JPanel {
         {
             try
             {
-                if(loadImage(urlField.getText()) != null)
+                if(loadImage(urlField.getText()) != null) //Valid url
                 {
-                    Item newListing = new Item(0, nameField.getText(), Double.parseDouble(priceField.getText()),
+                    double price = Double.parseDouble(priceField.getText());
+                    if(price < 0) throw new NumberFormatException("PRICE MUST BE NON-NEGATIVE");
+                    //Try to create new item from the user input information
+                    Item newListing = new Item(0, nameField.getText(), price,
                             client.getAccount().getUsername(), descriptionField.getText(), urlField.getText(),
                             Integer.parseInt(quantityField.getText()) > 0 ? Integer.parseInt(quantityField.getText()): 1);
                     client.sendToServer("ADD LISTING");
@@ -118,14 +135,16 @@ public class PageListItem extends JPanel {
                 }
                 else
                 {
+                    //Invalid url message
                     client.getContentPane().removeAll();
                     client.add(PageListItem.this);
                     urlField.setText("Invalid image url");
                     client.revalidate();
                 }
             }
-            catch(NumberFormatException n)
+            catch(NumberFormatException n) //Ensure valid price and quantity
             {
+                //Error message for invalid price or quantity
                 client.getContentPane().removeAll();
                 client.add(PageListItem.this);
                 System.out.println(n.getCause().toString());
