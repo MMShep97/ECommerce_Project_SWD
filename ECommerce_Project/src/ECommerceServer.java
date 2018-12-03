@@ -339,6 +339,7 @@ public class ECommerceServer extends JFrame
                                     if(inventoryItem.purchased(quantityPurchased))
                                     {
                                         transmit("Purchase made successfully", output);
+                                        transmit(accounts.get(username), output);
                                         disp(quantityPurchased + " " + inventoryItem.getName() + "s purchased by " + username);
 
                                         if(inventoryItem.getQuantity() == 0)
@@ -365,9 +366,13 @@ public class ECommerceServer extends JFrame
                             transmit("ADD CREDITS", output);
                             if(curAcct != null)
                             {
+                                disp(curAcct.getUsername() + ": " + curAcct.getCredit());
                                 curAcct.addFunds(credits);
+                                disp(curAcct.getCredit() + "");
+                                disp(accounts.put(username, curAcct).getCredit() + "");
                                 transmit("Credits added successfully", output);
-                                transmit(curAcct, output);
+                                disp(accounts.get(username).getCredit() + "");
+                                transmit(accounts.get(username), output);
                                 disp(credits + " credits added to " + username + "'s account");
                             }
                             else
@@ -383,6 +388,7 @@ public class ECommerceServer extends JFrame
                             transmit(newItem.getName() + "added to listings", output);
                             disp("Added: " + newItem.toString() + " to listings\n\tSeller: " + newItem.getSeller() +
                                     "\n\tQuantity: " + newItem.getQuantity());
+                            transmit(inventory.get((listingIDS.get()-1)), output);
                             break;
                         case "SEARCH":
                             String query = (String) input.readObject();
