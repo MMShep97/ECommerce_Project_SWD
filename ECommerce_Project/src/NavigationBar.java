@@ -167,6 +167,7 @@ public class NavigationBar extends JPanel
                     {
                         client.getContentPane().removeAll();
                         client.add(new PageAddFunds(client, NavigationBar.this));
+                        client.revalidate();
                     }
                 }
                 else
