@@ -67,7 +67,7 @@ public class ECommerceClient extends JFrame
         {
             //Connect to server
             disp("Attempting to connect");
-            client = new Socket(InetAddress.getLocalHost(), ECommerceServer.PORT);
+            client = new Socket(InetAddress.getByName(host), ECommerceServer.PORT);
             disp("Connected to: " + client.getInetAddress().getHostName());
 
             //Get I/O streams
