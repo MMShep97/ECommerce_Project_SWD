@@ -394,11 +394,13 @@ public class ECommerceServer extends JFrame
                                     else
                                     {
                                         transmit("There are no longer enough " + inventoryItem.getName() + "s in stock to fulfill the request", output);
+                                        transmit(inventoryItem.getName(), output);
                                     }
                                 }
                                 else
                                 {
                                     transmit("Insufficient credits", output);
+                                    transmit(inventoryItem.getName(), output);
                                 }
                             }
                             break;

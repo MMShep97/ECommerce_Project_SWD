@@ -216,11 +216,17 @@ public class ECommerceClient extends JFrame
                             }
                             else if (purchaseResult.contains("There are no longer enough"))
                             {
-                                disp("Unable to purchase: not enough in stock");
+                                //Display error window
+                                JOptionPane.showMessageDialog(this, "Not enough " +
+                                        input.readObject() + " left in stock to fulfill order", "OUT OF STOCK",
+                                        JOptionPane.ERROR_MESSAGE);
                             }
                             else
                             {
-                                disp("Unable to purchase: insufficient funds");
+                                //Display error window
+                                JOptionPane.showMessageDialog(this, "Insufficient funds to purchase: "
+                                        + input.readObject(), "INSUFFICIENT FUNDS", JOptionPane.ERROR_MESSAGE);
+
                             }
                             break;
                         case "ADD CREDITS":

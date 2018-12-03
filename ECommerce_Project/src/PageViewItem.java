@@ -18,6 +18,12 @@ public class PageViewItem extends JPanel
     private JButton buyNowButton;
     private JButton addToCartButton;
 
+    /**
+     * Initialize GUI components to view current Item
+     * @param client
+     * @param navBar
+     * @param item
+     */
     public PageViewItem(ECommerceClient client, NavigationBar navBar, Item item)
     {
         super(new BorderLayout());
@@ -25,9 +31,9 @@ public class PageViewItem extends JPanel
         this.navBar = navBar;
         this.item = item;
 
-        backButton = new JButton("BACK");
-        buyNowButton = new JButton("BUY NOW");
-        addToCartButton = new JButton("ADD TO CART");
+        backButton = new JButton("BACK"); //Allows user to return to browser
+        buyNowButton = new JButton("BUY NOW"); //Allows user to buy now
+        addToCartButton = new JButton("ADD TO CART"); //Allows user to add item to cart
 
         backButton.addActionListener(new ViewerButtonListener());
         buyNowButton.addActionListener(new ViewerButtonListener());
@@ -41,14 +47,21 @@ public class PageViewItem extends JPanel
         add(buttons, BorderLayout.SOUTH);
     }
 
+    /**
+     * Creates a listing panel for the input Item
+     * @param item
+     * @return
+     */
     private JPanel createListing(Item item)
     {
+        //Initialize listing fonts
         Font plainStyle = new Font("Courier", Font.PLAIN, 16);
         Font italicStyle = new Font("Courier", Font.ITALIC, 16);
 
-        JPanel listing = new JPanel(new GridLayout(2,1));
-        JPanel image = new JPanel();
-        JPanel listingInfo = new JPanel(new GridLayout(6,2));
+        //Initialize all panels
+        JPanel listing = new JPanel(new GridLayout(2,1)); //Parent panel
+        JPanel image = new JPanel(); //Image panel
+        JPanel listingInfo = new JPanel(new GridLayout(6,2)); //Item info panel
 
         //Adding image
         image.add(new JLabel(new ImageIcon(loadImage(item.getImageURL()))));
@@ -68,6 +81,7 @@ public class PageViewItem extends JPanel
         JLabel quantityLabel = new JLabel("Stock: ");
         quantityLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+        //Sets font of all labels
         listingIDLabel.setFont(plainStyle);
         nameLabel.setFont(plainStyle);
         priceLabel.setFont(plainStyle);
@@ -88,6 +102,7 @@ public class PageViewItem extends JPanel
         JLabel quantity = new JLabel(item.getQuantity() + " left");
         quantity.setHorizontalAlignment(SwingConstants.CENTER);
 
+        //Set fonts of all info
         listingID.setFont(plainStyle);
         name.setFont(plainStyle);
         price.setFont(plainStyle);
@@ -95,6 +110,7 @@ public class PageViewItem extends JPanel
         description.setFont(italicStyle);
         quantity.setFont(plainStyle);
 
+        //Adds all components to listingInfo panel
         listingInfo.add(listingIDLabel);
         listingInfo.add(listingID);
         listingInfo.add(nameLabel);
@@ -131,11 +147,16 @@ public class PageViewItem extends JPanel
         listing.setBackground(Color.WHITE);
         listing.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        return listing;
+        return listing; //Return listing panel for this Item
     }
 
+    /**
+     * Creates panel for all 3 buttons
+     * @return
+     */
     private JPanel createButtonsBar()
     {
+        //Panel to hold buttons
         JPanel buttons = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -153,6 +174,9 @@ public class PageViewItem extends JPanel
         return buttons;
     }
 
+    /**
+     * Button listener for all buttons on view page
+     */
     private class ViewerButtonListener implements ActionListener
     {
         @Override
@@ -160,16 +184,20 @@ public class PageViewItem extends JPanel
         {
             JButton button = (JButton) e.getSource();
 
+            //Determine which button was pressed
             if(button.equals(backButton))
             {
+                //Return user to browse page
                 client.sendToServer("BROWSE");
                 client.sendToServer(client.getPageNum());
                 client.sendToServer(client.getBrowsePageCapacity());
             }
             else
             {
+                //If not logged in cannot buy or add to cart
                 if(client.getAccount() == null)
                 {
+                    //Redirect to login page
                     client.getContentPane().removeAll();
                     PageLogin loginPg = new PageLogin(client, navBar);
                     loginPg.requireLoginSignUp();
@@ -180,6 +208,7 @@ public class PageViewItem extends JPanel
                 {
                     if(button.equals(buyNowButton))
                     {
+                        //Purchase item in viewer
                         client.sendToServer("PURCHASE");
                         client.sendToServer(PageViewItem.this.item);
                         client.sendToServer(client.getAccount().getUsername());
@@ -187,6 +216,7 @@ public class PageViewItem extends JPanel
                     }
                     else if(button.equals(addToCartButton))
                     {
+                        //Add item in viewer to the cart
                         client.addToCart(PageViewItem.this.item);
                     }
                 }
