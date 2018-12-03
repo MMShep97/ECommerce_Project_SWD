@@ -336,7 +336,7 @@ public class ECommerceServer extends JFrame
                                     if (i == items.size() - 1)
                                     {
                                         //If not enough items for a full page, transmit the rest of space as null, and exit loop
-                                        for (int j = 0; j < i - ((pageNumber - 1) * pageCapacity); j++)
+                                        for (int j = 0; j < pageNumber*pageCapacity - items.size(); j++)
                                         {
                                             transmit(null, output);
                                         }
