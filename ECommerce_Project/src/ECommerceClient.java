@@ -205,12 +205,14 @@ public class ECommerceClient extends JFrame
                             break;
                         case "ADD CREDITS":
                             String addCreditsResult = (String) input.readObject();
+                            addFundsPage = new PageAddFunds(this, navBar);
 
                             if (addCreditsResult.equals("Credits added successfully"))
                             {
                                 myAccount = (Account) input.readObject();
                                 getContentPane().removeAll();
                                 homePage = new PageHome(this, navBar);
+                                navBar.loggedIn();
                                 add(homePage);
                                 revalidate();
                             }
