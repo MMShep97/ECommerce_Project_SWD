@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import static util.PageUtilityMethods.*;
 
@@ -21,8 +22,9 @@ public class PageHome extends JPanel {
         this.client = client;
         this.navBar = navBar;
 
+        setBackground(Color.WHITE);
         String welcomeMessage = "Your one stop shop for all your population surveillance needs";
-        JPanel contentPanel = new JPanel();
+        JPanel contentPanel = new JPanel(new BorderLayout(5, 5));
         JPanel welcomePanel = new JPanel();
 
         welcomePanel.add(new JLabel(welcomeMessage));
@@ -33,8 +35,10 @@ public class PageHome extends JPanel {
 
         //Image and description are added to content panel i.e. below navbar
         contentPanel.setBackground(Color.WHITE);
-        contentPanel.add(createLogoPanel());
-        contentPanel.add(welcomePanel);
+        JPanel imagePanel = createLogoPanel();
+        imagePanel.setBackground(Color.WHITE);
+        contentPanel.add(imagePanel, BorderLayout.NORTH);
+        contentPanel.add(welcomePanel, BorderLayout.CENTER);
 
         //content & navbar added to encapsulating panel to be added to frame
         add(this.navBar, BorderLayout.NORTH);

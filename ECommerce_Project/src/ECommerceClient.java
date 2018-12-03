@@ -31,11 +31,6 @@ public class ECommerceClient extends JFrame
     private NavigationBar navBar;
     private PageHome homePage;
     private PageBrowse pb;
-    private PageViewItem viewItemPage;
-    private PageShoppingCart cartPage;
-    private PageSearch searchPage;
-    private PageAddFunds addFundsPage;
-    private PageLogin loginPage;
 
     public ECommerceClient(String host)
     {
@@ -112,6 +107,7 @@ public class ECommerceClient extends JFrame
                 //As long as data is not null, interpret
                 if(dataType != null)
                 {
+                    PageLogin loginPage;
                     switch (dataType)
                     {
                         case "CONNECTION": //Initial connection successful message
@@ -201,7 +197,7 @@ public class ECommerceClient extends JFrame
                             if(viewing != null)
                             {
                                 getContentPane().removeAll();
-                                viewItemPage = new PageViewItem(this, navBar, viewing);
+                                PageViewItem viewItemPage = new PageViewItem(this, navBar, viewing);
                                 add(viewItemPage);
                                 revalidate();
                             }
@@ -231,7 +227,7 @@ public class ECommerceClient extends JFrame
                             break;
                         case "ADD CREDITS":
                             String addCreditsResult = (String) input.readObject(); //Explains if credits were added properly
-                            addFundsPage = new PageAddFunds(this, navBar); //Reinitialize the addFundsPage
+                            PageAddFunds addFundsPage = new PageAddFunds(this, navBar);
 
                             if (addCreditsResult.equals("Credits added successfully"))
                             {
@@ -263,7 +259,7 @@ public class ECommerceClient extends JFrame
                             //Update search page
 
                             getContentPane().removeAll();
-                            searchPage = new PageSearch(this, navBar);
+                            PageSearch searchPage = new PageSearch(this, navBar);
                             searchPage.fetchResults(results);
                             add(searchPage);
                             revalidate();
@@ -307,7 +303,7 @@ public class ECommerceClient extends JFrame
 
         navBar.updateCartLabel();
         getContentPane().removeAll();
-        cartPage = new PageShoppingCart(this, navBar);
+        PageShoppingCart cartPage = new PageShoppingCart(this, navBar);
         add(cartPage);
         revalidate();
     }
