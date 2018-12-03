@@ -11,8 +11,8 @@ LISTING_ID,NAME,PRICE,SELLER,DESCRIPTION,IMAGE_URL,QUANTITY
 10,YoYo,6.74,dkelly,Useful as a hypnotization tool for brainwashing and information extraction,https://static.seattletimes.com/wp-content/uploads/2017/02/c73e7188-fbb7-11e6-82d7-82c131fef7ef-1020x705.jpg,15
 11,Laser Enhanced Shark,18500,zalthof,Patrol the seas with real power,https://www.thinkgeek.com/images/products/zoom/f2eb_shark_w_frickin_laser_pointer.jpg,4
 12,Big Brother,1234.56,dkelly,Picked just for you,https://zdnet2.cbsistatic.com/hub/i/r/2014/10/04/e3cde3bd-4bff-11e4-b6a0-d4ae52e95e57/resize/770xauto/18e0d9a4014defce2ed03afc3124daff/forget-the-nsa-orwells-1984-is-alive-and-well-in-private-industry.jpg,3
-13, Satellite, 60000, zalthof, for spying,https://upload.wikimedia.org/wikipedia/commons/b/bc/Soyuz_TMA-7_spacecraft2edit1.jpg, 4
-14,Russian Operative,500000, zalthof, Get the best of the best. Special skills include infiltration hacking and democracy sabotage,https://www.telegraph.co.uk/content/dam/news/2016/09/19/107781250_Russian_President_Vladimir_Putin_FOREIGN_trans_NvBQzQNjv4Bqul3YgLXf2lEf3afmzmy4CBwqMGiRceklAxJD1gpww2k.jpg?imwidth=450,1
-15, Bug, 379.99, dkelly, Tiny microphone for covert audio surveillance,https://www.fullcompass.com/common/products/lgr/115736.jpg, 800
-16, Bird Surveillance Drone, 400, China, Discretely keep on eye on your beloved constituents from above, https://boygeniusreport.files.wordpress.com/2018/06/screen-shot-2018-06-26-at-10-16-56-am.png?w=782, 3000
-17, Heat Ray, 240000, dkelly, Easy nonlethal crowd control for you soft dictators out there, https://breakingdefense.com/wp-content/uploads/sites/3/2013/11/active-denial-system-chart.jpg, 140
+13,Satellite,60000,zalthof,for spying,https://upload.wikimedia.org/wikipedia/commons/b/bc/Soyuz_TMA-7_spacecraft2edit1.jpg,4
+14,Russian Operative,500000,zalthof,Get the best of the best. Special skills include infiltration hacking and democracy sabotage,https://www.telegraph.co.uk/content/dam/news/2016/09/19/107781250_Russian_President_Vladimir_Putin_FOREIGN_trans_NvBQzQNjv4Bqul3YgLXf2lEf3afmzmy4CBwqMGiRceklAxJD1gpww2k.jpg?imwidth=450,1
+15,Bug,379.99,dkelly,Tiny microphone for covert audio surveillance,https://www.fullcompass.com/common/products/lgr/115736.jpg,800
+16,Bird Surveillance Drone,400,China,Discretely keep on eye on your beloved constituents from above,https://boygeniusreport.files.wordpress.com/2018/06/screen-shot-2018-06-26-at-10-16-56-am.png?w=782,3000
+17,Heat Ray,240000,dkelly,Easy nonlethal crowd control for you aspiring Machiavellians out there,https://breakingdefense.com/wp-content/uploads/sites/3/2013/11/active-denial-system-chart.jpg,140
