@@ -5,10 +5,9 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Collection;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Instantiated one time within the main method (navbar fixed to the top is created)
+ * Instantiated one time within the main method (navBar fixed to the top is created)
  * and thrown into each new page created/redirected to. Allows for the same <code>actionListener</code> to handle the navigation
  * through pages within the site based on the user's decision on which button to click to display a new page.
  */

@@ -70,6 +70,11 @@ public class Item implements Serializable
         return ((similarityCounter/((double)descriptWords.length)) > 0.75);
     }
 
+    /**
+     * Allows Item to be sent over ObjectStream, defines order members are transmitted (Serializable)
+     * @param out
+     * @throws IOException
+     */
     private void writeObject(ObjectOutputStream out) throws IOException
     {
         out.writeObject(listingID);
@@ -81,6 +86,12 @@ public class Item implements Serializable
         out.writeObject(quantity);
     }
 
+    /**
+     * Allows Item to be received over ObjectStream, defines order members are received (Serializable)
+     * @param in
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
         listingID = (int) in.readObject();
@@ -92,9 +103,18 @@ public class Item implements Serializable
         quantity = (int) in.readObject();
     }
 
+    /**
+     * Allows Item to be used as key in hash map without using default hashCode method from Object, reduces collisions
+     * @return
+     */
     @Override
     public int hashCode() { return listingID; }
 
+    /**
+     * Allows Item to be used as key in hash map
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o)
     {
@@ -188,7 +208,12 @@ public class Item implements Serializable
     {
         return quantity;
     }
-    
+
+    /**
+     * Called when item is purchased, returns true if sufficient stock, false if not  enough left
+     * @param num
+     * @return
+     */
     public boolean purchased(int num)
     {
         if(quantity - num >= 0)
@@ -202,12 +227,20 @@ public class Item implements Serializable
         }
     }
 
+    /**
+     * String representation of the Item
+     * @return
+     */
     @Override
     public String toString()
     {
         return "[" + getListingID() + "] " + getName() + ": " + getDescription();
     }
 
+    /**
+     * Formats the Item to a String with all members separated by commas for writing to csv
+     * @return
+     */
     public String toCSVFormat()
     {
         return getListingID()+","+getName()+","+getPrice()+","+getSeller()+","+getDescription()+","+getImageURL()+","+getQuantity() +"\n";

@@ -17,11 +17,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static util.ECommerceUtilityMethods.*;
 
+/**
+ * E-Commerce Server allows Clients to connect and buy/sell products
+ */
 public class ECommerceServer extends JFrame
 {
+    //Headers for csv files
     private final String INVENTORY_HEADER = "LISTING_ID,NAME,PRICE,SELLER,IMAGE_URL,QUANTITY\n";
     private final String ACCOUNT_HEADER = "USERNAME,PASSWORD,CREDITS\n";
 
+    //Network components
     private ServerSocket server;
     private ServerThread[] sockets;
     private ExecutorService executor;
@@ -32,25 +37,27 @@ public class ECommerceServer extends JFrame
     private int num_active_clients = 0;
     public static final int PORT = 23501;
 
-    //GUI Components
+    //GUI Component
     private JButton terminate;
 
-
+    /**
+     * Sets up terminate button and initializes maps from logs
+     */
     public ECommerceServer()
     {
         //Initializing terminate button GUI
         super("E-Commerce Server");
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter()
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); //Allows window listener to carry out closing procedure
+        addWindowListener(new WindowAdapter() //Add window listener for when window is closing
         {
             @Override
             public void windowClosing(WindowEvent e)
             {
-                updateLogs();
-                executor.shutdown();
-                dispose();
-                super.windowClosing(e);
-                System.exit(0);
+                updateLogs(); //Write maps to csv files
+                executor.shutdown(); //Shutdown executor service
+                dispose(); //Dispose of GUI
+                super.windowClosing(e); //Use super windowClosing to finish closing the GUI
+                System.exit(0); //End program
             }
         });
         JPanel serverGUI = new JPanel(new BorderLayout());
@@ -68,6 +75,9 @@ public class ECommerceServer extends JFrame
         initializeMaps();
     }
 
+    /**
+     * Looks for Clients to connect, starts new Clients in their own thread
+     */
     public void serve()
     {
         try
@@ -105,8 +115,12 @@ public class ECommerceServer extends JFrame
         }
     }
 
+    /**
+     * Initializes concurrency maps from the log csv files
+     */
     private void initializeMaps()
     {
+        //Try to open inventory log file
         try
         {
             //Inventory
@@ -115,11 +129,12 @@ public class ECommerceServer extends JFrame
 
             while (invReader.hasNextLine())
             {
+                //Add each item to the inventory map
                 String[] parsed = invReader.nextLine().split(",");
                 inventory.put(Integer.parseInt(parsed[0]), new Item(Integer.parseInt(parsed[0]), parsed[1], Double.parseDouble(parsed[2]), parsed[3], parsed[4], parsed[5], Integer.parseInt(parsed[6])));
             }
 
-            listingIDS = new AtomicInteger(inventory.size() + 1);
+            listingIDS = new AtomicInteger(inventory.size() + 1); //Initialize listingID counter to current value
             invReader.close(); //End reading inventory log csv
         }
         catch (IOException ioe)
@@ -127,6 +142,7 @@ public class ECommerceServer extends JFrame
             disp("Inventory log not found");
         }
 
+        //Try to open account log file
         try
         {
             //Accounts
@@ -135,6 +151,7 @@ public class ECommerceServer extends JFrame
 
             while (acctReader.hasNextLine())
             {
+                //Add each account to the accounts map
                 String[] parsed = acctReader.nextLine().split(",");
                 Account newAcct = new Account(parsed[0], parsed[1]);
                 newAcct.addFunds(Double.parseDouble(parsed[2]));
@@ -149,8 +166,12 @@ public class ECommerceServer extends JFrame
         }
     }
 
+    /**
+     * Called before properly shutting down the server, writes maps to appropriate csv logs for storage between server runs
+     */
     private void updateLogs()
     {
+        //Attempt to open both log files
         try
         {
             FileWriter invWriter = new FileWriter("ECommerce_Project/logs/inventoryLog.csv");
@@ -158,43 +179,56 @@ public class ECommerceServer extends JFrame
             invWriter.write(INVENTORY_HEADER); //Header line
             for (Item item : inventory.values())
             {
-                invWriter.write(item.toCSVFormat());
+                invWriter.write(item.toCSVFormat()); //Write each item in inventory to a line in csv
             }
 
             invWriter.close(); //End writing inventory log
+        }
+        catch(IOException ioe)
+        {
+            disp("Inventory log error");
+        }
 
+        try
+        {
             FileWriter acctWriter = new FileWriter("ECommerce_Project/logs/accountLog.csv");
             //Accounts
             acctWriter.write(ACCOUNT_HEADER); //Header line
             for (Account acct : accounts.values())
             {
-                acctWriter.write(acct.toCSVFormat());
+                acctWriter.write(acct.toCSVFormat()); //Write each account to a line in csv
             }
 
             acctWriter.close(); //End writing account log csv
         }
-        catch(IOException ioe)
+        catch (IOException ioe)
         {
-            ioe.printStackTrace();
+            disp("Account log error");
         }
+
     }
 
+    /**
+     * Inner class handles interactions with a client of the server in its own thread
+     */
     private class ServerThread implements Runnable
     {
         private ObjectOutputStream output;
         private ObjectInputStream input;
         private Socket connection;
         private int connectID;
-        private boolean active = false;
 
         public ServerThread(int connectID) { this.connectID = connectID; }
 
+        /**
+         * Run method implemented from Runnable allows thread to be executed by ExecutorService, running client interactions
+         * in own thread
+         */
         @Override
         public void run()
         {
             try
             {
-                active = true;
                 try
                 {
                     //Get I/O Streams
@@ -218,8 +252,6 @@ public class ECommerceServer extends JFrame
                     //Close connection and I/O streams
                     disp("Terminating connection " + connectID);
                     disp("Number of connections = " + num_active_clients);
-                    active = false;
-
                     closeConnections(output, input, connection);
                 }
             }
@@ -229,6 +261,10 @@ public class ECommerceServer extends JFrame
             }
         }
 
+        /**
+         * Waits for server to connect to the client
+         * @throws IOException
+         */
         private void waitForConnection() throws IOException
         {
             disp("Waiting for connection " + connectID);
@@ -236,11 +272,14 @@ public class ECommerceServer extends JFrame
             disp("Connection " + connectID + " received from: " + connection.getInetAddress().getHostName());
         }
 
+        /**
+         * Handles interactions with the client, receives and responds to input from object stream
+         */
         private void interact()
         {
             transmit("CONNECTION", output);
             transmit("Connection " + connectID + " successful", output); //Send connection successful message to client
-            boolean interact = true;
+            boolean interact = true; //Interact while client is connected
 
             //Process client transmissions
             do
@@ -248,22 +287,22 @@ public class ECommerceServer extends JFrame
                 //Read data and respond
                 try
                 {
-                    String dataType = (String) input.readObject();
+                    String dataType = (String) input.readObject(); //Identifies what data will come next
                     String username;
                     Account curAcct;
 
-                    switch (dataType)
+                    switch (dataType) //Determine what to do from sentinel input
                     {
                         case "SIGN-UP":
                             username = (String) input.readObject();
                             String password = new String((char []) input.readObject());
                             transmit("SIGN-UP", output);
-                            if(accounts.putIfAbsent(username, new Account(username, password)) == null)
+                            if(accounts.putIfAbsent(username, new Account(username, password)) == null) //If null, new account
                             {
                                 transmit("Sign-up successful", output);
                                 transmit(accounts.get(username), output);
                             }
-                            else
+                            else //Prior account in map returned if username already in use
                             {
                                 transmit("Username already exists", output);
                             }
@@ -273,7 +312,7 @@ public class ECommerceServer extends JFrame
                             String pass = new String((char []) input.readObject());
                             curAcct = accounts.get(username);
                             transmit("LOGIN", output);
-                            if(curAcct != null && curAcct.checkPassword(pass))
+                            if(curAcct != null && curAcct.checkPassword(pass)) //Check if account existed and password was correct
                             {
                                 transmit("Login successful", output);
                                 transmit(accounts.get(username), output);
@@ -288,7 +327,7 @@ public class ECommerceServer extends JFrame
                             int pageCapacity = (int) input.readObject();
                             ArrayList<Item> items = new ArrayList<>(inventory.values());
                             transmit("BROWSE", output);
-                            if(pageNumber*pageCapacity <= items.size() + pageCapacity && pageNumber > 0)
+                            if(pageNumber*pageCapacity <= items.size() + pageCapacity && pageNumber > 0) //Send the inventory items for the current page
                             {
                                 transmit("VALID", output);
                                 for (int i = ((pageNumber - 1) * pageCapacity); i < pageNumber * pageCapacity; i++)
@@ -301,7 +340,7 @@ public class ECommerceServer extends JFrame
                                         {
                                             transmit(null, output);
                                         }
-                                        i = pageNumber * pageCapacity;
+                                        i = pageNumber * pageCapacity; //exit loop
                                     }
                                 }
                             }
@@ -314,10 +353,10 @@ public class ECommerceServer extends JFrame
                             int listID = (int) input.readObject();
                             Item viewing = inventory.get(listID);
                             transmit("VIEW", output);
-                            if(viewing != null)
+                            if(viewing != null) //valid item in inventory
                             {
                                 transmit("Valid item", output);
-                                transmit(viewing, output);
+                                transmit(viewing, output); //Send item to be viewed to client
                                 disp("Connection " + connectID + " viewing " + viewing.getName());
                             }
                             else
@@ -330,11 +369,13 @@ public class ECommerceServer extends JFrame
                             Item inventoryItem = inventory.get(item.getListingID());
                             username = (String) input.readObject();
                             int quantityPurchased = (int) input.readObject();
+                            //If insufficient supplies remain in inventory, purchase remaining stores
                             if(inventoryItem.getQuantity() < quantityPurchased) quantityPurchased = inventoryItem.getQuantity();
                             transmit("PURCHASE",output);
-                            if(item.equals(inventoryItem))
+                            if(item.equals(inventoryItem)) //Check item is valid
                             {
                                 curAcct = accounts.get(username);
+                                //If valid account and sufficient funds tied to that account
                                 if(curAcct != null && curAcct.makePurchase(item.getPrice()*quantityPurchased))
                                 {
                                     if(inventoryItem.purchased(quantityPurchased))
@@ -343,6 +384,7 @@ public class ECommerceServer extends JFrame
                                         transmit(item.getPrice()*quantityPurchased, output);
                                         disp(quantityPurchased + " " + inventoryItem.getName() + "s purchased by " + username);
 
+                                        //If now out of stock remove from inventory
                                         if(inventoryItem.getQuantity() == 0)
                                         {
                                             inventory.remove(inventoryItem.getListingID());
@@ -379,8 +421,8 @@ public class ECommerceServer extends JFrame
                             break;
                         case "ADD LISTING":
                             Item newItem = (Item) input.readObject();
-                            newItem.setListingID(listingIDS.getAndIncrement());
-                            inventory.put(newItem.getListingID(), newItem);
+                            newItem.setListingID(listingIDS.getAndIncrement()); //Update listingID to current value in map
+                            inventory.put(newItem.getListingID(), newItem); //Create new listing and add it to the inventory
                             transmit("ADD LISTING", output);
                             transmit(newItem.getName() + "added to listings", output);
                             disp("Added: " + newItem.toString() + " to listings\n\tSeller: " + newItem.getSeller() +
@@ -392,13 +434,14 @@ public class ECommerceServer extends JFrame
                             Stack<Item> hits = new Stack<>();
                             System.out.println("in SEARCH in server, query is : " + query);
 
+                            //Compares each item in the inventory against the query
                             for(Item i : inventory.values())
                             {
-                                if(i.getName().equalsIgnoreCase(query))
+                                if(i.getName().equalsIgnoreCase(query)) //If equal add item to hit list
                                 {
                                     hits.push(i);
                                 }
-                                else
+                                else //If not compare name to each word in the query
                                 {
                                     double similarWords = 0.0;
                                     String [] queryWords = query.toUpperCase().split(" ");
@@ -407,18 +450,18 @@ public class ECommerceServer extends JFrame
                                         if(i.getName().toUpperCase().contains(w)) similarWords++;
                                     }
 
-                                    if((similarWords/((double) queryWords.length)) > 0.75) hits.push(i);
+                                    if((similarWords/((double) queryWords.length)) > 0.75) hits.push(i); //If query is 75% similar to name add to hit list
                                 }
                             }
 
                             transmit("SEARCH", output);
-                            transmit(hits.size(), output);
-                            while(!hits.empty())
+                            transmit(hits.size(), output); //Send how many hits are coming
+                            while(!hits.empty()) //Send each hit individually
                             {
                                 transmit(hits.pop(), output);
                             }
                             break;
-                        case "TERMINATE":
+                        case "TERMINATE": //Client terminated connection
                             interact = false;
                             break;
                         default:
@@ -441,6 +484,9 @@ public class ECommerceServer extends JFrame
         }
     }
 
+    /**
+     * Terminate button listener provides same functionality as windowListener: ensuring logs are updated before closing
+     */
     private class StopServerButtonListener implements ActionListener
     {
         @Override
