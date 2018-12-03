@@ -296,15 +296,17 @@ public class ECommerceServer extends JFrame
                         case "SIGN-UP":
                             username = (String) input.readObject();
                             String password = new String((char []) input.readObject());
-                            transmit("SIGN-UP", output);
-                            if(accounts.putIfAbsent(username, new Account(username, password)) == null) //If null, new account
+                            if(!username.equals("Username already exists") && !username.isEmpty())
                             {
-                                transmit("Sign-up successful", output);
-                                transmit(accounts.get(username), output);
-                            }
-                            else //Prior account in map returned if username already in use
-                            {
-                                transmit("Username already exists", output);
+                                transmit("SIGN-UP", output);
+                                if (accounts.putIfAbsent(username, new Account(username, password)) == null) //If null, new account
+                                {
+                                    transmit("Sign-up successful", output);
+                                    transmit(accounts.get(username), output);
+                                } else //Prior account in map returned if username already in use
+                                {
+                                    transmit("Username already exists", output);
+                                }
                             }
                             break;
                         case "LOGIN":
