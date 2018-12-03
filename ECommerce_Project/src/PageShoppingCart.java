@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+/*
+ * An object that represents
+ */
 public class PageShoppingCart extends JPanel {
 
     private ECommerceClient client;
