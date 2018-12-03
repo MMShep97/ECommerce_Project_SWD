@@ -107,7 +107,9 @@ public class NavigationBar extends JPanel
             }
             else if(button.equals(searchButton))
             {
-
+                client.getContentPane().removeAll();
+                client.add(new PageSearch(client, NavigationBar.this));
+                client.revalidate();
             }
             else if(button.equals(loginButton)){
                 client.getContentPane().removeAll();

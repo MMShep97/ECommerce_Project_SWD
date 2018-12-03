@@ -387,6 +387,7 @@ public class ECommerceServer extends JFrame
                         case "SEARCH":
                             String query = (String) input.readObject();
                             Stack<Item> hits = new Stack<>();
+                            System.out.println("in SEARCH in server, query is : " + query);
 
                             for(Item i : inventory.values())
                             {

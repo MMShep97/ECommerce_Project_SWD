@@ -30,7 +30,7 @@ public class ECommerceClient extends JFrame
     private PageBrowse pb;
     private PageViewItem viewItemPage;
     private PageShoppingCart cartPage;
-    //private PageSearch searchPage;
+    private PageSearch searchPage;
     private PageAddFunds addFundsPage;
     private PageLogin loginPage;
 
@@ -235,11 +235,10 @@ public class ECommerceClient extends JFrame
                             {
                                 results.add((Item) input.readObject());
                             }
-
                             getContentPane().removeAll();
-                            //searchPage = new PageSearch(this, navBar);
-                            //searchPage.results(results);
-                            //add(searchPage);
+                            searchPage = new PageSearch(this, navBar);
+                            searchPage.fetchResults(results);
+                            add(searchPage);
                             revalidate();
                             break;
                         case "TERMINATE":

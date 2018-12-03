@@ -13,6 +13,17 @@ public class Item implements Serializable
     private String imageURL;
     private int quantity;
 
+    public Item(){
+        //default item (dummy)
+        this.listingID = -1;
+        this.name = "default";
+        this.price = -.9;
+        this.seller = "micic boroskov";
+        this.description = "russian nesting dolls";
+        this.quantity = -122;
+    }
+
+
     public Item(int listingID, String name, double price, String seller, String description, String imageURL, int initQuantity)
     {
         this.listingID = listingID;
