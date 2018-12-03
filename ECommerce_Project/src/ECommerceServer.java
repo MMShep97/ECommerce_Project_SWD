@@ -23,7 +23,7 @@ import static util.ECommerceUtilityMethods.*;
 public class ECommerceServer extends JFrame
 {
     //Headers for csv files
-    private final String INVENTORY_HEADER = "LISTING_ID,NAME,PRICE,SELLER,IMAGE_URL,QUANTITY\n";
+    private final String INVENTORY_HEADER = "LISTING_ID,NAME,PRICE,SELLER,DESCRIPTION,IMAGE_URL,QUANTITY\n";
     private final String ACCOUNT_HEADER = "USERNAME,PASSWORD,CREDITS\n";
 
     //Network components
@@ -380,6 +380,7 @@ public class ECommerceServer extends JFrame
                                 {
                                     if(inventoryItem.purchased(quantityPurchased))
                                     {
+                                        inventory.put(inventoryItem.getListingID(), inventoryItem);
                                         transmit("Purchase made successfully", output);
                                         transmit(item.getPrice()*quantityPurchased, output);
                                         disp(quantityPurchased + " " + inventoryItem.getName() + "s purchased by " + username);

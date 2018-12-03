@@ -184,16 +184,12 @@ public class PageBrowse extends JPanel{
                     client.sendToServer("BROWSE"); //Still on browse page
                     client.sendToServer(client.getPageNum());
                     client.sendToServer(client.getBrowsePageCapacity());
-                    client.getContentPane().removeAll();
-                    client.add(navBar);
                     break;
                 case "Last":
                     client.decrementPageNum();
                     client.sendToServer("BROWSE");
                     client.sendToServer(client.getPageNum());
                     client.sendToServer(client.getBrowsePageCapacity());
-                    client.getContentPane().removeAll();
-                    client.add(navBar);
                     break;
             }
         }
