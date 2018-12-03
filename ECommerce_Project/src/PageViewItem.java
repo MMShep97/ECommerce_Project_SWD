@@ -182,6 +182,8 @@ public class PageViewItem extends JPanel
                     {
                         client.sendToServer("PURCHASE");
                         client.sendToServer(PageViewItem.this.item);
+                        client.sendToServer(client.getAccount().getUsername());
+                        client.sendToServer(1);
                     }
                     else if(button.equals(addToCartButton))
                     {
