@@ -249,7 +249,7 @@ public class ECommerceClient extends JFrame
                             if (addListingResult.contains("added to listings"))
                             {
                                 transmit("VIEW", output); //Prompts server to open view page
-                                transmit((Item) input.readObject(), output); //Opens new listing in view page
+                                transmit(((Item) input.readObject()).getListingID(), output); //Opens new listing in view page
                             }
                             break;
                         case "SEARCH":
