@@ -23,7 +23,7 @@ public class Item implements Serializable
         //default item (dummy)
         this.listingID = -1;
         this.name = "default";
-        this.price = -.9;
+        this.price = 1.23456789;
         this.seller = "micic boroskov";
         this.description = "russian nesting dolls";
         this.quantity = -122;
