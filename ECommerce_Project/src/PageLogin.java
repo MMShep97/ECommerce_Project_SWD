@@ -95,8 +95,7 @@ public class PageLogin extends JPanel{
         client.getContentPane().removeAll();
         client.add(PageLogin.this);
         client.revalidate();
-        utf.setText("Invalid");
-        ptf.setText("Username or Password");
+        utf.setText("Invalid username or password");
     }
 
     public void usernameAlreadyExists()
