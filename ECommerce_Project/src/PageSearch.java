@@ -44,7 +44,9 @@ public class PageSearch extends JPanel {
         for(Item i:results){
             hitsPanel.add(new JLabel(i.getName()));
             hitsPanel.add(new JLabel(Double.toString(i.getPrice())));
-            buttonsPanel.add(new JItemButton("View", i));
+            JItemButton newButton = new JItemButton("View", i);
+            newButton.addActionListener(buttonListener);
+            buttonsPanel.add(newButton);
         }
         resultsPanel.add(hitsPanel, BorderLayout.CENTER);
         resultsPanel.add(buttonsPanel, BorderLayout.EAST);
@@ -58,9 +60,7 @@ public class PageSearch extends JPanel {
         public void actionPerformed(ActionEvent e){
             JItemButton button = (JItemButton) e.getSource();
             if(button.getText().equals("Search")){
-                System.out.println("in search reactor");
                 client.sendToServer("SEARCH");
-                System.out.println("yarp");
                 client.sendToServer(searchField.getText());
             }
             else{
