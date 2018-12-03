@@ -90,6 +90,10 @@ public class PageLogin extends JPanel{
         return loginPanel;
     }
 
+    /**
+     * Used within <code>ECommerceClient</code> method <code>Interact()</code> within the switch statement case "LOGIN" to check
+     * if the username or password input is invalid and updates gui accordingly.
+     */
     public void invalidUsernameOrPassword()
     {
         client.getContentPane().removeAll();
@@ -98,6 +102,10 @@ public class PageLogin extends JPanel{
         utf.setText("Invalid username or password");
     }
 
+    /**
+     * Used within <code>ECommerceClient</code> method <code>Interact()</code> within the switch statement case "SIGN-UP" to check
+     * if the username input already exists and updates gui accordingly.
+     */
     public void usernameAlreadyExists()
     {
         client.getContentPane().removeAll();
@@ -106,6 +114,10 @@ public class PageLogin extends JPanel{
         utf.setText("Username already exists");
     }
 
+    /**
+     * Used within <code>NavigationBar</code> and </code><code>PageViewItem</code> methods <code>actionPerformed</code> that are attached to the
+     * respective buttons to check everytime a user attempts to access some restricted content an unregistered user should not be able to access.
+     */
     public void requireLoginSignUp()
     {
         client.getContentPane().removeAll();

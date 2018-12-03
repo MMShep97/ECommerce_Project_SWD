@@ -79,7 +79,16 @@ public class PageShoppingCart extends JPanel {
                 client.sendToServer(client.getBrowsePageCapacity());
             }
             else if(button.getText().equals("Buy All")){
-                // attempt to buy and adjust funds
+                Set<Map.Entry<Item, Integer>> cart = client.getCart().entrySet();
+
+                for(Map.Entry<Item, Integer> entry : cart)
+                {
+                    client.sendToServer("PURCHASE");
+                    client.sendToServer(entry.getKey());
+                    client.sendToServer(client.getAccount().getUsername());
+                    client.sendToServer(entry.getValue());
+                    client.getCart().remove(entry);
+                }
 
             }
         }

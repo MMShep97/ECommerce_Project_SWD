@@ -330,15 +330,17 @@ public class ECommerceServer extends JFrame
                             Item inventoryItem = inventory.get(item.getListingID());
                             username = (String) input.readObject();
                             int quantityPurchased = (int) input.readObject();
+                            if(inventoryItem.getQuantity() < quantityPurchased) quantityPurchased = inventoryItem.getQuantity();
                             transmit("PURCHASE",output);
                             if(item.equals(inventoryItem))
                             {
                                 curAcct = accounts.get(username);
-                                if(curAcct != null && curAcct.makePurchase(item.getPrice()))
+                                if(curAcct != null && curAcct.makePurchase(item.getPrice()*quantityPurchased))
                                 {
                                     if(inventoryItem.purchased(quantityPurchased))
                                     {
                                         transmit("Purchase made successfully", output);
+                                        transmit(item.getPrice()*quantityPurchased, output);
                                         disp(quantityPurchased + " " + inventoryItem.getName() + "s purchased by " + username);
 
                                         if(inventoryItem.getQuantity() == 0)
@@ -367,7 +369,7 @@ public class ECommerceServer extends JFrame
                             {
                                 curAcct.addFunds(credits);
                                 transmit("Credits added successfully", output);
-                                transmit(curAcct, output);
+                                transmit(credits, output);
                                 disp(credits + " credits added to " + username + "'s account");
                             }
                             else
@@ -377,12 +379,13 @@ public class ECommerceServer extends JFrame
                             break;
                         case "ADD LISTING":
                             Item newItem = (Item) input.readObject();
-                            newItem.setListingID(listingIDS.incrementAndGet());
+                            newItem.setListingID(listingIDS.getAndIncrement());
                             inventory.put(newItem.getListingID(), newItem);
                             transmit("ADD LISTING", output);
                             transmit(newItem.getName() + "added to listings", output);
                             disp("Added: " + newItem.toString() + " to listings\n\tSeller: " + newItem.getSeller() +
                                     "\n\tQuantity: " + newItem.getQuantity());
+                            transmit(inventory.get((listingIDS.get()-1)), output);
                             break;
                         case "SEARCH":
                             String query = (String) input.readObject();

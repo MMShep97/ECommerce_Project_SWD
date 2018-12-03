@@ -11,6 +11,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static util.ECommerceUtilityMethods.*;
 
+/**
+ * E-Commerce Client allows a user to navigate the E-Commerce Server through a GUI
+ */
 public class ECommerceClient extends JFrame
 {
     //Network members
@@ -41,9 +44,9 @@ public class ECommerceClient extends JFrame
     }
 
     /**
-     * this method must be called, or pages will not be initialized
+     * Initializes GUI components to starting values
      */
-    public void initializeGUI(){
+    private void initializeGUI(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setExtendedState(MAXIMIZED_BOTH);
         navBar = new NavigationBar(this);
@@ -52,8 +55,14 @@ public class ECommerceClient extends JFrame
         this.setVisible(true);
     }
 
+    /**
+     * Establishes connection with Server, interacts with the Server, and closes connection when
+     * finished or an error occurs
+     */
     public void runClient()
     {
+        initializeGUI();
+
         try
         {
             //Connect to server
@@ -87,33 +96,38 @@ public class ECommerceClient extends JFrame
         }
     }
 
+    /**
+     * Receives and handles input from the Server through the input stream
+     */
     private void interact()
     {
-        boolean interact = true;
+        boolean interact = true; //Interact until done, or server terminates connection
 
         do
         {
             try
             {
-                String dataType = (String) input.readObject();
+                String dataType = (String) input.readObject(); //First input will always identify what data is to come
 
+                //As long as data is not null, interpret
                 if(dataType != null)
                 {
                     switch (dataType)
                     {
-                        case "CONNECTION":
+                        case "CONNECTION": //Initial connection successful message
                             String connectionResult = (String) input.readObject();
                             disp(connectionResult);
                             break;
                         case "SIGN-UP":
-                            String signUpResult = (String) input.readObject();
+                            String signUpResult = (String) input.readObject(); //Explains if server was able to create account
                             if (signUpResult.equals("Sign-up successful"))
                             {
-                                myAccount = (Account) input.readObject();
-                                successfulLoginSignUp();
+                                myAccount = (Account) input.readObject(); //Assign myAccount to newly created account sent by server
+                                successfulLoginSignUp(); //Update login/sign up button and return to homepage
                             }
                             else
                             {
+                                //Display error message in login page
                                 hasAccount = false;
                                 loginPage = new PageLogin(this, navBar);
                                 loginPage.usernameAlreadyExists();
@@ -122,14 +136,15 @@ public class ECommerceClient extends JFrame
                             }
                             break;
                         case "LOGIN":
-                            String loginResult = (String) input.readObject();
+                            String loginResult = (String) input.readObject(); //Explains if server was able to login
                             if (loginResult.equals("Login successful"))
                             {
-                                myAccount = (Account) input.readObject();
-                                successfulLoginSignUp();
+                                myAccount = (Account) input.readObject(); //Assign myAccount to Account server sent from its registry
+                                successfulLoginSignUp(); //Update login/sign up button and return to homepage
                             }
                             else
                             {
+                                //Display error message in login page
                                 hasAccount = false;
                                 loginPage = new PageLogin(this, navBar);
                                 loginPage.invalidUsernameOrPassword();
@@ -138,12 +153,14 @@ public class ECommerceClient extends JFrame
                             }
                             break;
                         case "BROWSE":
-                            String browseResult = (String) input.readObject();
+                            String browseResult = (String) input.readObject(); //Explains if successful
 
                             if(browseResult.equals("VALID"))
                             {
+                                //Create ArrayList to hold Items from server's inventory
                                 ArrayList<Item> listings = new ArrayList<>();
 
+                                //Read all of input from server
                                 for (int i = 0; i < browsePageCapacity; i++)
                                 {
                                     Object item = input.readObject();
@@ -153,6 +170,7 @@ public class ECommerceClient extends JFrame
                                     }
                                 }
 
+                                //Add PageBrowser instance to content pane
                                 pb = new PageBrowse(this, navBar);
                                 pb.populate(listings);
                                 getContentPane().removeAll();
@@ -167,18 +185,19 @@ public class ECommerceClient extends JFrame
                             }
                             break;
                         case "VIEW":
-                            String viewResult = (String) input.readObject();
+                            String viewResult = (String) input.readObject(); //Explains if successful
                             Item viewing;
 
                             if (viewResult.equals("Valid item"))
                             {
-                                viewing = (Item) input.readObject();
+                                viewing = (Item) input.readObject(); //Read Item in question from input stream
                             }
                             else
                             {
                                 viewing = null;
                             }
 
+                            //If server was able to send Item, open it in a PageViewItem instance
                             if(viewing != null)
                             {
                                 getContentPane().removeAll();
@@ -188,60 +207,62 @@ public class ECommerceClient extends JFrame
                             }
                             break;
                         case "PURCHASE":
-                            String purchaseResult = (String) input.readObject();
+                            String purchaseResult = (String) input.readObject(); //Explains result of attempted purchase
 
                             if (purchaseResult.equals("Purchase made successfully"))
                             {
-
+                                myAccount.makePurchase((double) input.readObject());
+                                successfulLoginSignUp();
                             }
                             else if (purchaseResult.contains("There are no longer enough"))
                             {
-                                //TODO: Update Client GUI (insufficient inventory)
+                                disp("Unable to purchase: not enough in stock");
                             }
                             else
                             {
-                                //TODO: Update Client GUI (account doesn't have enough credits)
+                                disp("Unable to purchase: insufficient funds");
                             }
                             break;
                         case "ADD CREDITS":
-                            String addCreditsResult = (String) input.readObject();
+                            String addCreditsResult = (String) input.readObject(); //Explains if credits were added properly
+                            addFundsPage = new PageAddFunds(this, navBar); //Reinitialize the addFundsPage
 
                             if (addCreditsResult.equals("Credits added successfully"))
                             {
-                                myAccount = (Account) input.readObject();
-                                getContentPane().removeAll();
-                                homePage = new PageHome(this, navBar);
-                                add(homePage);
-                                revalidate();
+                                myAccount.addFunds((double) input.readObject());
+                                successfulLoginSignUp(); //Updates navBar and reroutes back to homepage
                             }
                             else
                             {
-                                addFundsPage.unsuccessful();
+                                addFundsPage.unsuccessful(); //Display error message on addFundsPage
                             }
                             break;
                         case "ADD LISTING":
-                            String addListingResult = (String) input.readObject();
+                            String addListingResult = (String) input.readObject(); //Explains result of trying to add listing
 
                             if (addListingResult.contains("added to listings"))
                             {
-                                transmit("VIEW", output);
-                                //transmit();
+                                transmit("VIEW", output); //Prompts server to open view page
+                                transmit((Item) input.readObject(), output); //Opens new listing in view page
                             }
                             break;
                         case "SEARCH":
-                            int numResults = (int) input.readObject();
-                            ArrayList<Item> results = new ArrayList<>();
+                            int numResults = (int) input.readObject(); //Number of search results
+                            ArrayList<Item> results = new ArrayList<>(numResults); //ArrayList to hold result items (if any)
                             for(int i = 0; i  < numResults; i++)
                             {
-                                results.add((Item) input.readObject());
+                                results.add((Item) input.readObject()); //Add each item from input stream to list
                             }
+
+                            //Update search page
+
                             getContentPane().removeAll();
                             searchPage = new PageSearch(this, navBar);
                             searchPage.fetchResults(results);
                             add(searchPage);
                             revalidate();
                             break;
-                        case "TERMINATE":
+                        case "TERMINATE": //If server terminates connection, done interacting
                             interact = false;
                             break;
                         default:
@@ -266,6 +287,10 @@ public class ECommerceClient extends JFrame
         }while(interact);
     }
 
+    /**
+     * Adds the Item to the Client cart, or adds quantity if already present
+     * @param item
+     */
     public void addToCart(Item item)
     {
         if(cart.putIfAbsent(item, 1) != null)
@@ -281,24 +306,46 @@ public class ECommerceClient extends JFrame
         revalidate();
     }
 
+    /**
+     * Allows other classes to send data through client instance without needing to call getter for output stream
+     * @param data
+     */
     public void sendToServer(Serializable data) { transmit(data, output);}
 
+    /**
+     * Returns the client's account
+     * @return
+     */
     public Account getAccount()
     {
         return hasAccount ? this.myAccount : null;
     }
 
+    /**
+     * Reutrns client's current page in browser
+     * @return
+     */
     public int getPageNum() {
         return pageNum;
     }
 
+    /**
+     * Returns client's browsing page capacity
+     * @return
+     */
     public int getBrowsePageCapacity() {
         return browsePageCapacity;
     }
 
+    /**
+     * Advance a page
+     */
     public void incrementPageNum() { pageNum++; }
 
-    public void decrementPageNum() { pageNum--; }
+    /**
+     * Backtrack a page
+     */
+    public void decrementPageNum() { if(pageNum > 1) pageNum--; }
 
     /**
      * @return the cart HashMap with keys of type Item and values of type Integer
@@ -307,6 +354,10 @@ public class ECommerceClient extends JFrame
         return cart;
     }
 
+    /**
+     * Updates state of cart
+     * @param item
+     */
     public void updateCart(Item item){
         cart.remove(item);
         getContentPane().removeAll();
@@ -315,6 +366,9 @@ public class ECommerceClient extends JFrame
         revalidate();
     }
 
+    /**
+     * After successfully logging in or signing up, updates login/sign-up button to show username and credits
+     */
     private void successfulLoginSignUp()
     {
         hasAccount = true;
