@@ -7,6 +7,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Helper methods to use within page classes ranging from creating swing components to loading and resizing images (<code>BufferedImage</code>)
+ */
+
 public class PageUtilityMethods
 {
 
@@ -30,6 +34,13 @@ public class PageUtilityMethods
         return resizedImage;
     }
 
+    /**
+     * Helper method used within <code>loadImage(String url)</code> to resize image
+     * @param img -- image to be resized
+     * @param height -- height to be resized to
+     * @param width -- width to be resized to
+     * @return -- <code>resized</code>, the resized <code>BufferedImage</code>
+     */
     private static BufferedImage resizeImage(BufferedImage img, int height, int width) {
         Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -39,6 +50,10 @@ public class PageUtilityMethods
         return resized;
     }
 
+    /**
+     * Creates a panel which contains the website's logo
+     * @return -- logo panel (<code>imagePanel</code>
+     */
     public static JPanel createLogoPanel() {
         JPanel imagePanel = new JPanel();
         BufferedImage logo = null;
