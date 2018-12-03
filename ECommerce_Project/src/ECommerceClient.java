@@ -30,6 +30,8 @@ public class ECommerceClient extends JFrame
     private PageBrowse pb;
     private PageViewItem viewItemPage;
     private PageShoppingCart cartPage;
+    //private PageSearch searchPage;
+    private PageAddFunds addFundsPage;
     private PageLogin loginPage;
 
     public ECommerceClient(String host)
@@ -206,11 +208,15 @@ public class ECommerceClient extends JFrame
 
                             if (addCreditsResult.equals("Credits added successfully"))
                             {
-                                //TODO: Update Client GUI (credited to account)
+                                myAccount = (Account) input.readObject();
+                                getContentPane().removeAll();
+                                homePage = new PageHome(this, navBar);
+                                add(homePage);
+                                revalidate();
                             }
                             else
                             {
-                                //TODO: Update Client GUI (invalid account)
+                                addFundsPage.unsuccessful();
                             }
                             break;
                         case "ADD LISTING":
@@ -221,6 +227,20 @@ public class ECommerceClient extends JFrame
                                 transmit("VIEW", output);
                                 //transmit();
                             }
+                            break;
+                        case "SEARCH":
+                            int numResults = (int) input.readObject();
+                            ArrayList<Item> results = new ArrayList<>();
+                            for(int i = 0; i  < numResults; i++)
+                            {
+                                results.add((Item) input.readObject());
+                            }
+
+                            getContentPane().removeAll();
+                            //searchPage = new PageSearch(this, navBar);
+                            //searchPage.results(results);
+                            //add(searchPage);
+                            revalidate();
                             break;
                         case "TERMINATE":
                             interact = false;
@@ -288,13 +308,12 @@ public class ECommerceClient extends JFrame
         return cart;
     }
 
-    public void updateCart(Item item, int quantity){
-        if(quantity == 0){
-            cart.remove(item);
-        }
-        else{
-            cart.put(item, quantity);
-        }
+    public void updateCart(Item item){
+        cart.remove(item);
+        getContentPane().removeAll();
+        navBar.updateCartLabel();
+        add(new PageShoppingCart(this, navBar));
+        revalidate();
     }
 
     private void successfulLoginSignUp()

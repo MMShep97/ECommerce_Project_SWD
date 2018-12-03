@@ -14,7 +14,7 @@ public class PageShoppingCart extends JPanel {
     private ECommerceClient client;
     private NavigationBar navbar;
     private ConcurrentHashMap<Item, Integer> cartItems;
-    private ArrayList<JButton> removeButtons = new ArrayList<>();
+    private ArrayList<JItemButton> removeButtons = new ArrayList<>();
     private JButton cs = new JButton("Continue Shopping");
     private JButton ba = new JButton("Buy All");
     private ButtonListener buttonListener = new ButtonListener();
@@ -26,8 +26,9 @@ public class PageShoppingCart extends JPanel {
         this.client = client;
         this.navbar = navbar;
         cartItems = client.getCart();
+        Iterator<Item> iter = cartItems.keySet().iterator();
         for(int i = 0; i < cartItems.size(); i++){
-            removeButtons.add(new JButton("Remove"));
+            removeButtons.add(new JItemButton("Remove", iter.next()));
             removeButtons.get(i).addActionListener(buttonListener);
         }
         setLayout(new BorderLayout(5, 10));
@@ -60,21 +61,12 @@ public class PageShoppingCart extends JPanel {
         public void actionPerformed(ActionEvent e){
             JButton button = (JButton)e.getSource();
             if(button.getText().equals("Remove")){
+                JItemButton itemButton = (JItemButton) button;
                 //find and remove specific item, update cartItems
                 for(int i = 0; i < removeButtons.size(); i++){
-                    if(button.equals(removeButtons.get(i))){
-                        Iterator<Map.Entry<Item, Integer>> it = cartItems.entrySet().iterator();
-                        for(int j = 0; j < i - 1; j++){
-                            it.next();
-                        }
-                        Map.Entry<Item, Integer> removeEntry = it.next();
-                        removeEntry.setValue(removeEntry.getValue() - 1);
-                        client.updateCart(removeEntry.getKey(), removeEntry.getValue());
-                        cartItems = client.getCart();
-                        if(removeEntry.getValue() == 0){
-                            removeButtons.remove(i);
-                            //todo remove item and price display as well
-                        }
+                    if(itemButton.equals(removeButtons.get(i))){
+                        client.updateCart(itemButton.getItem());
+                        continue;
                     }
                 }
 
