@@ -367,6 +367,7 @@ public class ECommerceServer extends JFrame
                             {
                                 curAcct.addFunds(credits);
                                 transmit("Credits added successfully", output);
+                                transmit(curAcct, output);
                                 disp(credits + " credits added to " + username + "'s account");
                             }
                             else

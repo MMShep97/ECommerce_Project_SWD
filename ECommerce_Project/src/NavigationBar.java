@@ -13,6 +13,7 @@ public class NavigationBar extends JPanel
     private JButton cartButton = new JButton("CART");
     private JButton searchButton = new JButton("SEARCH");
     private JButton loginButton = new JButton("LOGIN/SIGNUP");
+    private JButton addFundsButton = new JButton("ADD FUNDS");
     private ECommerceClient client;
     private ButtonListener buttonListener = new ButtonListener();
 
@@ -27,6 +28,7 @@ public class NavigationBar extends JPanel
         cartButton.setForeground(Color.BLACK);
         searchButton.setForeground(Color.BLACK);
         loginButton.setForeground(Color.BLACK);
+        addFundsButton.setForeground(Color.BLACK);
 
         //registering event handlers
         homeButton.addActionListener(buttonListener);
@@ -35,6 +37,7 @@ public class NavigationBar extends JPanel
         cartButton.addActionListener(buttonListener);
         searchButton.addActionListener(buttonListener);
         loginButton.addActionListener(buttonListener);
+        addFundsButton.addActionListener(buttonListener);
 
         setLayout(new GridLayout(1, 1));
         add(homeButton);
@@ -43,6 +46,7 @@ public class NavigationBar extends JPanel
         add(cartButton);
         add(searchButton);
         add(loginButton);
+        add(addFundsButton);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
@@ -95,24 +99,6 @@ public class NavigationBar extends JPanel
                 client.sendToServer(1);
                 client.sendToServer(client.getBrowsePageCapacity());
             }
-            else if(button.equals(sellButton))
-            {
-                if(client.getAccount() != null)
-                {
-                    client.getContentPane().removeAll();
-                    client.add(new PageListItem(client, NavigationBar.this));
-                    client.revalidate();
-                }
-                else
-                {
-                    client.getContentPane().removeAll();
-                    PageLogin loginPg = new PageLogin(client, NavigationBar.this);
-                    loginPg.requireLoginSignUp();
-                    client.add(loginPg);
-                    client.revalidate();
-                }
-
-            }
             else if(button.equals(cartButton))
             {
                 client.getContentPane().removeAll();
@@ -127,6 +113,31 @@ public class NavigationBar extends JPanel
                 client.getContentPane().removeAll();
                 client.add(new PageLogin(client, NavigationBar.this));
                 client.revalidate();
+            }
+            else
+            {
+                if(client.getAccount() != null)
+                {
+                    if(button.equals(sellButton))
+                    {
+                        client.getContentPane().removeAll();
+                        client.add(new PageListItem(client, NavigationBar.this));
+                        client.revalidate();
+                    }
+                    else if(button.equals(addFundsButton))
+                    {
+                        client.getContentPane().removeAll();
+                        client.add(new PageAddFunds(client, NavigationBar.this));
+                    }
+                }
+                else
+                {
+                    client.getContentPane().removeAll();
+                    PageLogin loginPg = new PageLogin(client, NavigationBar.this);
+                    loginPg.requireLoginSignUp();
+                    client.add(loginPg);
+                    client.revalidate();
+                }
             }
         }
     }
