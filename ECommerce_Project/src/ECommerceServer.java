@@ -380,6 +380,7 @@ public class ECommerceServer extends JFrame
                                 {
                                     if(inventoryItem.purchased(quantityPurchased))
                                     {
+                                        inventory.put(inventoryItem.getListingID(), inventoryItem);
                                         transmit("Purchase made successfully", output);
                                         transmit(item.getPrice()*quantityPurchased, output);
                                         disp(quantityPurchased + " " + inventoryItem.getName() + "s purchased by " + username);
