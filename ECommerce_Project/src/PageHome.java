@@ -21,8 +21,7 @@ public class PageHome extends JPanel {
         this.client = client;
         this.navBar = navBar;
 
-        String welcomeMessage = "Hi and welcome to our humble E-Commerce web application! Feel free to shop at your own peril.\n" +
-                                "We offer no warranties on our products and no discounts are allowed. Have a nice day and don't come again!";
+        String welcomeMessage = "Your one stop shop for all your population surveillance needs";
         JPanel contentPanel = new JPanel();
         JPanel welcomePanel = new JPanel();
 

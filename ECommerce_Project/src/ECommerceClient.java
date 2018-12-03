@@ -310,13 +310,12 @@ public class ECommerceClient extends JFrame
         return cart;
     }
 
-    public void updateCart(Item item, int quantity){
-        if(quantity == 0){
-            cart.remove(item);
-        }
-        else{
-            cart.put(item, quantity);
-        }
+    public void updateCart(Item item){
+        cart.remove(item);
+        getContentPane().removeAll();
+        navBar.updateCartLabel();
+        add(new PageShoppingCart(this, navBar));
+        revalidate();
     }
 
     private void successfulLoginSignUp()

@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -77,10 +78,10 @@ public class PageBrowse extends JPanel{
             listings.add(createListing(testImage, items.get(i).getName(), items.get(i).getPrice(), items.get(i).getSeller(), items.get(i).getListingID()));
         }
 
-        removeAll();
         add(this.navBar, BorderLayout.NORTH);
         add(listings, BorderLayout.CENTER);
         add(footer, BorderLayout.SOUTH);
+        revalidate();
     }
 
     private JPanel createListing(BufferedImage image, String item, double price, String seller, int listingID) {
@@ -116,8 +117,8 @@ public class PageBrowse extends JPanel{
         sellerHeader.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         //Encapsulating panel configuration
-        listing.setLayout(new GridLayout(ROWS_IN_LISTING, COLS_IN_LISTING));
-        listing.setMaximumSize(new Dimension(100, 100));
+        listing.setLayout(new BorderLayout());
+//        listing.setMaximumSize(new Dimension(100, 100));
         listing.setBackground(Color.WHITE);
         listing.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -128,6 +129,7 @@ public class PageBrowse extends JPanel{
         final int INFO_COLS = 1;
 
         //item information configuration
+        JPanel listingInfoWrapper = new JPanel(new BorderLayout());
         listingInfo.setLayout(new GridLayout(INFO_ROWS, INFO_COLS));
         listingInfo.add(itemPanel.add(itemHeader));
         listingInfo.add(itemPanel.add(itemContent));
@@ -135,11 +137,28 @@ public class PageBrowse extends JPanel{
         listingInfo.add(priceContent);
         listingInfo.add(sellerPanel.add(sellerHeader));
         listingInfo.add(sellerContent);
+        listingInfoWrapper.add(listingInfo);
 
-        //add all panels to encapsulating panel
-        listing.add(imageInfo);
-        listing.add(listingInfo);
-        listing.add(viewItemButton);
+/************************************************************/
+//        GridBagConstraints gbc = new GridBagConstraints();
+//        gbc.gridx = 0;
+//        gbc.gridy = 0;
+//        listing.add(imageInfo, gbc);
+//        gbc.gridy++;
+//        listing.add(listingInfo, gbc);
+//        gbc.gridy++;
+//        listing.add(viewItemButton, gbc);
+
+ /*******************************************************/
+
+//        //add all panels to encapsulating panel
+//        listing.add(imageInfo);
+//        listing.add(listingInfo);
+//        listing.add(viewItemButton);
+
+        listing.add(imageInfo, BorderLayout.NORTH);
+        listing.add(listingInfoWrapper, BorderLayout.CENTER);
+        listing.add(viewItemButton, BorderLayout.SOUTH);
 
         return listing;
     }
