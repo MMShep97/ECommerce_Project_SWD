@@ -52,7 +52,7 @@ public class NavigationBar extends JPanel
 
     public void loggedIn()
     {
-        loginButton.setText("Signed in as: " + client.getAccount().getUsername() + " [$" + client.getAccount().getCredit() + "]");
+        loginButton.setText(client.getAccount().getUsername() + " [$" + client.getAccount().getCredit() + "]");
     }
 
     public void updateCartLabel()
