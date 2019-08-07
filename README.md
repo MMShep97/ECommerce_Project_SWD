@@ -1,4 +1,6 @@
 <h3 align="center">O B E Y</h3>
+<p align="center"><i>Weekend Project</i></p>
+<p align="center"><i>Marc Shepherd, Daniel Kelly, Zac Althof</i></p>
 
 ---
 - [X] Multithreaded
